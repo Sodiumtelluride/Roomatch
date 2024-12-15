@@ -4,10 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "background-dark": "#1E1E1E",
+        "background-dark": "#2A2933",
         "app-white" : "#FFFFFF",
         "background-medium": "#3F3D4C",
-        "highlight-color": "#8B7EFF"
+        "highlight-color": "#8B7EFF",
+        "text-grey": "#B3B3B3",
       },
     },
   },
