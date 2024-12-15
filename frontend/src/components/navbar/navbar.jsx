@@ -1,23 +1,23 @@
 import './navbar.css'
-import {mesagesIcon} from '../assets/Messages.png'
-import {profileIcon} from '../assets/Profile.png'
-import {roomatchIcon} from '../assets/ROOMME.png'
-function App() {
-  return (
+import Messages from '../../assets/Messages.png'
+import Profile from '../../assets/Profile.png'
+import ROOMME from '../../assets/ROOMME.png'
+function Navbar() {
+    return (
     <>
-      <nav className='nav'>
+        <nav className='nav'>
         <button>
-            <img src={profileIcon} alt="" />
+            <img src={Profile} alt="" />
         </button>
         <button>
-            <img src={roomatchIcon} alt="" />
+            <img src={ROOMME} alt="" />
         </button>
         <button>
-            <img src={mesagesIcon} alt="" />
+            <img src={Messages} alt="" />
         </button>
-      </nav>
+        </nav>
     </>
-  )
+    )
 }
 
-export default App
+export default Navbar
