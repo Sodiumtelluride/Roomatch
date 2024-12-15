@@ -7,12 +7,12 @@
   /* background-color: theme(colors.background-dark); */
 }
 body {
-  @apply bg-background-dark;
+  @apply bg-background-dark m-0 p-0;
 }
 
 @layer components{
 
   .nav{
-    @apply flex justify-between content-center m-4 ml-8 mr-8 bg-transparent w-full self-center
+    @apply flex justify-between content-center m-4 ml-8 mr-8 bg-transparent self-center
   }
 }

@@ -7,13 +7,13 @@ function Navbar() {
     <>
         <nav className='nav'>
         <button>
-            <img src={Profile} alt="" />
+            <img src={Profile} alt="" id='profile-icon' />
         </button>
         <button>
-            <img src={ROOMME} alt="" />
+            <img src={ROOMME} alt="" id='logo'/>
         </button>
         <button>
-            <img src={Messages} alt="" />
+            <img src={Messages} alt="" id='messages-icon'/>
         </button>
         </nav>
     </>
