@@ -1,0 +1,8 @@
+.Message {
+    @apply bg-background-medium text-app-white p-4 rounded-lg inline-block rounded-b-none;
+    max-width: 20rem;
+}
+
+h1{
+    @apply text-lg font-bold text-highlight-color;
+}
