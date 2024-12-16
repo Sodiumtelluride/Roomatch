@@ -12,17 +12,13 @@
     @apply flex flex-row;
 }
 
-/* .card-banner{
-    height: 50%;
-} */
-
 h1{
     @apply text-2xl font-bold mr-2;
 }
 
 h2{
-    @apply text-lg font-bold self-end;
     color: theme(colors.text-grey);
+    @apply text-lg font-bold self-end;
 }
 
 h3{
