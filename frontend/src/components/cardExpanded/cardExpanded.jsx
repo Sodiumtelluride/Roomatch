@@ -85,6 +85,6 @@ export default function CardExpanded(props) {
                     </div>
                 </div>
             </div>
-    </div>
-  );
+        </div>
+    );
 }
