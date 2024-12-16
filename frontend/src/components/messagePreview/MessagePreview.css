@@ -1,11 +1,12 @@
 .message-preview-container {
-    @apply grid-cols-3 grid-rows-2 w-40;
+    @apply grid grid-rows-2 w-60 bg-background-medium;
+    grid-template-columns: 3rem 1fr 2rem;
 }
 
 .pfp-preview{
     grid-column: 1/2;
     grid-row: 1/3;
-    @apply w-8 h-8 ml-2 mb-1 rounded-full object-cover;
+    @apply w-8 h-8 ml-2 mb-1 rounded-full object-cover self-center;
 }
 
 .name-preview{
@@ -29,12 +30,12 @@
 .lastSent{
     grid-column: 3/4;
     grid-row: 1/2;
-    @apply text-xs ;
+    @apply text-xs self-center;
 }
 
 .unread{
     grid-column: 3/4;
     grid-row: 2/3;
-    @apply text-xs ;
+    @apply text-xs bg-highlight-color text-app-white rounded-full w-4 h-4 flex justify-center items-center self-center;
 }
 
