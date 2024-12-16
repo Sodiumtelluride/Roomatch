@@ -1,6 +1,6 @@
 import './LowTaperFade.css';
 
-export default function LowerTaperFade() {
+export default function LowTaperFade() {
     return(
         <div className='LowTaperFade'></div>
     )
