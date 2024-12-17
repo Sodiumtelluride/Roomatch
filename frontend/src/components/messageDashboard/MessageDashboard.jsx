@@ -2,6 +2,7 @@ import './MessageDashboard.css';
 import Navbar from '../navbar/navbar.jsx';
 import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
+import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
 import BackArrow from '../../assets/BackArrow.png'
 import logo from '../../assets/ROOMME.png'
@@ -10,6 +11,7 @@ export default function MessageDashboard() {
     return(
         <>
             {/* <Navbar/> */}
+            <MessageType/>
             <div className="MessageDashboard">
                 <div className="Contacts">
                     <div className="contact-header">
