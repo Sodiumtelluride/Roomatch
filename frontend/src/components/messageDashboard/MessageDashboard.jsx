@@ -11,7 +11,6 @@ export default function MessageDashboard() {
     return(
         <>
             {/* <Navbar/> */}
-            <MessageType/>
             <div className="MessageDashboard">
                 <div className="Contacts">
                     <div className="contact-header">
@@ -41,7 +40,12 @@ export default function MessageDashboard() {
                         <MessagePreview name="Nate" lastMessage="Hi my name is nate..." lastSent="10m" numUnread="1" pfp={PFP}/>
                     </div>
                 </div>
-                {/* <Message user="Nate" message="Hi my name is nate i was wondering if you wanted to be my roomate? I promise im normal! i only eat birds sometimes" timeDelivered="2:34 AM" pfp={PFP}/> */}
+                <div className="chat">
+                    <Message user="Nate" message="Hi my name is nate i was wondering if you wanted to be my roomate? I promise im normal! i only eat birds sometimes" timeDelivered="2:34 AM" pfp={PFP}/>
+                </div>
+                <div className="send">
+                    <MessageType/>
+                </div>
             </div>
         </>
     )

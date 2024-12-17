@@ -1,3 +1,12 @@
+.MessageDashboard{
+    @apply grid gap-4;
+    width: 100dvw;
+    height: 100dvh;
+
+    grid-template-columns: 18rem 1fr;
+    grid-template-rows: 1fr 4rem; 
+}
+
 #contact-back-arrow, #contact-profile-icon{
     @apply h-10;
 }
@@ -7,7 +16,12 @@
 }
 
 .Contacts{
-    @apply w-72 h-auto bg-background-medium p-3;
+    @apply w-72 bg-background-medium p-3;
+    grid-column: 1/2;
+    grid-row: 1/3;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .contact-header{
@@ -15,7 +29,7 @@
 }
 
 .contact-cards{
-    @apply overflow-y-scroll ;
+    @apply flex-1 overflow-y-auto;
 }
 
 .contact-cards::-webkit-scrollbar {
@@ -28,4 +42,16 @@
 
 .contact-cards::-webkit-scrollbar-track {
     @apply bg-transparent;
+}
+
+.chat{
+    @apply p-3;
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.send{
+    @apply flex p-3 items-center justify-center;
+    grid-column: 2/3;
+    grid-row: 2/3;
 }
