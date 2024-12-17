@@ -1,0 +1,31 @@
+#contact-back-arrow, #contact-profile-icon{
+    @apply h-10;
+}
+
+#contact-logo{
+    @apply h-5;
+}
+
+.Contacts{
+    @apply w-72 h-auto bg-background-medium p-3;
+}
+
+.contact-header{
+    @apply flex justify-between items-center mb-4 ; 
+}
+
+.contact-cards{
+    @apply overflow-y-scroll ;
+}
+
+.contact-cards::-webkit-scrollbar {
+    @apply w-2 ml-2;
+}
+
+.contact-cards::-webkit-scrollbar-thumb {
+    @apply bg-text-grey rounded;
+}
+
+.contact-cards::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}

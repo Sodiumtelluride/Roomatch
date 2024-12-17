@@ -1,5 +1,5 @@
 .message-preview-container {
-    @apply grid grid-rows-2 w-60 bg-background-medium;
+    @apply grid grid-rows-2 w-auto bg-background-medium border-b-2 border-b-text-grey;
     grid-template-columns: 3rem 1fr 2rem;
 }
 
