@@ -7,7 +7,7 @@ export default function MessagePreview(props) {
             <h1 className='name-preview'>{props.name}</h1>
             {props.isTyping ? <p className='typing'>Typing...</p> : <p className='message-preview'>{props.lastMessage}</p>}
             <p className='lastSent'>{props.lastSent}</p>
-            <p className='unread'>{props.numUnread}</p>
+            {props.numUnread>0 && <p className='unread'>{props.numUnread}</p>}
         </div>
     )
 }
