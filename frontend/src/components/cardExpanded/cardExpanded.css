@@ -4,7 +4,7 @@
     left:0;
     right:0;
     bottom:0;
-    @apply bg-background-medium rounded-lg m-32;
+    @apply bg-background-medium rounded-3xl m-32;
 }
 .card-expanded {
     @apply grid grid-cols-2;
@@ -38,15 +38,18 @@
 .user-description-expanded {
     @apply col-span-2;
 }
+
 .fill-bar {
     height:75%;
     @apply  bg-background-dark rounded-md;
 }
+
 .extraversion-expanded > .fill-bar > .fill  {
     width: var(--extraversion-fill, 0%);
     height:100%;
     @apply bg-highlight-color rounded-l-md;
 }
+
 .cleanliness-expanded > .fill-bar > .fill  {
     width: var(--cleanliness-fill, 0%);
     height:100%;

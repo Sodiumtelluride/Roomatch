@@ -2,7 +2,7 @@ import './Card.css'
 
 export default function Card(props){
     return(
-        <div className="card">
+        <div className="card" onClick={props.onClick}>
             <div className="card-banner">
                 <img src={props.img} alt="" className="card-img"/>
             </div>

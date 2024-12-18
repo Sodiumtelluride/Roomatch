@@ -1,4 +1,11 @@
-.CardGrid{
+.GridWrapper{
     @apply grid grid-cols-4 gap-4 mt-4;
 }
-
+.GridWrapper.blur-background {
+    @apply blur;
+}
+.modal-background {  
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    @apply fixed top-0 left-0 w-full h-full flex justify-center items-center ;
+}
