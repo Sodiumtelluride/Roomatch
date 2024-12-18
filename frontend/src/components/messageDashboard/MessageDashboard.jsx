@@ -54,7 +54,8 @@ export default function MessageDashboard() {
                     </div>
                 </div>
                 <div className="chat">
-                    <Message user="Nate" message="Hi my name is Nate. I was wondering if you wanted to be my roommate? I promise I'm normal! I only eat birds sometimes." timeDelivered="2:34 AM" pfp={PFP}/>
+                    <Message user="Nate" sentByUser={true} message="Hi my name is Nate. I was wondering if you wanted to be my roommate? I promise I'm normal! I only eat birds sometimes." timeDelivered="2:34 AM" pfp={PFP}/>
+                    <Message user="Nate" sentByUser={false} message="Hi my name is Nate. I was wondering if you wanted to be my roommate? I promise I'm normal! I only eat birds sometimes." timeDelivered="2:34 AM" pfp={PFP}/>
                 </div>
                 <div className="send">
                     <MessageType/>
