@@ -6,15 +6,15 @@ function Navbar() {
     return (
     <>
         <nav className='nav'>
-        <button>
+        <a href=''>
             <img src={Profile} alt="" id='profile-icon' />
-        </button>
-        <button>
+        </a>
+        <a href='../../../index.html'>
             <img src={ROOMME} alt="" id='logo'/>
-        </button>
-        <button>
+        </a>
+        <a href='../../../pages/messages/messages.html'> 
             <img src={Messages} alt="" id='messages-icon'/>
-        </button>
+        </a>
         </nav>
     </>
     )

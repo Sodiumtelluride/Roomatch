@@ -1,0 +1,9 @@
+#message-form{
+    width: 50vw;
+    @apply flex items-center justify-between h-12 bg-background-medium p-3 rounded-lg;
+}
+
+#message-input, #message-input:active, #message-input:focus{
+    width: 80%;
+    @apply bg-transparent border-none outline-none;
+}
