@@ -7,14 +7,14 @@ import CardGrid from './components/cardGrid/CardGrid.jsx'
 import CardExpanded from './components/cardExpanded/cardExpanded.jsx'
 import PFP from './assets/UserPhoto.png'
 
-//<Navbar/>
-//<CardGrid/>
-//<LowTaperFade/>
 function App() {
   return (
     <>
       
-      <CardExpanded
+    <Navbar/>
+    <CardGrid/>
+    <LowTaperFade/>
+      {/* <CardExpanded
       img = {PFP}
       name = "Nate Gelfand"
       pronouns = "He/Him/His"
@@ -25,7 +25,7 @@ function App() {
       cleanlinessFill = "2"
       sleepSchedule = "9:00 PM - 1:00 AM"
       usingMyStuff = "Just Ask"
-      />
+      /> */}
     </>
   )
 }
