@@ -1,0 +1,15 @@
+.login-info {
+    @apply grid grid-rows-2 m-8;
+}
+.profile-info {
+    @apply grid grid-cols-2 m-8 h-screen;
+}
+.field {
+    @apply flex justify-between items-center;
+}
+.heading {
+    @apply bg-highlight-color col-span-2;
+}
+textarea, select, option {
+    @apply bg-background-medium m-8 rounded-lg text-xl text-white;
+}

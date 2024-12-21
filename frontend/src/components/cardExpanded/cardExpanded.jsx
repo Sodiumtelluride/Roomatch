@@ -52,7 +52,7 @@ export default function CardExpanded(props) {
                         <div
                         className="extraversion-expanded"
                         style={{
-                            '--extraversion-fill': `${extraversionFillPercentage}%`, // Pass CSS variable
+                            '--extraversion-fill': `${extraversionFillPercentage}%`, 
                         }}
                         >
                             <h3 className="info-heading-expanded">Extraversion</h3>
@@ -64,7 +64,7 @@ export default function CardExpanded(props) {
                         <div
                         className="cleanliness-expanded"
                         style={{
-                            '--cleanliness-fill': `${cleanlinessFillPercentage}%`, // Pass CSS variable
+                            '--cleanliness-fill': `${cleanlinessFillPercentage}%`, 
                         }}
                         >
                             <h3 className="info-heading-expanded">Cleanliness</h3>
