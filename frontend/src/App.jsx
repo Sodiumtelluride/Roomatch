@@ -24,6 +24,8 @@ function App() {
       extraversionValue="none"
       cleanlinessValue="average"
       usingMyStuffValue="not-allowed"
+      startTimeValue="nine-PM"
+      endTimeValue="one-AM"
     />
     {/* <CardGrid/>
     <LowTaperFade/> */}

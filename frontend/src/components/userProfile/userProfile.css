@@ -1,15 +1,44 @@
 .login-info {
-    @apply grid grid-rows-2 m-8;
+    @apply grid grid-rows-2 gap-6 p-4 rounded-lg shadow-md;
 }
+
 .profile-info {
-    @apply grid grid-cols-2 m-8 h-screen;
+    @apply grid grid-cols-2 gap-6 p-4 h-screen rounded-lg shadow-md ;
 }
+
 .field {
-    @apply flex justify-between items-center;
+    @apply flex items-center gap-4 m-5;
 }
+
 .heading {
-    @apply bg-highlight-color col-span-2;
+    @apply text-highlight-color font-semibold text-lg w-1/4;
 }
+
+.upload-button {
+    @apply bg-red-600;
+}
+
+.delete-button {
+    @apply bg-highlight-color;
+}
+
+.description-text {
+    @apply h-1/2
+}
+
+button {
+    @apply p-4 rounded-lg m-2;
+}
+
 textarea, select, option {
-    @apply bg-background-medium m-8 rounded-lg text-xl text-white;
+    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-2;
 }
+
+textarea {
+    @apply h-10 resize-none; 
+}
+
+select {
+    @apply h-10;
+}
+
