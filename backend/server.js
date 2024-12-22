@@ -5,7 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5174;
+const keyId = "34c2xw234";
 
 // Middleware
 app.use(cors());
@@ -22,9 +23,12 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 // API Routes
-app.get('/items', async (req, res) => {
+//app.get(url, callback)
+
+app.get('/GETUSER', async (req, res) => {
     const params = {
         TableName: tableName,
+        Key: { id: keyId },
     };
 
     try {
@@ -35,12 +39,19 @@ app.get('/items', async (req, res) => {
     }
 });
 
-app.post('/items', async (req, res) => {
-    const { id, name } = req.body;
+app.post('/CREATEUSER', async (req, res) => {
+    const { id, first_name, last_name, email, password} = req.body;
 
+    const user = {
+        user_id: id, // Match your DynamoDB Partition Key name
+        first_name,
+        last_name,
+        email,
+        password
+    };
     const params = {
         TableName: tableName,
-        Item: { id, name },
+        Item: user,
     };
 
     try {
@@ -48,6 +59,7 @@ app.post('/items', async (req, res) => {
         res.status(201).json({ message: 'Item added successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
+        console.log(user);
     }
 });
 
