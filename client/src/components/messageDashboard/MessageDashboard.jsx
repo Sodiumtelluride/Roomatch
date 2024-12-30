@@ -28,7 +28,6 @@ export default function MessageDashboard() {
 
     return(
         <>
-            {/* <Navbar/> */}
             <div className="MessageDashboard">
                 <div className="Contacts">
                     <div className="contact-header">
@@ -36,7 +35,7 @@ export default function MessageDashboard() {
                             <img src={BackArrow} id='contact-back-arrow' />
                         </a>
                         <img src={logo} id='contact-logo' />
-                        <a href="">
+                        <a href="../../../pages/userPage/userPage.html">
                             <img src={Profile} id='contact-profile-icon' />
                         </a>
                     </div>

@@ -6,7 +6,7 @@ function Navbar() {
     return (
     <>
         <nav className='nav'>
-        <a href=''>
+        <a href='../../../pages/userPage/userPage.html'>
             <img src={Profile} alt="" id='profile-icon' />
         </a>
         <a href='../../../index.html'>
