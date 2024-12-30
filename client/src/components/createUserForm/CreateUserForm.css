@@ -1,0 +1,40 @@
+input{
+    @apply bg-background-medium rounded-lg border-2 border-background-dark p-2 mb-5 transition-all ease-in-out duration-300;
+}
+
+input:active, input:focus{
+    @apply border-highlight-color border-2 outline-none transition-all ease-in-out duration-300;
+}
+
+input:valid{
+    @apply border-valid-green   transition-all ease-in-out duration-300;
+}
+
+h1{
+    @apply text-3xl font-bold text-app-white mb-6;
+}
+
+button{
+    @apply bg-highlight-color text-app-white border-2 border-highlight-color rounded-lg p-2 transition-all ease-in-out duration-300;
+}
+
+button:hover{
+    @apply bg-transparent transition-all ease-in-out duration-300;
+}
+
+#create-user-form{
+    @apply flex flex-col self-center p-4 rounded-xl;
+    width: 50%;
+    height: 70%;
+    margin-left: 50%;
+    margin-top: 10%;
+}
+
+.last-name, .first-name{
+    @apply flex flex-col;
+    width: 48%;
+}
+
+.name{
+    @apply flex w-full justify-between;
+}
