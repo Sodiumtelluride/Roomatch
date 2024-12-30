@@ -12,21 +12,6 @@ function App() {
     <>
       
     <Navbar/>
-    {/* <UserProfile
-      email="gelfandnat@gmail.com"
-      password="*******"
-      displayName="Nate Gelfand"
-      pronouns="He/Him/His"
-      origin="In-State"
-      description="Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day."
-      major="Computer Science"
-      class="2025"
-      extraversionValue="none"
-      cleanlinessValue="average"
-      usingMyStuffValue="not-allowed"
-      startTimeValue="nine-PM"
-      endTimeValue="one-AM"
-    /> */}
     <CardGrid/>
     <LowTaperFade/> 
     </>
