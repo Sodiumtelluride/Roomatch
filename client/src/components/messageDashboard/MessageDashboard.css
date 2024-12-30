@@ -1,0 +1,57 @@
+.MessageDashboard{
+    @apply grid gap-4;
+    width: 100dvw;
+    height: 100dvh;
+
+    grid-template-columns: 18rem 1fr;
+    grid-template-rows: 1fr 4rem; 
+}
+
+#contact-back-arrow, #contact-profile-icon{
+    @apply h-10;
+}
+
+#contact-logo{
+    @apply h-5;
+}
+
+.Contacts{
+    @apply w-72 bg-background-medium p-3;
+    grid-column: 1/2;
+    grid-row: 1/3;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-header{
+    @apply flex justify-between items-center mb-4 ; 
+}
+
+.contact-cards{
+    @apply flex-1 overflow-y-auto;
+}
+
+.contact-cards::-webkit-scrollbar {
+    @apply w-2 ml-2;
+}
+
+.contact-cards::-webkit-scrollbar-thumb {
+    @apply bg-text-grey rounded;
+}
+
+.contact-cards::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+.chat{
+    @apply p-3 flex flex-col;
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.send{
+    @apply flex p-3 items-center justify-center mb-7;
+    grid-column: 2/3;
+    grid-row: 2/3;
+}

@@ -1,9 +1,20 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "background-dark": "#2A2933",
+        "app-white" : "#FFFFFF",
+        "background-medium": "#3F3D4C",
+        "highlight-color": "#8B7EFF",
+        "text-grey": "#B3B3B3",
+        "valid-green": "#4CAF50",
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
 }
-
