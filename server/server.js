@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5174;
-const keyId = "34c2xw234";
 
 // Middleware
 app.use(cors());
@@ -25,15 +24,19 @@ const tableName = process.env.DYNAMODB_TABLE_NAME;
 // API Routes
 //app.get(url, callback)
 
-app.get('/GETUSER', async (req, res) => {
+app.get('/GETUSER/BYID/:id', async (req, res) => {
     const params = {
         TableName: tableName,
-        Key: { id: keyId },
+        Key: { user_id: req.params.id }, // Match your DynamoDB Partition Key name
     };
 
     try {
-        const data = await dynamoDB.scan(params).promise();
-        res.status(200).json(data.Items);
+        const data = await dynamoDB.get(params).promise();
+        if (data.Item) {
+            res.status(200).json(data.Item);
+        } else {
+            res.status(404).json({ message: 'Item not found' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -41,7 +44,14 @@ app.get('/GETUSER', async (req, res) => {
 
 app.post('/CREATEUSER', async (req, res) => {
     const { id, first_name, last_name, email, password} = req.body;
-
+    const paramsForQuery = {
+        TableName: tableName,
+        IndexName: 'email-index',
+        KeyConditionExpression: 'email = :emailValue',
+        ExpressionAttributeValues: {
+            ':emailValue': email
+        }
+    };
     const user = {
         user_id: id, // Match your DynamoDB Partition Key name
         first_name,
@@ -53,10 +63,15 @@ app.post('/CREATEUSER', async (req, res) => {
         TableName: tableName,
         Item: user,
     };
-
+    
     try {
-        await dynamoDB.put(params).promise();
-        res.status(201).json({ message: 'Item added successfully' });
+        const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
+        if(doesUserExist){
+            res.status(300).json({ error: 'User already exists' });
+        } else{
+            await dynamoDB.put(params).promise();
+            res.status(201).json({ message: 'Item added successfully' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(user);
