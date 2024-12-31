@@ -24,9 +24,9 @@ button:hover{
 
 #create-user-form{
     @apply flex flex-col self-center p-4 rounded-xl;
-    width: 50%;
+    width: 20%;
     height: 70%;
-    margin-left: 50%;
+    margin-left: 40%;
     margin-top: 10%;
 }
 

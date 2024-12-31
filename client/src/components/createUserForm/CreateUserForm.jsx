@@ -3,7 +3,7 @@ import './CreateUserForm.css';
 function CreateUserForm() {
     return(
         <form id='create-user-form' action="post">
-            <h1>Create An Account</h1>
+            <h1>Sign Up</h1>
             <div className="name">
                 <div className="first-name">
                     <label htmlFor="first-name" className="form-lable">First Name</label>
@@ -14,11 +14,11 @@ function CreateUserForm() {
                     <input type="text" id="last-name" name="last-name" required/>
                 </div>
             </div>
-            <label className="form-lable" htmlFor="email">Email:</label>
+            <label className="form-lable" htmlFor="email">Email</label>
             <input type="email" id="email" name="email" required/>
-            <label className="form-lable" htmlFor="password">Password:</label>
+            <label className="form-lable" htmlFor="password">Password</label>
             <input type="password" id="password" name="password" required/>
-            <button type='submit'>Create Account</button>
+            <button id='submit-button' type='submit'>Create Account</button>
         </form>
     )
 }
