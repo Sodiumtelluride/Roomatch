@@ -3,6 +3,7 @@ import './CreateUserForm.css';
 
 
 function CreateUserForm() {
+    const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -31,17 +32,23 @@ function CreateUserForm() {
                 },
                 body: JSON.stringify(dataToSend)
             });
+            const result = await response.json();
             if(response.ok){
                 console.log('User created successfully');
+            } else{
+                setErrorMsg(result.error);
+                console.log(errorMsg);
             }
         }
         catch(err){
             console.log(err);
         }
     }
+
     return(
         <form id='create-user-form' action="POST" onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
+            <h3 className='errorMsg'>{errorMsg}</h3>
             <div className="name">
                 <div className="first-name">
                     <label htmlFor="first-name" className="form-lable">First Name</label>

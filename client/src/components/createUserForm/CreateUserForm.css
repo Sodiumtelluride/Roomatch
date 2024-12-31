@@ -38,3 +38,7 @@ button:hover{
 .name{
     @apply flex w-full justify-between;
 }
+
+.errorMsg{
+    @apply text-error-red;
+}

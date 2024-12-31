@@ -10,6 +10,7 @@ module.exports = {
         "highlight-color": "#8B7EFF",
         "text-grey": "#B3B3B3",
         "valid-green": "#4CAF50",
+        "error-red": "#ff2c2c"
       },
     },
   },
