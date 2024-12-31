@@ -44,7 +44,14 @@ app.get('/GETUSER/BYID/:id', async (req, res) => {
 
 app.post('/CREATEUSER', async (req, res) => {
     const { id, first_name, last_name, email, password} = req.body;
-
+    const paramsForQuery = {
+        TableName: tableName,
+        IndexName: 'email-index',
+        KeyConditionExpression: 'email = :emailValue',
+        ExpressionAttributeValues: {
+            ':emailValue': email
+        }
+    };
     const user = {
         user_id: id, // Match your DynamoDB Partition Key name
         first_name,
@@ -56,10 +63,15 @@ app.post('/CREATEUSER', async (req, res) => {
         TableName: tableName,
         Item: user,
     };
-
+    
     try {
-        await dynamoDB.put(params).promise();
-        res.status(201).json({ message: 'Item added successfully' });
+        const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
+        if(doesUserExist){
+            res.status(300).json({ error: 'User already exists' });
+        } else{
+            await dynamoDB.put(params).promise();
+            res.status(201).json({ message: 'Item added successfully' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(user);
