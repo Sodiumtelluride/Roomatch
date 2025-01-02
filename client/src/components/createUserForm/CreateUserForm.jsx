@@ -52,11 +52,11 @@ function CreateUserForm() {
             <div className="name">
                 <div className="first-name">
                     <label htmlFor="first-name" className="form-lable">First Name</label>
-                    <input type="text" id="first-name" name="first-name" required value={formData.first_name} onChange={handleChange}/>
+                    <input type="text" id="first-name" name="first_name" required value={formData.first_name} onChange={handleChange}/>
                 </div>
                 <div className="last-name">
                     <label htmlFor="last-name" className="form-lable">Last Name</label>
-                    <input type="text" id="last-name" name="last-name" required value={formData.last_name} onChange={handleChange}/>
+                    <input type="text" id="last-name" name="last_name" required value={formData.last_name} onChange={handleChange}/>
                 </div>
             </div>
             <label className="form-lable" htmlFor="email">Email</label>
