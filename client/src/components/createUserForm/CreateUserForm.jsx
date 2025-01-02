@@ -51,12 +51,12 @@ function CreateUserForm() {
             <h3 className='errorMsg'>{errorMsg}</h3>
             <div className="name">
                 <div className="first-name">
-                    <label htmlFor="first-name" className="form-lable">First Name</label>
-                    <input type="text" id="first-name" name="first_name" required value={formData.first_name} onChange={handleChange}/>
+                    <label htmlFor="first_name" className="form-lable">First Name</label>
+                    <input type="text" id="first_name" name="first_name" required value={formData.first_name} onChange={handleChange}/>
                 </div>
                 <div className="last-name">
-                    <label htmlFor="last-name" className="form-lable">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" required value={formData.last_name} onChange={handleChange}/>
+                    <label htmlFor="last_name" className="form-lable">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" required value={formData.last_name} onChange={handleChange}/>
                 </div>
             </div>
             <label className="form-lable" htmlFor="email">Email</label>
