@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     const { id, first_name, last_name, email, password} = req.body;
+    const dynamoDB = new AWS.DynamoDB.DocumentClient();
+    const tableName = process.env.DYNAMODB_TABLE_NAME;
     const paramsForQuery = {
         TableName: tableName,
         IndexName: 'email-index',
@@ -13,7 +15,7 @@ router.post('/create', async (req, res) => {
         }
     };
     const user = { 
-        user_id: id,// Match your DynamoDB Partition Key name
+        user_id: id,
         first_name,
         last_name,
         email,

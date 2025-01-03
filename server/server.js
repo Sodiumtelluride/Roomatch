@@ -26,7 +26,7 @@ const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 app.use('/user', getUserRouter);
 
-app.use('/create', createUserRouter);
+app.use('/user', createUserRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

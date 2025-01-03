@@ -5,8 +5,8 @@ import './CreateUserForm.css';
 function CreateUserForm() {
     const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: ''
     });
@@ -25,7 +25,7 @@ function CreateUserForm() {
             ...formData
         }
         try{
-            const response = await fetch('http://localhost:5174/CREATEUSER', {
+            const response = await fetch('http://localhost:5174/user/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
