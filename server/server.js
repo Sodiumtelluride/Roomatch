@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
-
+const cookieJWTAuthRouter = require('./middleware/cookieJWTAuth');
 require('dotenv').config();
 
 const app = express();
@@ -26,7 +26,7 @@ const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 app.use('/user', getUserRouter);
 
-app.use('/user', createUserRouter);
+app.use('/user', cookieJWTAuthRouter, createUserRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
