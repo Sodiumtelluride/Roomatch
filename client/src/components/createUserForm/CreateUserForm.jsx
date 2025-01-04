@@ -35,6 +35,7 @@ function CreateUserForm() {
             const result = await response.json();
             if(response.ok){
                 console.log('User created successfully');
+                window.location.href = result.redirectUrl;
             } else{
                 setErrorMsg(result.error);
                 console.log(errorMsg);

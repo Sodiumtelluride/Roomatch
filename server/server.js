@@ -5,6 +5,7 @@ const cors = require('cors');
 const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
 const cookieJWTAuthRouter = require('./middleware/cookieJWTAuth');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -24,9 +25,13 @@ AWS.config.update({
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.DYNAMODB_TABLE_NAME;
 
-app.use('/user', getUserRouter);
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../client/index.html'));
+});
 
-app.use('/user', cookieJWTAuthRouter, createUserRouter);
+app.use('/user', cookieJWTAuthRouter, getUserRouter);
+
+app.use('/user', createUserRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
