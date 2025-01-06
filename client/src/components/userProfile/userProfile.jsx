@@ -45,7 +45,7 @@ export default function UserProfile(props) {
                 </div>
             </div>
 
-            <div className="profile-info">
+            <form className="profile-info">
                 <div className="column-one">
                     <div className="display-name field">
                         <h3 className="display-name heading">Display Name:</h3>
@@ -212,10 +212,10 @@ export default function UserProfile(props) {
                             <option value="eleven-PM">11:00 PM</option>
                         </select>
                     </div>
-                    <button className="upload-button">Upload</button>
+                    <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
-            </div>
+            </form>
         </>
     );
 }
