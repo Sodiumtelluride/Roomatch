@@ -4,16 +4,28 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
-const cookieJWTAuthRouter = require('./middleware/cookieJWTAuth');
+const getMeRouter = require('./routes/getMe');
+const cookieJWTAuth = require('./middleware/cookieJWTAuth'); // Correct import
 const path = require('path');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5174;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Update with your client URL
+    credentials: true // Allow credentials
+}));
 app.use(bodyParser.json());
+app.use(cookieParser()); // Add cookie-parser middleware
+
+// Logging middleware to debug route handling
+app.use((req, res, next) => {
+    console.log(`Received request: ${req.method} ${req.url}`);
+    next();
+});
 
 // Configure AWS SDK
 AWS.config.update({
@@ -25,13 +37,15 @@ AWS.config.update({
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.DYNAMODB_TABLE_NAME;
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../client/index.html'));
-});
+// API Routes
+app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
+app.use('/user', getUserRouter); // Use the middleware and route
+app.use('/createUser', createUserRouter);
 
-app.use('/user', cookieJWTAuthRouter, getUserRouter);
-
-app.use('/user', createUserRouter);
+// Catch-all route for client-side routing
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/index.html'));
+// });
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

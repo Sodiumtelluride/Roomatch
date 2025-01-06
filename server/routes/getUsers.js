@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
     try {
         const data = await dynamoDB.get(params).promise();
         if (data.Item) {
-            res.status(200).json(data.Item);
+            res.status(202).json(data.Item);
         } else {
             res.status(404).json({ message: 'Item not found' });
         }

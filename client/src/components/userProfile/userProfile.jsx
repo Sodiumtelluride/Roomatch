@@ -1,5 +1,5 @@
 import './userProfile.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
     const [selectedEmailValue, setEmailValue] = useState(props.email);
@@ -15,13 +15,26 @@ export default function UserProfile(props) {
     const [selectedUsingMyStuffValue, setUsingMyStuffValue] = useState(props.usingMyStuffValue);
     const [selectedStartTimeValue, setStartTimeValue] = useState(props.startTimeValue);
     const [selectedEndTimeValue, setEndTimeValue] = useState(props.endTimeValue);
+    const [data, setData] = useState([]);
+
+
+    useEffect(() =>{
+        fetch('http://localhost:5174/getMe/me', {
+            method: 'GET',
+            credentials: 'include'
+        })
+          .then(response => response.json())
+          .then(data => setData(data))
+          .catch(error => console.error('Error fetching data:', error));
+    }, []);
+    console.log("data: " + JSON.stringify(data));
     return (
         <>
             <div className="login-info">
                 <div className="email field">
                     <h3 className="email heading">Email:</h3>
                     <textarea 
-                        value={selectedEmailValue} 
+                        value={data.email} 
                         onChange={(e) => setEmailValue(e.target.value)} 
                         className="email-text"
                     ></textarea>
@@ -42,7 +55,7 @@ export default function UserProfile(props) {
                     <div className="display-name field">
                         <h3 className="display-name heading">Display Name:</h3>
                         <textarea 
-                            value={selectedDisplayNameValue} 
+                            value={data.display_name ? data.display_name : data.first_name + " " + data.last_name} 
                             onChange={(e) => setDisplayNameValue(e.target.value)} 
                             className="display-name-text"
                         ></textarea>
@@ -50,7 +63,7 @@ export default function UserProfile(props) {
                     <div className="pronouns field">
                         <h3 className="pronouns heading">Pronouns:</h3>
                         <textarea 
-                            value={selectedPronounsValue} 
+                            value={data.pronouns} 
                             onChange={(e) => setPronounsValue(e.target.value)} 
                             className="pronouns-text"
                         ></textarea>
@@ -58,7 +71,7 @@ export default function UserProfile(props) {
                     <div className="major field">
                         <h3 className="major heading">Major:</h3>
                         <textarea 
-                            value={selectedMajorValue} 
+                            value={data.major} 
                             onChange={(e) => setMajorValue(e.target.value)} 
                             className="major-text"
                         ></textarea>
@@ -66,7 +79,7 @@ export default function UserProfile(props) {
                     <div className="class field">
                         <h3 className="class heading">Class:</h3>
                         <textarea 
-                            value={selectedClassValue} 
+                            value={data.class} 
                             onChange={(e) => setClassValue(e.target.value)} 
                             className="class-text"
                         ></textarea>
@@ -74,7 +87,7 @@ export default function UserProfile(props) {
                     <div className="origin field">
                         <h3 className="origin heading">Origin:</h3>
                         <textarea 
-                            value={selectedOriginValue} 
+                            value={data.origin} 
                             onChange={(e) => setOriginValue(e.target.value)} 
                             className="origin-text"
                         ></textarea>
@@ -82,7 +95,7 @@ export default function UserProfile(props) {
                     <div className="description field">
                         <h3 className="description heading">Description:</h3>
                         <textarea 
-                            value={selectedDescriptionValue} 
+                            value={data.description} 
                             onChange={(e) => setDescriptionValue(e.target.value)} 
                             className="description-text"
                         ></textarea>
@@ -93,7 +106,7 @@ export default function UserProfile(props) {
                         <h3 className="extraversion heading">Extraversion:</h3>
                         
                         <select  
-                            value={selectedExtraversionValue} 
+                            value={data.extraversion} 
                             onChange={(e) => setExtraversionValue(e.target.value)}
                             id="extraversion" className="extraversion-dropdown" name="extraversion"
                         >
@@ -108,7 +121,7 @@ export default function UserProfile(props) {
                         <h3 className="cleanliness heading">Cleanliness:</h3>
                         
                         <select 
-                            value={selectedCleanlinessValue} 
+                            value={data.cleanliness} 
                             onChange={(e) => setCleanlinessValue(e.target.value)}
                             id="cleanliness" className="cleanliness-dropdown" name="cleanliness"
                         >
@@ -123,7 +136,7 @@ export default function UserProfile(props) {
                         <h3 className="using-my-stuff heading">Using My Stuff:</h3>
                         
                         <select 
-                            value={selectedUsingMyStuffValue} 
+                            value={data.using_my_stuff} 
                             onChange={(e) => setUsingMyStuffValue(e.target.value)}
                             id="using-my-stuff" className="using-my-stuff-dropdown" name="using-my-stuff"
                         >
@@ -136,7 +149,7 @@ export default function UserProfile(props) {
                     <div className="bedtime field"> 
                         <h3 className="bedtime heading">Bedtime:</h3>
                         <select 
-                            value={selectedStartTimeValue} 
+                            value={data.start_time} 
                             onChange={(e) => setStartTimeValue(e.target.value)}
                             id="start-time" className="start-time-dropdown" name="start-time"
                         >
@@ -168,7 +181,7 @@ export default function UserProfile(props) {
                         </select>
                         <h4>-</h4>
                         <select 
-                            value={selectedEndTimeValue} 
+                            value={data.end_time} 
                             onChange={(e) => setEndTimeValue(e.target.value)}
                             id="start-time" className="start-time-dropdown" name="start-time"
                         >

@@ -24,24 +24,24 @@ function CreateUserForm() {
             id: crypto.randomUUID(),
             ...formData
         }
-        try{
-            const response = await fetch('http://localhost:5174/user/create', {
+        try {
+            const response = await fetch('http://localhost:5174/createUser/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include', // Include credentials to send cookies
                 body: JSON.stringify(dataToSend)
             });
             const result = await response.json();
-            if(response.ok){
+            if (response.ok) {
                 console.log('User created successfully');
                 window.location.href = result.redirectUrl;
-            } else{
+            } else {
                 setErrorMsg(result.error);
                 console.log(errorMsg);
             }
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
         }
     }

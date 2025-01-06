@@ -1,13 +1,14 @@
 const express = require('express');
-const AWS = require('aws-sdk');
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const path = require('path');
+const AWS = require('aws-sdk');
+const jwt = require('jsonwebtoken');
+
 
 router.post('/create', async (req, res) => {
-    const { id, first_name, last_name, email, password} = req.body;
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const { id, first_name, last_name, email, password } = req.body;
+
     const paramsForQuery = {
         TableName: tableName,
         IndexName: 'email-index',
@@ -37,19 +38,22 @@ router.post('/create', async (req, res) => {
     
     try {
         const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
-        if(doesUserExist.Count!=0){
+        if (doesUserExist.Count != 0) {
             res.status(409).json({ error: 'User with that email already exists' });
         } else {
             await dynamoDB.put(params).promise();
             const token = jwt.sign(user_to_pass, process.env.MY_SECRET, { expiresIn: "1h" });
-            res.cookie("token", token, {
+            console.log(token);
+            res.cookie('token', token, {
                 httpOnly: true,
             });
-            res.status(200).json({ redirectUrl: '/' });
+            // return res.redirect('http://localhost:5173/pages/userPage/userPage.html');
+            res.status(201).json({ redirectUrl: '/pages/userPage/userPage.html' });
+            return ;
+            // res.status(200).json({ redirectUrl: '/pages/userPage/userPage.html' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
-        console.log(user);
     }
 });
 
