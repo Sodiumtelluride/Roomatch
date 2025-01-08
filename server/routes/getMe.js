@@ -16,10 +16,7 @@ router.get('/me', async (req, res) => {
     };
 
     try {
-        console.log("running");
         const result = await dynamoDB.get(params).promise();
-        console.log("item: " + JSON.stringify(result.Item));
-
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
         }
