@@ -22,8 +22,27 @@ export default function UserProfile(props) {
         }));
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch('http://localhost:5174/userGet/updateMe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Profile updated successfully:', result);
+        })
+        .catch(error => {
+            console.error('Error updating profile:', error);
+        });
+    };
+
     return (
-        <>
+        <form onSubmit={handleSubmit} className="user-profile">
             <div className="login-info">
                 <div className="email field">
                     <h3 className="email heading">Email:</h3>
@@ -45,7 +64,7 @@ export default function UserProfile(props) {
                 </div>
             </div>
 
-            <form className="profile-info">
+            <div className="profile-info">
                 <div className="column-one">
                     <div className="display-name field">
                         <h3 className="display-name heading">Display Name:</h3>
@@ -215,7 +234,7 @@ export default function UserProfile(props) {
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
-            </form>
-        </>
+            </div>
+        </form>
     );
 }

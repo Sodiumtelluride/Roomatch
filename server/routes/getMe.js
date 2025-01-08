@@ -7,7 +7,7 @@ router.get('/me', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const userId = req.user.user_id;
-
+    
     const params = {
         TableName: tableName,
         Key: {

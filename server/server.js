@@ -5,6 +5,7 @@ const cors = require('cors');
 const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
 const getMeRouter = require('./routes/getMe');
+const updateMeRouter = require('./routes/updateMe');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth'); // Correct import
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -38,6 +39,7 @@ AWS.config.update({
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
+app.use('/userGet', cookieJWTAuth, updateMeRouter);
 
 // Catch-all route for client-side routing
 // app.get('*', (req, res) => {

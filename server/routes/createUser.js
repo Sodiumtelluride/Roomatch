@@ -22,7 +22,20 @@ router.post('/create', async (req, res) => {
         first_name,
         last_name,
         email,
-        password
+        password,
+        user_info: {
+            display_name: null,
+            pronouns: null,
+            major: null,
+            '#yr': null,
+            placeOrigin: null,
+            description: null,
+            extraversion: null,
+            cleanliness: null,
+            using_my_stuff: null,
+            end_time: null,
+            start_time: null
+        }
     };
     const params = {
         TableName: tableName,
@@ -33,7 +46,20 @@ router.post('/create', async (req, res) => {
         user_id: id,
         first_name,
         last_name,
-        email
+        email,
+        user_info: {
+            display_name: null,
+            pronouns: null,
+            major: null,
+            '#yr': null,
+            placeOrigin: null,
+            description: null,
+            extraversion: null,
+            cleanliness: null,
+            using_my_stuff: null,
+            end_time: null,
+            start_time: null
+        }
     };
     
     try {
@@ -47,10 +73,8 @@ router.post('/create', async (req, res) => {
             res.cookie('token', token, {
                 httpOnly: true,
             });
-            // return res.redirect('http://localhost:5173/pages/userPage/userPage.html');
             res.status(201).json({ redirectUrl: '/pages/userPage/userPage.html' });
             return ;
-            // res.status(200).json({ redirectUrl: '/pages/userPage/userPage.html' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
