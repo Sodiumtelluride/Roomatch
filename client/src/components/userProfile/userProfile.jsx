@@ -40,7 +40,6 @@ export default function UserProfile(props) {
             console.error('Error updating profile:', error);
         });
     };
-
     return (
         <form onSubmit={handleSubmit} className="user-profile">
             <div className="login-info">
@@ -57,6 +56,7 @@ export default function UserProfile(props) {
                     <h3 className="password heading">Password:</h3>
                     <textarea 
                         name="password"
+                        value={data.password || ''} 
                         onChange={handleChange} 
                         className="password-text"
                     ></textarea>
@@ -69,7 +69,7 @@ export default function UserProfile(props) {
                         <h3 className="display-name heading">Display Name:</h3>
                         <textarea 
                             name="display_name"
-                            value={data.user_info.display_name ? data.user_info.display_name : data.first_name + " " + data.last_name} 
+                            value={data.user_info && data.user_info.display_name ? data.user_info.display_name : data.first_name + " " + data.last_name} 
                             onChange={handleChange} 
                             className="display-name-text"
                         ></textarea>
@@ -78,7 +78,7 @@ export default function UserProfile(props) {
                         <h3 className="pronouns heading">Pronouns:</h3>
                         <textarea 
                             name="pronouns"
-                            value={data.user_info.pronouns || ''} 
+                            value={data.user_info && data.user_info.pronouns ? data.user_info.pronouns : ''} 
                             onChange={handleChange} 
                             className="pronouns-text"
                         ></textarea>
@@ -87,7 +87,7 @@ export default function UserProfile(props) {
                         <h3 className="major heading">Major:</h3>
                         <textarea 
                             name="major"
-                            value={data.user_info.major || ''} 
+                            value={data.user_info && data.user_info.major ? data.user_info.major : ''} 
                             onChange={handleChange} 
                             className="major-text"
                         ></textarea>
@@ -96,7 +96,7 @@ export default function UserProfile(props) {
                         <h3 className="class heading">Class:</h3>
                         <textarea 
                             name="class"
-                            value={data.user_info.class || ''} 
+                            value={data.user_info && data.user_info.class ? data.user_info.class : ''} 
                             onChange={handleChange} 
                             className="class-text"
                         ></textarea>
@@ -105,7 +105,7 @@ export default function UserProfile(props) {
                         <h3 className="origin heading">Origin:</h3>
                         <textarea 
                             name="origin"
-                            value={data.user_info.origin || ''} 
+                            value={data.user_info && data.user_info.origin ? data.user_info.origin : ''} 
                             onChange={handleChange} 
                             className="origin-text"
                         ></textarea>
@@ -114,7 +114,7 @@ export default function UserProfile(props) {
                         <h3 className="description heading">Description:</h3>
                         <textarea 
                             name="description"
-                            value={data.user_info.description || ''} 
+                            value={data.user_info && data.user_info.description ? data.user_info.description : ''} 
                             onChange={handleChange} 
                             className="description-text"
                         ></textarea>
@@ -125,7 +125,7 @@ export default function UserProfile(props) {
                         <h3 className="extraversion heading">Extraversion:</h3>
                         <select  
                             name="extraversion"
-                            value={data.user_info.extraversion || 'none'} 
+                            value={data.user_info && data.user_info.extraversion ? data.user_info.extraversion : 'none'} 
                             onChange={handleChange}
                             id="extraversion" className="extraversion-dropdown" 
                         >
@@ -140,7 +140,7 @@ export default function UserProfile(props) {
                         <h3 className="cleanliness heading">Cleanliness:</h3>
                         <select 
                             name="cleanliness"
-                            value={data.user_info.cleanliness || 'none'} 
+                            value={data.user_info && data.user_info.cleanliness ? data.user_info.cleanliness : 'none'} 
                             onChange={handleChange}
                             id="cleanliness" className="cleanliness-dropdown" 
                         >
@@ -155,7 +155,7 @@ export default function UserProfile(props) {
                         <h3 className="using-my-stuff heading">Using My Stuff:</h3>
                         <select 
                             name="using_my_stuff"
-                            value={data.user_info.using_my_stuff || 'not-allowed'} 
+                            value={data.user_info && data.user_info.using_my_stuff ? data.user_info.using_my_stuff : 'not-allowed'} 
                             onChange={handleChange}
                             id="using-my-stuff" className="using-my-stuff-dropdown" 
                         >
@@ -168,7 +168,7 @@ export default function UserProfile(props) {
                         <h3 className="bedtime heading">Bedtime:</h3>
                         <select 
                             name="start_time"
-                            value={data.user_info.start_time || 'twelve-AM'} 
+                            value={data.user_info && data.user_info.start_time ? data.user_info.start_time : 'twelve-AM'} 
                             onChange={handleChange}
                             id="start-time" className="start-time-dropdown" 
                         >
@@ -200,7 +200,7 @@ export default function UserProfile(props) {
                         <h4>-</h4>
                         <select 
                             name="end_time"
-                            value={data.user_info.end_time || 'twelve-AM'} 
+                            value={data.user_info && data.user_info.end_time ? data.user_info.end_time : 'twelve-AM'} 
                             onChange={handleChange}
                             id="end-time" className="end-time-dropdown" 
                         >
