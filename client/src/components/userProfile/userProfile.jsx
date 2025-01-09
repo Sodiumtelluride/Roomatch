@@ -10,16 +10,31 @@ export default function UserProfile(props) {
             credentials: 'include'
         })
           .then(response => response.json())
-          .then(data => setData(data))
+          .then(data => {
+            console.log('Fetched data:', data);
+            setData(data);
+        })
           .catch(error => console.error('Error fetching data:', error));
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        if (name === "email" || name==="password") {
+            setData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
+        else {
+            setData(prevData => ({
+                ...prevData,
+                user_info: {
+                    ...prevData.user_info,
+                    [name]: value // Update the specific field inside user_info
+                }
+            }));
+    
+        }
     };
 
     const handleSubmit = (e) => {
