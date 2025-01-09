@@ -7,103 +7,33 @@ import CardExpanded from '../cardExpanded/cardExpanded.jsx';
 export default function CardGrid(){
     const [selectedCard, setSelectedCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        fetch('http://localhost:5174/GET/', {
+            method: 'GET',
+            credentials: 'include'
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Fetched data:', data);
+            setData(data);
+        })
+          .catch(error => console.error('Error fetching data:', error));
+    }, []);
     const cards = [
-        {
-            img: PFP,
-            name: "Nath Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
-        {
-            img: PFP,
-            name: "Nate Gelfand",
-            pronouns: "He/Him/His",
-            description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-            major: "Computer Science",
-            class: "2025",
-            sleepSchedule: "Night Owl",
-            usingMyStuff: "Open to sharing",
-            extraversionFill: "3",
-            cleanlinessFill: "2",
-        },
+        // {
+        //     img: PFP,
+        //     name: "Nath Gelfand",
+        //     pronouns: "He/Him/His",
+        //     description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
+        //     major: "Computer Science",
+        //     class: "2025",
+        //     sleepSchedule: "Night Owl",
+        //     usingMyStuff: "Open to sharing",
+        //     extraversionFill: "3",
+        //     cleanlinessFill: "2",
+        // },
+        
     ];
 
     
