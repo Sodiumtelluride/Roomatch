@@ -2,14 +2,32 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const getUserRouter = require('./routes/getUsers');
+const createUserRouter = require('./routes/createUser');
+const getMeRouter = require('./routes/getMe');
+const updateMeRouter = require('./routes/updateMe');
+const loginRouter = require('./routes/login');
+const cookieJWTAuth = require('./middleware/cookieJWTAuth'); // Correct import
+const path = require('path');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5174;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Update with your client URL
+    credentials: true // Allow credentials
+}));
 app.use(bodyParser.json());
+app.use(cookieParser()); // Add cookie-parser middleware
+
+// Logging middleware to debug route handling
+app.use((req, res, next) => {
+    console.log(`Received request: ${req.method} ${req.url}`);
+    next();
+});
 
 // Configure AWS SDK
 AWS.config.update({
@@ -18,65 +36,17 @@ AWS.config.update({
     region: process.env.AWS_REGION,
 });
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.DYNAMODB_TABLE_NAME;
-
 // API Routes
-//app.get(url, callback)
+app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
+app.use('/user', getUserRouter); // Use the middleware and route
+app.use('/createUser', createUserRouter);
+app.use('/userGet', cookieJWTAuth, updateMeRouter);
+app.use('/', loginRouter);
 
-app.get('/GETUSER/BYID/:id', async (req, res) => {
-    const params = {
-        TableName: tableName,
-        Key: { user_id: req.params.id }, // Match your DynamoDB Partition Key name
-    };
-
-    try {
-        const data = await dynamoDB.get(params).promise();
-        if (data.Item) {
-            res.status(200).json(data.Item);
-        } else {
-            res.status(404).json({ message: 'Item not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.post('/CREATEUSER', async (req, res) => {
-    const { id, first_name, last_name, email, password} = req.body;
-    const paramsForQuery = {
-        TableName: tableName,
-        IndexName: 'email-index',
-        KeyConditionExpression: 'email = :emailValue',
-        ExpressionAttributeValues: {
-            ':emailValue': email
-        }
-    };
-    const user = {
-        user_id: id, // Match your DynamoDB Partition Key name
-        first_name,
-        last_name,
-        email,
-        password
-    };
-    const params = {
-        TableName: tableName,
-        Item: user,
-    };
-    
-    try {
-        const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
-        if(doesUserExist){
-            res.status(300).json({ error: 'User already exists' });
-        } else{
-            await dynamoDB.put(params).promise();
-            res.status(201).json({ message: 'Item added successfully' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-        console.log(user);
-    }
-});
+// Catch-all route for client-side routing
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/index.html'));
+// });
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

@@ -5,8 +5,8 @@ import './CreateUserForm.css';
 function CreateUserForm() {
     const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: ''
     });
@@ -24,23 +24,24 @@ function CreateUserForm() {
             id: crypto.randomUUID(),
             ...formData
         }
-        try{
-            const response = await fetch('http://localhost:5174/CREATEUSER', {
+        try {
+            const response = await fetch('http://localhost:5174/createUser/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include', // Include credentials to send cookies
                 body: JSON.stringify(dataToSend)
             });
             const result = await response.json();
-            if(response.ok){
+            if (response.ok) {
                 console.log('User created successfully');
-            } else{
+                window.location.href = result.redirectUrl;
+            } else {
                 setErrorMsg(result.error);
                 console.log(errorMsg);
             }
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -51,12 +52,12 @@ function CreateUserForm() {
             <h3 className='errorMsg'>{errorMsg}</h3>
             <div className="name">
                 <div className="first-name">
-                    <label htmlFor="first-name" className="form-lable">First Name</label>
-                    <input type="text" id="first-name" name="first-name" required value={formData.first_name} onChange={handleChange}/>
+                    <label htmlFor="first_name" className="form-lable">First Name</label>
+                    <input type="text" id="first_name" name="first_name" required value={formData.first_name} onChange={handleChange}/>
                 </div>
                 <div className="last-name">
-                    <label htmlFor="last-name" className="form-lable">Last Name</label>
-                    <input type="text" id="last-name" name="last-name" required value={formData.last_name} onChange={handleChange}/>
+                    <label htmlFor="last_name" className="form-lable">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" required value={formData.last_name} onChange={handleChange}/>
                 </div>
             </div>
             <label className="form-lable" htmlFor="email">Email</label>

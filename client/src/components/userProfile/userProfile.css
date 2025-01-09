@@ -14,13 +14,21 @@
     @apply text-highlight-color font-semibold text-lg w-1/4;
 }
 
-.upload-button {
-    @apply bg-red-600;
+.delete-button {
+    @apply bg-error-red border-2 border-error-red transition duration-300 ease-in-out;
 }
 
-.delete-button {
-    @apply bg-highlight-color;
+.delete-button:hover {
+    @apply bg-transparent transition duration-300 ease-in-out;
 }
+
+.update-button {
+    @apply bg-highlight-color border-2 border-highlight-color transition duration-300 ease-in-out;
+}
+
+.update-button:hover {
+    @apply bg-transparent transition duration-300 ease-in-out;
+}  
 
 .description-text {
     @apply h-1/2
@@ -35,7 +43,7 @@ textarea, select, option {
 }
 
 textarea {
-    @apply h-10 resize-none; 
+    @apply h-10 resize-none overflow-hidden;
 }
 
 select {
