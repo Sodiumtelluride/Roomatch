@@ -1,41 +1,27 @@
 import './CardGrid.css'
 import Card from '../card/Card.jsx'
 import PFP from '../../assets/UserPhoto.png'
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
 import React from 'react';
 import CardExpanded from '../cardExpanded/cardExpanded.jsx';
 export default function CardGrid(){
     const [selectedCard, setSelectedCard] = useState(null);
+    const [cards, setCards] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5174/GET/', {
+        fetch('http://localhost:5174/getCards/cards', {
             method: 'GET',
             credentials: 'include'
         })
           .then(response => response.json())
           .then(data => {
             console.log('Fetched data:', data);
-            setData(data);
+            setCards(data);
         })
           .catch(error => console.error('Error fetching data:', error));
     }, []);
-    const cards = [
-        // {
-        //     img: PFP,
-        //     name: "Nath Gelfand",
-        //     pronouns: "He/Him/His",
-        //     description: "Hi im Nate! Im a freshman studying CS I love to play league for 10 hours a day. I enjoy Jorkin it and eating watermelons",
-        //     major: "Computer Science",
-        //     class: "2025",
-        //     sleepSchedule: "Night Owl",
-        //     usingMyStuff: "Open to sharing",
-        //     extraversionFill: "3",
-        //     cleanlinessFill: "2",
-        // },
-        
-    ];
-
+  
     
     const handleCardClick = (cardData) => {
         setSelectedCard(cardData);
@@ -54,11 +40,11 @@ export default function CardGrid(){
                     <Card
                         key={index}
                         img={card.img}
-                        name={card.name}
-                        pronouns={card.pronouns}
-                        description={card.description}
-                        major={card.major}
-                        class={card.class}
+                        name={card.user_info && card.user_info.display_name ? card.user_info.display_name : card.first_name + " " + card.last_name}
+                        pronouns={card.user_info.pronouns}
+                        description={card.user_info.description}
+                        major={card.user_info.major}
+                        class={card.user_info.grad}
                         onClick={() => handleCardClick(card)}
                     />
                 ))}

@@ -42,7 +42,7 @@ export default function UserProfile(props) {
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             },
             credentials: 'include',
             body: JSON.stringify(data)
@@ -110,8 +110,8 @@ export default function UserProfile(props) {
                     <div className="class field">
                         <h3 className="class heading">Class:</h3>
                         <textarea 
-                            name="class"
-                            value={data.user_info && data.user_info.class ? data.user_info.class : ''} 
+                            name="grad"
+                            value={data.user_info && data.user_info.grad ? data.user_info.grad : ''} 
                             onChange={handleChange} 
                             className="class-text"
                         ></textarea>
@@ -119,8 +119,8 @@ export default function UserProfile(props) {
                     <div className="origin field">
                         <h3 className="origin heading">Origin:</h3>
                         <textarea 
-                            name="origin"
-                            value={data.user_info && data.user_info.origin ? data.user_info.origin : ''} 
+                            name="placeOrigin"
+                            value={data.user_info && data.user_info.placeOrigin ? data.user_info.placeOrigin : ''} 
                             onChange={handleChange} 
                             className="origin-text"
                         ></textarea>

@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
             display_name: null,
             pronouns: null,
             major: null,
-            '#yr': null,
+            grad: null,
             placeOrigin: null,
             description: null,
             extraversion: null,
@@ -51,7 +51,7 @@ router.post('/create', async (req, res) => {
             display_name: null,
             pronouns: null,
             major: null,
-            '#yr': null,
+            grad: null,
             placeOrigin: null,
             description: null,
             extraversion: null,
@@ -69,7 +69,7 @@ router.post('/create', async (req, res) => {
         } else {
             await dynamoDB.put(params).promise();
             const token = jwt.sign(user_to_pass, process.env.MY_SECRET, { expiresIn: "1h" });
-            console.log(token);
+            //console.log(token);
             res.cookie('token', token, {
                 httpOnly: true,
             });
