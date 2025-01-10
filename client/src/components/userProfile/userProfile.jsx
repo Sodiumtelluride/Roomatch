@@ -42,7 +42,7 @@ export default function UserProfile(props) {
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             },
             credentials: 'include',
             body: JSON.stringify(data)
@@ -244,6 +244,10 @@ export default function UserProfile(props) {
                             <option value="ten-PM">10:00 PM</option>
                             <option value="eleven-PM">11:00 PM</option>
                         </select>
+                    </div>
+                    <div className="picture-upload field">
+                        <h3 className="picture-upload heading">Add Image:</h3>
+                        <input type="file" name="picture" accept="image/*" className="picture-upload-input" />
                     </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
