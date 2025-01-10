@@ -42,7 +42,7 @@ export default function UserProfile(props) {
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             },
             credentials: 'include',
             body: JSON.stringify(data)
@@ -110,8 +110,8 @@ export default function UserProfile(props) {
                     <div className="class field">
                         <h3 className="class heading">Class:</h3>
                         <textarea 
-                            name="class"
-                            value={data.user_info && data.user_info.class ? data.user_info.class : ''} 
+                            name="grad"
+                            value={data.user_info && data.user_info.grad ? data.user_info.grad : ''} 
                             onChange={handleChange} 
                             className="class-text"
                         ></textarea>
@@ -245,10 +245,10 @@ export default function UserProfile(props) {
                             <option value="eleven-PM">11:00 PM</option>
                         </select>
                     </div>
-                    <div className="picture-upload field">
+                    {/* <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="picture" accept="image/*" className="picture-upload-input" />
-                    </div>
+                    </div> */}
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
