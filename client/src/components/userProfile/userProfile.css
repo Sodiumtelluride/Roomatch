@@ -34,6 +34,10 @@
     @apply h-1/2
 }
 
+.picture-upload-input {
+    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-2;
+}
+
 button {
     @apply p-4 rounded-lg m-2;
 }
