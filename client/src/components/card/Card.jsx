@@ -1,6 +1,7 @@
 import './Card.css'
 
 export default function Card(props){
+    const pronouns = props.pronouns === "Prefer Not to Specify" ? '' : props.pronouns;
     return(
         <div className="card" onClick={props.onClick}>
             <div className="card-banner">
@@ -9,7 +10,7 @@ export default function Card(props){
             <div className="card-details">
                 <div className="user-title">
                     <h1 className="user-name">{props.name}</h1> 
-                    <h2 className="pronouns">{props.pronouns}</h2>
+                    <h2 className="pronouns">{pronouns}</h2>
                 </div>
                 <div className="user-info">
                     <h3 className="info-heading">Description</h3>

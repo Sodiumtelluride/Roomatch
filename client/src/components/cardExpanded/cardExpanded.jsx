@@ -8,6 +8,8 @@ export default function CardExpanded(props) {
   const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
 
     
+    const pronouns = props.pronouns === "Prefer Not to Specify" ? '' : props.pronouns;
+
     return (
         <div className="background">
             <div className="card-expanded">
@@ -26,11 +28,12 @@ export default function CardExpanded(props) {
                     <div className="user-title-expanded">
                         <div>
                             <h1 className="user-name-expanded">{props.name}</h1>
-                            <h2 className="pronouns-expanded">{props.pronouns}</h2>
+                            <h2 className="pronouns-expanded">{pronouns}</h2>
                         </div>
                         <div>
                             <h4 className="des-txt-expanded">{props.major}</h4>
                             <h4 className="des-txt-expanded">{props.grad}</h4>
+                            <h4 className="des-txt-expanded">{props.placeOrigin}</h4>
                         </div>
                     </div>
 

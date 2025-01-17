@@ -91,39 +91,151 @@ export default function UserProfile(props) {
                     </div>
                     <div className="pronouns field">
                         <h3 className="pronouns heading">Pronouns:</h3>
-                        <textarea 
+                        <select 
                             name="pronouns"
                             value={data.user_info && data.user_info.pronouns ? data.user_info.pronouns : ''} 
                             onChange={handleChange} 
-                            className="pronouns-text"
-                        ></textarea>
+                            className="pronouns-dropdown"
+                        >
+                            <option value="">Select</option>
+                            <option value="he/him">he/him</option>
+                            <option value="she/her">she/her</option>
+                            <option value="they/them">they/them</option>
+                            <option value="Prefer Not to Specify">Prefer Not to Specify</option>
+                        </select>
                     </div>
                     <div className="major field">
                         <h3 className="major heading">Major:</h3>
-                        <textarea 
+                        <select 
                             name="major"
                             value={data.user_info && data.user_info.major ? data.user_info.major : ''} 
                             onChange={handleChange} 
-                            className="major-text"
-                        ></textarea>
+                            className="major-dropdown"
+                        >
+                            <option value="">Select</option>
+                            <option value="Accounting">Accounting</option>
+                            <option value="Afro-American Studies">Afro-American Studies</option>
+                            <option value="Animal Science">Animal Science</option>
+                            <option value="Anthropology">Anthropology</option>
+                            <option value="Arboriculture and Community Forest Management">Arboriculture and Community Forest Management</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Art">Art</option>
+                            <option value="Art Education">Art Education</option>
+                            <option value="Art History">Art History</option>
+                            <option value="Astronomy">Astronomy</option>
+                            <option value="Bachelor’s Degree with Individual Concentration (BDIC)">Bachelor’s Degree with Individual Concentration (BDIC)</option>
+                            <option value="Biochemistry and Molecular Biology">Biochemistry and Molecular Biology</option>
+                            <option value="Biology">Biology</option>
+                            <option value="Biomedical Engineering">Biomedical Engineering</option>
+                            <option value="Building and Construction Technology">Building and Construction Technology</option>
+                            <option value="Chemical Engineering">Chemical Engineering</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Chinese Language and Literature">Chinese Language and Literature</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Classics">Classics</option>
+                            <option value="Communication">Communication</option>
+                            <option value="Comparative Literature">Comparative Literature</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Dance">Dance</option>
+                            <option value="Earth Systems">Earth Systems</option>
+                            <option value="Economics">Economics</option>
+                            <option value="Education">Education</option>
+                            <option value="Electrical and Computer Engineering">Electrical and Computer Engineering</option>
+                            <option value="English">English</option>
+                            <option value="Environmental Engineering">Environmental Engineering</option>
+                            <option value="Environmental Science">Environmental Science</option>
+                            <option value="Film Studies">Film Studies</option>
+                            <option value="Film Studies through BDIC">Film Studies through BDIC</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Food Science">Food Science</option>
+                            <option value="French & Francophone Studies">French & Francophone Studies</option>
+                            <option value="Geography">Geography</option>
+                            <option value="Geology">Geology</option>
+                            <option value="Geosciences">Geosciences</option>
+                            <option value="German and Scandinavian Studies">German and Scandinavian Studies</option>
+                            <option value="History">History</option>
+                            <option value="History of Art and Architecture">History of Art and Architecture</option>
+                            <option value="Horticultural Science">Horticultural Science</option>
+                            <option value="Hospitality and Tourism Management">Hospitality and Tourism Management</option>
+                            <option value="Industrial Engineering">Industrial Engineering</option>
+                            <option value="Informatics">Informatics</option>
+                            <option value="Italian Studies">Italian Studies</option>
+                            <option value="Japanese Language & Literature">Japanese Language & Literature</option>
+                            <option value="Journalism">Journalism</option>
+                            <option value="Judaic Studies">Judaic Studies</option>
+                            <option value="Kinesiology">Kinesiology</option>
+                            <option value="Landscape Architecture">Landscape Architecture</option>
+                            <option value="Landscape Contracting">Landscape Contracting</option>
+                            <option value="Legal Studies">Legal Studies</option>
+                            <option value="Linguistics">Linguistics</option>
+                            <option value="Management">Management</option>
+                            <option value="Managerial Economics">Managerial Economics</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Microbiology">Microbiology</option>
+                            <option value="Middle Eastern Studies">Middle Eastern Studies</option>
+                            <option value="Music">Music</option>
+                            <option value="Natural Resources Conservation">Natural Resources Conservation</option>
+                            <option value="Nursing">Nursing</option>
+                            <option value="Nutrition">Nutrition</option>
+                            <option value="Operations and Information Management">Operations and Information Management</option>
+                            <option value="Philosophy">Philosophy</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Plant and Soil Science">Plant and Soil Science</option>
+                            <option value="Political Science">Political Science</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Pre-Medical, Pre-Health">Pre-Medical, Pre-Health</option>
+                            <option value="Pre-Veterinary Science">Pre-Veterinary Science</option>
+                            <option value="Psychology">Psychology</option>
+                            <option value="Public Health Sciences">Public Health Sciences</option>
+                            <option value="Public Policy">Public Policy</option>
+                            <option value="Resource Economics">Resource Economics</option>
+                            <option value="Russian and East European Studies">Russian and East European Studies</option>
+                            <option value="Social Thought and Political Economy">Social Thought and Political Economy</option>
+                            <option value="Sociology">Sociology</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Speech, Language, and Hearing Sciences">Speech, Language, and Hearing Sciences</option>
+                            <option value="Sport Management">Sport Management</option>
+                            <option value="Sustainable Community Development">Sustainable Community Development</option>
+                            <option value="Sustainable Food and Farming">Sustainable Food and Farming</option>
+                            <option value="Sustainable Horticulture">Sustainable Horticulture</option>
+                            <option value="Theater">Theater</option>
+                            <option value="Turfgrass Management">Turfgrass Management</option>
+                            <option value="University Without Walls Interdisciplinary Studies">University Without Walls Interdisciplinary Studies</option>
+                            <option value="Veterinary Technology">Veterinary Technology</option>
+                            <option value="Women, Gender, Sexuality Studies">Women, Gender, Sexuality Studies</option>
+                        </select>
                     </div>
-                    <div className="class field">
-                        <h3 className="class heading">Class:</h3>
-                        <textarea 
+                    <div className="grad field">
+                        <h3 className="grad heading">Class:</h3>
+                        <select 
                             name="grad"
                             value={data.user_info && data.user_info.grad ? data.user_info.grad : ''} 
                             onChange={handleChange} 
-                            className="class-text"
-                        ></textarea>
+                            className="grad-dropdown"
+                        >
+                            <option value="">Select</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
                     </div>
                     <div className="origin field">
                         <h3 className="origin heading">Origin:</h3>
-                        <textarea 
-                            name="placeOrigin"
-                            value={data.user_info && data.user_info.placeOrigin ? data.user_info.placeOrigin : ''} 
+                        <select 
+                            name="place_origin"
+                            value={data.user_info && data.user_info.place_origin ? data.user_info.place_origin : ''} 
                             onChange={handleChange} 
-                            className="origin-text"
-                        ></textarea>
+                            className="origin-dropdown"
+                        >
+                            <option value="">Select</option>
+                            <option value="In-State">In-State</option>
+                            <option value="Out-Of-State">Out-Of-State</option>
+                        </select>
                     </div>
                     <div className="description field">
                         <h3 className="description heading">Description:</h3>
@@ -140,10 +252,11 @@ export default function UserProfile(props) {
                         <h3 className="extraversion heading">Extraversion:</h3>
                         <select  
                             name="extraversion"
-                            value={data.user_info && data.user_info.extraversion ? data.user_info.extraversion : 'none'} 
+                            value={data.user_info && data.user_info.extraversion ? data.user_info.extraversion : ''} 
                             onChange={handleChange}
                             id="extraversion" className="extraversion-dropdown" 
                         >
+                            <option value="select">Select</option>
                             <option value="none">None</option>
                             <option value="low">Low</option>
                             <option value="average">Average</option>
@@ -155,10 +268,11 @@ export default function UserProfile(props) {
                         <h3 className="cleanliness heading">Cleanliness:</h3>
                         <select 
                             name="cleanliness"
-                            value={data.user_info && data.user_info.cleanliness ? data.user_info.cleanliness : 'none'} 
+                            value={data.user_info && data.user_info.cleanliness ? data.user_info.cleanliness : ''} 
                             onChange={handleChange}
                             id="cleanliness" className="cleanliness-dropdown" 
                         >
+                            <option value="select">Select</option>
                             <option value="none">None</option>
                             <option value="low">Low</option>
                             <option value="average">Average</option>
@@ -170,10 +284,11 @@ export default function UserProfile(props) {
                         <h3 className="using-my-stuff heading">Using My Stuff:</h3>
                         <select 
                             name="using_my_stuff"
-                            value={data.user_info && data.user_info.using_my_stuff ? data.user_info.using_my_stuff : 'not-allowed'} 
+                            value={data.user_info && data.user_info.using_my_stuff ? data.user_info.using_my_stuff : ''} 
                             onChange={handleChange}
                             id="using-my-stuff" className="using-my-stuff-dropdown" 
                         >
+                            <option value="">Select</option>
                             <option value="Not Allowed">Not Allowed</option>
                             <option value="Allowed If You Ask">Allowed If You Ask</option>
                             <option value="Always Allowed">Always Allowed</option>
