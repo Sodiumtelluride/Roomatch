@@ -4,10 +4,11 @@ const AWS = require('aws-sdk');
 
 
 router.post('/updateMe', async (req, res) => {
+    console.log( req.file);
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const userId = req.user.user_id;
-    const { id, first_name, last_name, email, password, display_name, pronouns, major, class_year, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
+    const { first_name, last_name, email, password, display_name, pronouns, major, class_year, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
     const params = {
         TableName: tableName,
         Key: {

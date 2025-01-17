@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
     const [data, setData] = useState({});
-
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
@@ -24,8 +23,12 @@ export default function UserProfile(props) {
                 ...prevData,
                 [name]: value
             }));
-        }
-        else {
+        } else if(name === "image") {
+            setData(prevData => ({
+                ...prevData,
+                image: e.target.files[0]
+            }));
+        } else {
             setData(prevData => ({
                 ...prevData,
                 user_info: {
@@ -39,13 +42,26 @@ export default function UserProfile(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        Object.keys(data).forEach(key => {
+            if (key === 'user_info') {
+                Object.keys(data.user_info).forEach(subKey => {
+                    formData.append(subKey, data.user_info[subKey]);
+                });
+            } else {
+                formData.append(key, data[key]);
+            }
+        });
+        console.log('Form data:', formData.entries());
+        
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
+            // headers: {
+            //     'Content-Type': 'multipart/form-data'
+            // },
             credentials: 'include',
-            body: JSON.stringify(data)
+            body: formData
+        
         })
         .then(response => response.json())
         .then(result => {
@@ -247,7 +263,7 @@ export default function UserProfile(props) {
                     </div>
                     <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
-                        <input type="file" name="picture" accept="image/*" className="picture-upload-input" />
+                        <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
                     </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
