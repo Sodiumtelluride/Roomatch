@@ -4,7 +4,6 @@ const AWS = require('aws-sdk');
 
 
 router.post('/updateMe', async (req, res) => {
-    console.log("body" + JSON.stringify(req.body.user_info));
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const userId = req.user.user_id;
@@ -18,11 +17,11 @@ router.post('/updateMe', async (req, res) => {
     };
 
     try {
-        console.log("running");
+        //console.log("running");
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
         const passwordToPass = password ? password : orginalUser.password;
-        console.log("item: " + JSON.stringify(result.Item));
+        //console.log("item: " + JSON.stringify(result.Item));
 
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
@@ -49,18 +48,18 @@ router.post('/updateMe', async (req, res) => {
             ':ex': extraversion || null,
             ':cl': cleanliness || null,
             ':us': using_my_stuff || null,
-            ':et': end_time || null,
-            ':st': start_time || null
+            ':et': end_time || "12:00 AM",
+            ':st': start_time || "12:00 AM"
             },
             // ExpressionAttributeNames: {
             // '#yr': 'class'
             // },
             ReturnValues: 'ALL_NEW'
         };
-        console.log("updateParams: " + JSON.stringify(updateParams));
+        //console.log("updateParams: " + JSON.stringify(updateParams));
 
         const updatedResult = await dynamoDB.update(updateParams).promise();
-        console.log("updated item: " + JSON.stringify(updatedResult.Attributes));
+        //console.log("updated item: " + JSON.stringify(updatedResult.Attributes));
         // Remove the password field from the result
         res.status(201).json("Updated user");
         } catch (error) {

@@ -174,81 +174,81 @@ export default function UserProfile(props) {
                             onChange={handleChange}
                             id="using-my-stuff" className="using-my-stuff-dropdown" 
                         >
-                            <option value="not-allowed">Not Allowed</option>
-                            <option value="allowed-if-ask">Allowed If You Ask</option>
-                            <option value="allowed">Always Allowed</option>
+                            <option value="Not Allowed">Not Allowed</option>
+                            <option value="Allowed If You Ask">Allowed If You Ask</option>
+                            <option value="Always Allowed">Always Allowed</option>
                         </select>
                     </div>
                     <div className="bedtime field"> 
                         <h3 className="bedtime heading">Bedtime:</h3>
                         <select 
                             name="start_time"
-                            value={data.user_info && data.user_info.start_time ? data.user_info.start_time : 'twelve-AM'} 
+                            value={data.user_info && data.user_info.start_time ? data.user_info.start_time : '12:00 AM'} 
                             onChange={handleChange}
                             id="start-time" className="start-time-dropdown" 
                         >
-                            <option value="twelve-AM">12:00 AM</option>
-                            <option value="one-AM">1:00 AM</option>
-                            <option value="two-AM">2:00 AM</option>
-                            <option value="three-AM">3:00 AM</option>
-                            <option value="four-AM">4:00 AM</option>
-                            <option value="five-AM">5:00 AM</option>
-                            <option value="six-AM">6:00 AM</option>
-                            <option value="seven-AM">7:00 AM</option>
-                            <option value="eight-AM">8:00 AM</option>
-                            <option value="nine-AM">9:00 AM</option>
-                            <option value="ten-AM">10:00 AM</option>
-                            <option value="eleven-AM">11:00 AM</option>
-                            <option value="twelve-PM">12:00 PM</option>
-                            <option value="one-PM">1:00 PM</option>
-                            <option value="two-PM">2:00 PM</option>
-                            <option value="three-PM">3:00 PM</option>
-                            <option value="four-PM">4:00 PM</option>
-                            <option value="five-PM">5:00 PM</option>
-                            <option value="six-PM">6:00 PM</option>
-                            <option value="seven-PM">7:00 PM</option>
-                            <option value="eight-PM">8:00 PM</option>
-                            <option value="nine-PM">9:00 PM</option>
-                            <option value="ten-PM">10:00 PM</option>
-                            <option value="eleven-PM">11:00 PM</option>
+                            <option value="12:00 AM">12:00 AM</option>
+                            <option value="1:00 AM">1:00 AM</option>
+                            <option value="2:00 AM">2:00 AM</option>
+                            <option value="3:00 AM">3:00 AM</option>
+                            <option value="4:00 AM">4:00 AM</option>
+                            <option value="5:00 AM">5:00 AM</option>
+                            <option value="6:00 AM">6:00 AM</option>
+                            <option value="7:00 AM">7:00 AM</option>
+                            <option value="8:00 AM">8:00 AM</option>
+                            <option value="9:00 AM">9:00 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="5:00 PM">5:00 PM</option>
+                            <option value="6:00 PM">6:00 PM</option>
+                            <option value="7:00 PM">7:00 PM</option>
+                            <option value="8:00 PM">8:00 PM</option>
+                            <option value="9:00 PM">9:00 PM</option>
+                            <option value="10:00 PM">10:00 PM</option>
+                            <option value="11:00 PM">11:00 PM</option>
                         </select>
                         <h4>-</h4>
                         <select 
                             name="end_time"
-                            value={data.user_info && data.user_info.end_time ? data.user_info.end_time : 'twelve-AM'} 
+                            value={data.user_info && data.user_info.end_time ? data.user_info.end_time : '12:00 AM'} 
                             onChange={handleChange}
                             id="end-time" className="end-time-dropdown" 
                         >
-                            <option value="twelve-AM">12:00 AM</option>
-                            <option value="one-AM">1:00 AM</option>
-                            <option value="two-AM">2:00 AM</option>
-                            <option value="three-AM">3:00 AM</option>
-                            <option value="four-AM">4:00 AM</option>
-                            <option value="five-AM">5:00 AM</option>
-                            <option value="six-AM">6:00 AM</option>
-                            <option value="seven-AM">7:00 AM</option>
-                            <option value="eight-AM">8:00 AM</option>
-                            <option value="nine-AM">9:00 AM</option>
-                            <option value="ten-AM">10:00 AM</option>
-                            <option value="eleven-AM">11:00 AM</option>
-                            <option value="twelve-PM">12:00 PM</option>
-                            <option value="one-PM">1:00 PM</option>
-                            <option value="two-PM">2:00 PM</option>
-                            <option value="three-PM">3:00 PM</option>
-                            <option value="four-PM">4:00 PM</option>
-                            <option value="five-PM">5:00 PM</option>
-                            <option value="six-PM">6:00 PM</option>
-                            <option value="seven-PM">7:00 PM</option>
-                            <option value="eight-PM">8:00 PM</option>
-                            <option value="nine-PM">9:00 PM</option>
-                            <option value="ten-PM">10:00 PM</option>
-                            <option value="eleven-PM">11:00 PM</option>
+                            <option value="12:00 AM">12:00 AM</option>
+                            <option value="1:00 AM">1:00 AM</option>
+                            <option value="2:00 AM">2:00 AM</option>
+                            <option value="3:00 AM">3:00 AM</option>
+                            <option value="4:00 AM">4:00 AM</option>
+                            <option value="5:00 AM">5:00 AM</option>
+                            <option value="6:00 AM">6:00 AM</option>
+                            <option value="7:00 AM">7:00 AM</option>
+                            <option value="8:00 AM">8:00 AM</option>
+                            <option value="9:00 AM">9:00 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="5:00 PM">5:00 PM</option>
+                            <option value="6:00 PM">6:00 PM</option>
+                            <option value="7:00 PM">7:00 PM</option>
+                            <option value="8:00 PM">8:00 PM</option>
+                            <option value="9:00 PM">9:00 PM</option>
+                            <option value="10:00 PM">10:00 PM</option>
+                            <option value="11:00 PM">11:00 PM</option>
                         </select>
                     </div>
-                    {/* <div className="picture-upload field">
+                    <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="picture" accept="image/*" className="picture-upload-input" />
-                    </div> */}
+                    </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
