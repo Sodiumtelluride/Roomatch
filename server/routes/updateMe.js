@@ -4,7 +4,6 @@ const AWS = require('aws-sdk');
 
 
 router.post('/updateMe', async (req, res) => {
-    //console.log("body" + JSON.stringify(req.body.user_info));
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const userId = req.user.user_id;
