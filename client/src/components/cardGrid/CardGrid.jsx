@@ -32,6 +32,22 @@ export default function CardGrid(){
         setSelectedCard(null);
         setIsModalOpen(false);
     };
+    const extraversionLevels = {
+        none: 0,
+        low: 1,
+        average: 2,
+        'above-average': 3,
+        high: 4
+    };
+    
+    const cleanlinessLevels = {
+        none: 0,
+        low: 1,
+        average: 2,
+        'above-average': 3,
+        high: 4
+    };
+    
 
     return (
         <div className="CardGrid">
@@ -50,14 +66,29 @@ export default function CardGrid(){
                 ))}
             </div>
             
-        {isModalOpen && selectedCard && (
+            {isModalOpen && selectedCard && (
                 <div className="modal-background" onClick={closeModal}>
                     <div
                         className="modal-content"
                         onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
                     >
-                    <CardExpanded {...selectedCard}
-                    />
+                        <CardExpanded
+                            img={selectedCard.img}
+                            name={selectedCard.user_info && selectedCard.user_info.display_name ? selectedCard.user_info.display_name : selectedCard.first_name + " " + selectedCard.last_name}
+                            pronouns={selectedCard.user_info.pronouns}
+                            description={selectedCard.user_info.description}
+                            major={selectedCard.user_info.major}
+                            class={selectedCard.user_info.grad}
+                            email={selectedCard.user_info.email}
+                            password={selectedCard.user_info.passwordToPass}
+                            placeOrigin={selectedCard.user_info.placeOrigin}
+                            extraversion={extraversionLevels[selectedCard.user_info.extraversion]}
+                            cleanliness={cleanlinessLevels[selectedCard.user_info.cleanliness]}
+                            usingMyStuff={selectedCard.user_info.using_my_stuff}
+                            startTime={selectedCard.user_info.start_time}
+                            endTime={selectedCard.user_info.end_time}
+                            
+                        />
                     </div>
                 </div>
             )}

@@ -49,8 +49,8 @@ router.post('/updateMe', async (req, res) => {
             ':ex': extraversion || null,
             ':cl': cleanliness || null,
             ':us': using_my_stuff || null,
-            ':et': end_time || null,
-            ':st': start_time || null
+            ':et': end_time || "12:00 AM",
+            ':st': start_time || "12:00 AM"
             },
             // ExpressionAttributeNames: {
             // '#yr': 'class'
