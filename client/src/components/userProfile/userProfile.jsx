@@ -268,6 +268,12 @@ export default function UserProfile(props) {
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
+                <div className='area-3'>
+                    <div className="images">
+                        <h1 id='image-heading'>Images</h1>
+                        <img src={data.imageUrl} alt="" />
+                    </div>
+                </div>
             </div>
         </form>
     );
