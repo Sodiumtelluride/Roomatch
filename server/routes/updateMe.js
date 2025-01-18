@@ -7,7 +7,6 @@ const crypto = require('crypto');
 
 
 router.post('/updateMe', async (req, res) => {
-    console.log( req.file);
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const bucketName = process.env.S3_BUCKET_NAME;
@@ -37,7 +36,6 @@ router.post('/updateMe', async (req, res) => {
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
         const passwordToPass = password ? password : orginalUser.password;
-        // console.log("item: " + JSON.stringify(result.Item));
 
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
@@ -72,15 +70,11 @@ router.post('/updateMe', async (req, res) => {
             },
             ReturnValues: 'ALL_NEW'
         };
-        // console.log("updateParams: " + JSON.stringify(updateParams));
-
         const updatedResult = await dynamoDB.update(updateParams).promise();
-        // console.log("updated item: " + JSON.stringify(updatedResult.Attributes));
         if(req.file){
             let add = false;
             let insertImageName = null;
             const imageNames = [orginalUser.images.image_1_name, orginalUser.images.image_2_name, orginalUser.images.image_3_name, orginalUser.images.image_4_name, orginalUser.images.image_5_name];
-            console.log("imageNames: " + imageNames);
             for (const name of imageNames) {
                 if (name) {
                     const headParams = {
@@ -89,11 +83,9 @@ router.post('/updateMe', async (req, res) => {
                     };
                     try {
                         await s3.send(new GetObjectCommand(headParams));
-                        console.log("image exists");
                     } catch (err) {
                         add = true;
                         insertImageName = insertImageName == null ? name : insertImageName;
-                        console.log("image does not exist: " + insertImageName);
                     }
                 }
             }

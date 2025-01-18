@@ -20,7 +20,6 @@ router.post('/deleteImage', async (req, res) => {
     });
 
     const imageName = imageUrl.split('/').pop().substring(0, 64); // Extract first 64 characters of the image name from URL
-    console.log(imageName);
 
     const s3Params = {
         Bucket: bucketName,
@@ -31,7 +30,7 @@ router.post('/deleteImage', async (req, res) => {
 
     try {
         await s3.send(command);
-        res.status(200).json({ message: 'Image deleted successfully', updatedUser: result.Attributes });
+        res.status(200).json({ message: 'Image deleted successfully'});
     } catch (error) {
         console.error("Error deleting image: ", error); // Log the error for debugging
         res.status(500).json({ error: 'Internal Server Error' });
