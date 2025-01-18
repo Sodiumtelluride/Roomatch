@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 
 router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const { id, first_name, last_name, email, password } = req.body;
-
+    const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
     const paramsForQuery = {
         TableName: tableName,
         IndexName: 'email-index',
@@ -35,7 +36,15 @@ router.post('/create', async (req, res) => {
             using_my_stuff: null,
             end_time: null,
             start_time: null
+        },
+        images: {
+            image_1_name: randomFileName(),
+            image_2_name: randomFileName(),
+            image_3_name: randomFileName(),
+            image_4_name: randomFileName(),
+            image_5_name: randomFileName()
         }
+
     };
     const params = {
         TableName: tableName,

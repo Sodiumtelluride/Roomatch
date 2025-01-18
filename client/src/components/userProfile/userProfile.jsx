@@ -2,7 +2,9 @@ import './userProfile.css'
 import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        imageUrls: []
+    });
 
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
@@ -24,8 +26,12 @@ export default function UserProfile(props) {
                 ...prevData,
                 [name]: value
             }));
-        }
-        else {
+        } else if(name === "image") {
+            setData(prevData => ({
+                ...prevData,
+                image: e.target.files[0]
+            }));
+        } else {
             setData(prevData => ({
                 ...prevData,
                 user_info: {
@@ -39,13 +45,23 @@ export default function UserProfile(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        Object.keys(data).forEach(key => {
+            if (key === 'user_info') {
+                Object.keys(data.user_info).forEach(subKey => {
+                    formData.append(subKey, data.user_info[subKey]);
+                });
+            } else {
+                formData.append(key, data[key]);
+            }
+        });
+        console.log('Form data:', formData.entries());
+        
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             credentials: 'include',
-            body: JSON.stringify(data)
+            body: formData
+        
         })
         .then(response => response.json())
         .then(result => {
@@ -54,6 +70,34 @@ export default function UserProfile(props) {
         .catch(error => {
             console.error('Error updating profile:', error);
         });
+    };
+
+    const handleDelete = async (imageUrl) => {
+        try {
+            const response = await fetch('http://localhost:5174/deleteImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include', // Include credentials to send cookies
+                body: JSON.stringify({ imageUrl })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            const result = await response.json();
+            console.log('Image deleted successfully');
+            // Update state to remove the deleted image
+            setData(prevData => ({
+                ...prevData,
+                imageUrls: prevData.imageUrls.filter(url => url !== imageUrl)
+            }));
+        } catch (err) {
+            console.log(err);
+        }
     };
     return (
         <form onSubmit={handleSubmit} className="user-profile">
@@ -247,10 +291,19 @@ export default function UserProfile(props) {
                     </div>
                     <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
-                        <input type="file" name="picture" accept="image/*" className="picture-upload-input" />
+                        <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
                     </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
+                </div>
+                <div className='area-3'>
+                    {data.imageUrls.map((url, index) => (
+                        <div className="images" key={index}>
+                            <h1 id='image-heading'>Images</h1>
+                            <img src={url} alt="" />
+                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </form>

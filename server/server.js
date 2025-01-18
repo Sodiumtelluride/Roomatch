@@ -2,10 +2,16 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const path = require('path');
+require('dotenv').config();
+
 const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
 const getMeRouter = require('./routes/getMe');
 const updateMeRouter = require('./routes/updateMe');
+const deleteImageRouter = require('./routes/deleteImage'); // Import deleteImage route
 const loginRouter = require('./routes/login');
 const getCardsRouter = require('./routes/getCards');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
@@ -13,8 +19,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
+
 const app = express();
 const PORT = process.env.PORT || 5174;
+
+// Initialize multer
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Middleware
 app.use(cors({
@@ -41,14 +52,10 @@ AWS.config.update({
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
-app.use('/userGet', cookieJWTAuth, updateMeRouter);
+app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // Use multer middleware for file uploads
+app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/getCards', getCardsRouter); // add middleware when working
 app.use('/', loginRouter);
-
-// Catch-all route for client-side routing
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../client/index.html'));
-// });
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
