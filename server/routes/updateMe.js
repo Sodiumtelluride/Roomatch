@@ -14,7 +14,8 @@ router.post('/updateMe', async (req, res) => {
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
     const userId = req.user.user_id;
-    const { first_name, last_name, email, password, display_name, pronouns, major, class_year, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
+    const { first_name, last_name, email, password } = req.body;
+    const {display_name, pronouns, major, grad, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time} = req.body.user_info;
     const params = {
         TableName: tableName,
         Key: {
@@ -47,7 +48,7 @@ router.post('/updateMe', async (req, res) => {
             Key: {
             user_id: userId
             },
-            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.#yr = :yr, user_info.placeOrigin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st',
+            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.grad = :gd, user_info.placeOrigin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st',
             ExpressionAttributeValues: {
             ':fn': first_name || null,
             ':ln': last_name || null,
@@ -56,18 +57,18 @@ router.post('/updateMe', async (req, res) => {
             ':dn': display_name || null,
             ':pr': pronouns || null,
             ':mj': major || null,
-            ':yr': class_year || null,
+            ':gd': grad || null,
             ':po': placeOrigin || null,
             ':ds': description || null,
             ':ex': extraversion || null,
             ':cl': cleanliness || null,
             ':us': using_my_stuff || null,
-            ':et': end_time || null,
-            ':st': start_time || null
+            ':et': end_time || "12:00 AM",
+            ':st': start_time || "12:00 AM"
             },
-            ExpressionAttributeNames: {
-            '#yr': 'class'
-            },
+            // ExpressionAttributeNames: {
+            // '#yr': 'class'
+            // },
             ReturnValues: 'ALL_NEW'
         };
         const updatedResult = await dynamoDB.update(updateParams).promise();

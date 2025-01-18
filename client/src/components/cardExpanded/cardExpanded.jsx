@@ -2,21 +2,12 @@ import './CardExpanded.css'
 import { useState } from 'react'
 
 export default function CardExpanded(props) {
-  const extraversionFillInt = parseInt(props.extraversionFill, 10);
+  const extraversionFillInt = parseInt(props.extraversion, 10);
   const extraversionFillPercentage = (extraversionFillInt / 4) * 100;
-  const cleanlinessFillInt = parseInt(props.cleanlinessFill, 10);
+  const cleanlinessFillInt = parseInt(props.cleanliness, 10);
   const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
 
-    // const [modal, setModal] = useState(false)
-    // let modalContent;
-    // const toggleModal = () => {
-    //     setModal(!modal)
-    // }
-    // if (modal) {
-    //     modalContent=(
-            
-    //     )
-    // }
+    
     return (
         <div className="background">
             <div className="card-expanded">
@@ -39,7 +30,7 @@ export default function CardExpanded(props) {
                         </div>
                         <div>
                             <h4 className="des-txt-expanded">{props.major}</h4>
-                            <h4 className="des-txt-expanded">{props.class}</h4>
+                            <h4 className="des-txt-expanded">{props.grad}</h4>
                         </div>
                     </div>
 
@@ -75,7 +66,7 @@ export default function CardExpanded(props) {
 
                         <div>
                             <h3 className="info-heading-expanded">Sleep Schedule</h3>
-                            <p className="des-txt-expanded">{props.sleepSchedule}</p>
+                            <p className="des-txt-expanded">{props.startTime} - {props.endTime}</p>
                         </div>
 
                         <div>
