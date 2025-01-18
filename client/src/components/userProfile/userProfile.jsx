@@ -2,7 +2,10 @@ import './userProfile.css'
 import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        imageUrls: []
+    });
+
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
@@ -71,7 +74,34 @@ export default function UserProfile(props) {
             console.error('Error updating profile:', error);
         });
     };
-    console.log(JSON.stringify(data));
+
+    const handleDelete = async (imageUrl) => {
+        try {
+            const response = await fetch('http://localhost:5174/deleteImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include', // Include credentials to send cookies
+                body: JSON.stringify({ imageUrl })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            const result = await response.json();
+            console.log('Image deleted successfully');
+            // Update state to remove the deleted image
+            setData(prevData => ({
+                ...prevData,
+                imageUrls: prevData.imageUrls.filter(url => url !== imageUrl)
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <form onSubmit={handleSubmit} className="user-profile">
             <div className="login-info">
@@ -270,26 +300,13 @@ export default function UserProfile(props) {
                     <button className="delete-button">Delete Your Account</button>
                 </div>
                 <div className='area-3'>
-                    <div className="images">
-                        <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrls && data.imageUrls[0] ? data.imageUrls[0] : ''} alt="" />
-                    </div>
-                    <div className="images">
-                        <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrls && data.imageUrls[1] ? data.imageUrls[1] : ''} alt="" />
-                    </div>
-                    <div className="images">
-                        <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrls && data.imageUrls[2] ? data.imageUrls[2] : ''} alt="" />
-                    </div>
-                    <div className="images">
-                        <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrls && data.imageUrls[3] ? data.imageUrls[3] : ''} alt="" />
-                    </div>
-                    <div className="images">
-                        <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrls && data.imageUrls[4] ? data.imageUrls[4] : ''} alt="" />
-                    </div>
+                    {data.imageUrls.map((url, index) => (
+                        <div className="images" key={index}>
+                            <h1 id='image-heading'>Images</h1>
+                            <img src={url} alt="" />
+                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </form>

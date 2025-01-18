@@ -11,6 +11,7 @@ const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
 const getMeRouter = require('./routes/getMe');
 const updateMeRouter = require('./routes/updateMe');
+const deleteImageRouter = require('./routes/deleteImage'); // Import deleteImage route
 const loginRouter = require('./routes/login');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth'); // Correct import
 
@@ -47,6 +48,7 @@ app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
 app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // Use multer middleware for file uploads
+app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/', loginRouter);
 
 app.listen(PORT, () => {
