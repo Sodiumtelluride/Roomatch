@@ -71,6 +71,7 @@ export default function UserProfile(props) {
             console.error('Error updating profile:', error);
         });
     };
+    console.log(JSON.stringify(data));
     return (
         <form onSubmit={handleSubmit} className="user-profile">
             <div className="login-info">
@@ -271,7 +272,23 @@ export default function UserProfile(props) {
                 <div className='area-3'>
                     <div className="images">
                         <h1 id='image-heading'>Images</h1>
-                        <img src={data.imageUrl} alt="" />
+                        <img src={data.imageUrls && data.imageUrls[0] ? data.imageUrls[0] : ''} alt="" />
+                    </div>
+                    <div className="images">
+                        <h1 id='image-heading'>Images</h1>
+                        <img src={data.imageUrls && data.imageUrls[1] ? data.imageUrls[1] : ''} alt="" />
+                    </div>
+                    <div className="images">
+                        <h1 id='image-heading'>Images</h1>
+                        <img src={data.imageUrls && data.imageUrls[2] ? data.imageUrls[2] : ''} alt="" />
+                    </div>
+                    <div className="images">
+                        <h1 id='image-heading'>Images</h1>
+                        <img src={data.imageUrls && data.imageUrls[3] ? data.imageUrls[3] : ''} alt="" />
+                    </div>
+                    <div className="images">
+                        <h1 id='image-heading'>Images</h1>
+                        <img src={data.imageUrls && data.imageUrls[4] ? data.imageUrls[4] : ''} alt="" />
                     </div>
                 </div>
             </div>

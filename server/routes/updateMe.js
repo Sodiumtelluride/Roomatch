@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto'); 
 
 
 
 router.post('/updateMe', async (req, res) => {
     console.log( req.file);
-    const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const tableName = process.env.DYNAMODB_TABLE_NAME;
     const bucketName = process.env.S3_BUCKET_NAME;
@@ -23,7 +22,6 @@ router.post('/updateMe', async (req, res) => {
             user_id: userId
         }
     };
-    const imageName = randomFileName();
     const s3 = new S3Client({
         credentials: { 
             accessKeyId: accessKeyId,
@@ -31,22 +29,15 @@ router.post('/updateMe', async (req, res) => {
         },
         region: region
     });
-
-    const s3Params = {
-        Bucket: bucketName,
-        Key: imageName,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype
-    };
-
-    const command = new PutObjectCommand(s3Params);
+    const imageBuffer = req.file ? req.file.buffer : null;
+    const imageType = req.file ? req.file.mimetype : null;
+    
 
     try {
-        console.log("running");
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
         const passwordToPass = password ? password : orginalUser.password;
-        console.log("item: " + JSON.stringify(result.Item));
+        // console.log("item: " + JSON.stringify(result.Item));
 
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
@@ -58,7 +49,7 @@ router.post('/updateMe', async (req, res) => {
             Key: {
             user_id: userId
             },
-            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.#yr = :yr, user_info.placeOrigin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st, images.image_1_name = :im',
+            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.#yr = :yr, user_info.placeOrigin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st',
             ExpressionAttributeValues: {
             ':fn': first_name || null,
             ':ln': last_name || null,
@@ -74,19 +65,52 @@ router.post('/updateMe', async (req, res) => {
             ':cl': cleanliness || null,
             ':us': using_my_stuff || null,
             ':et': end_time || null,
-            ':st': start_time || null,
-            ':im': imageName || null
+            ':st': start_time || null
             },
             ExpressionAttributeNames: {
             '#yr': 'class'
             },
             ReturnValues: 'ALL_NEW'
         };
-        console.log("updateParams: " + JSON.stringify(updateParams));
+        // console.log("updateParams: " + JSON.stringify(updateParams));
 
         const updatedResult = await dynamoDB.update(updateParams).promise();
-        console.log("updated item: " + JSON.stringify(updatedResult.Attributes));
-        await s3.send(command);
+        // console.log("updated item: " + JSON.stringify(updatedResult.Attributes));
+        if(req.file){
+            let add = false;
+            let insertImageName = null;
+            const imageNames = [orginalUser.images.image_1_name, orginalUser.images.image_2_name, orginalUser.images.image_3_name, orginalUser.images.image_4_name, orginalUser.images.image_5_name];
+            console.log("imageNames: " + imageNames);
+            for (const name of imageNames) {
+                if (name) {
+                    const headParams = {
+                        Bucket: bucketName,
+                        Key: name
+                    };
+                    try {
+                        await s3.send(new GetObjectCommand(headParams));
+                        console.log("image exists");
+                    } catch (err) {
+                        add = true;
+                        insertImageName = insertImageName == null ? name : insertImageName;
+                        console.log("image does not exist: " + insertImageName);
+                    }
+                }
+            }
+            if (add) {
+                const s3Params = {
+                    Bucket: bucketName,
+                    Key: insertImageName,
+                    Body: imageBuffer,
+                    ContentType: imageType
+                };
+            
+                const command = new PutObjectCommand(s3Params);
+                await s3.send(command);
+            } else{
+                return res.status(500).json({ error: 'Maximum Images Exceeded' });
+            }
+        }
         res.status(201).json("Updated user");
         } catch (error) {
         res.status(500).json({ error: error.message });

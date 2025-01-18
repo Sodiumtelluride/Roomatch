@@ -33,20 +33,30 @@ router.get('/me', async (req, res) => {
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
-        const S3_params = {
-            Bucket: bucketName,
-            Key: result.Item.images.image_1_name
-        };
-        
-        const command = new GetObjectCommand(S3_params);
-        const imageUrl = await getSignedUrl(S3, command, { expiresIn: 3600 });
-        // Remove the password field from the result
-        const { password, ...userWithoutPassword } = result.Item;
 
-        res.status(201).json({ ...userWithoutPassword, imageUrl });
-        } catch (error) {
-        res.status(500).json({ error: error.message });
+        const urls = [];
+
+        const imageNames = [result.Item.images.image_1_name, result.Item.images.image_2_name, result.Item.images.image_3_name, result.Item.images.image_4_name, result.Item.images.image_5_name];
+        for(const name of imageNames) {
+            // Check if images and image_1_name exist
+            if (name) {
+                const S3_params = {
+                    Bucket: bucketName,
+                    Key: name
+                };
+                const command = new GetObjectCommand(S3_params);
+                try{
+                    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+                    urls.push(url);
+                }catch (error) {}
+            }
+        }
+        const { password, ...userWithoutPassword } = result.Item;
+        res.status(200).json({ ...userWithoutPassword, imageUrls: urls });
+        
+    } catch (error) {
+        console.error("Error fetching user data: ", error); // Log the error for debugging
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
