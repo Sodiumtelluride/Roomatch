@@ -8,49 +8,50 @@ import BackArrow from '../../assets/BackArrow.png'
 import logo from '../../assets/ROOMME.png'
 import Profile from '../../assets/Profile.png'
 import { useState, useEffect } from 'react';
+import Chat from '../chat/Chat.jsx';
 export default function MessageDashboard() {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
     const [displayName, setDisplayName] = useState("");
     const [wantedChats, setWantedChats] = useState([]);
     const [chatData, setChatData] = useState([]);
-    const sendMessage = async () => {
-      if (currentMessage !== "") {
-        const messageData = {
-          room: room,
-          author: username,
-          message: currentMessage,
-          time:
-            new Date(Date.now()).getHours() +
-            ":" +
-            new Date(Date.now()).getMinutes(),
-        };
+    console.log(wantedChats);
+    // const sendMessage = async () => {
+    //   if (currentMessage !== "") {
+    //     const messageData = {
+    //       room: room,
+    //       author: username,
+    //       message: currentMessage,
+    //       time:
+    //         new Date(Date.now()).getHours() +
+    //         ":" +
+    //         new Date(Date.now()).getMinutes(),
+    //     };
   
-        await socket.emit("send_message", messageData);
-        setMessageList((list) => [...list, messageData]);
-        setCurrentMessage("");
-      }
-    };
+    //     await socket.emit("send_message", messageData);
+    //     setMessageList((list) => [...list, messageData]);
+    //     setCurrentMessage("");
+    //   }
+    // };
   
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
             credentials: 'include'
         })
-            .then(response => response.json())
-            .then(data => {
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data);
             setDisplayName(data.user_info.display_name);
             setWantedChats(data.chat_ids);
-            
-          
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
 
     useEffect(() => {
-        if (wantedChats.length>0) {
-            //console.log('Wanted chats:', wantedChats);
-            console.log(JSON.stringify(wantedChats));
+        if (wantedChats) {
+            // console.log('Wanted chats:', wantedChats);
+            // console.log(JSON.stringify(wantedChats));
             fetch('http://localhost:5174/chat/get', {
                 method: 'POST',
                 credentials: 'include',
@@ -61,31 +62,16 @@ export default function MessageDashboard() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Fetched data:', data);
+                    // console.log('Fetched data:', data);
                     setChatData(data);
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
     }, [wantedChats]);
 
-    // const messages = [
-    //     { name: "Nate", lastMessage: "Hi my name is Nate...", lastSent: "10m", numUnread: "1", pfp: PFP },
-    //     { name: "Alice", lastMessage: "Are you available for a call?", lastSent: "15m", numUnread: "2", pfp: PFP },
-    //     { name: "Bob", lastMessage: "Let's catch up soon!", lastSent: "1h", numUnread: "0", pfp: PFP },
-    //     { name: "Charlie", lastMessage: "Can you send me the document?", lastSent: "2h", numUnread: "3", pfp: PFP },
-    //     { name: "David", lastMessage: "Thanks for the help!", lastSent: "3h", numUnread: "0", pfp: PFP },
-    //     { name: "Eve", lastMessage: "See you tomorrow!", lastSent: "5h", numUnread: "1", pfp: PFP },
-    //     { name: "Frank", lastMessage: "Good morning!", lastSent: "8h", numUnread: "0", pfp: PFP },
-    //     { name: "Grace", lastMessage: "Can we reschedule?", lastSent: "1d", numUnread: "4", pfp: PFP },
-    //     { name: "Hank", lastMessage: "Happy Birthday!", lastSent: "2d", numUnread: "0", pfp: PFP },
-    //     { name: "Ivy", lastMessage: "Let's meet at 5 PM.", lastSent: "3d", numUnread: "2", pfp: PFP },
-    //     { name: "Jack", lastMessage: "I'll be there in 10 minutes.", lastSent: "4d", numUnread: "1", pfp: PFP },
-    //     { name: "Karen", lastMessage: "Can you review this?", lastSent: "5d", numUnread: "0", pfp: PFP },
-    //     { name: "Leo", lastMessage: "Thanks!", lastSent: "6d", numUnread: "0", pfp: PFP },
-    //     { name: "Mia", lastMessage: "See you soon!", lastSent: "1w", numUnread: "3", pfp: PFP },
-    //     { name: "Nina", lastMessage: "Good night!", lastSent: "2w", numUnread: "0", pfp: PFP },
-    // ];
     console.log("chat: " + JSON.stringify(chatData));
+    console.log("display name: " + displayName);
+    console.log("wnated: " + JSON.stringify(wantedChats));
     return(
         <>
             <div className="MessageDashboard">
@@ -104,18 +90,15 @@ export default function MessageDashboard() {
                             <MessagePreview 
                                 key={index}
                                 name={chat.users[0] == displayName ? chat.users[1] : chat.users[0]} 
-                                lastMessage={chat.messages[0].message} 
-                                lastSent={chat.messages[0].time} 
+                                lastMessage={chat.messages && chat.messages[0] ? chat.messages[0].message : ''} 
+                                lastSent={chat.messages && chat.messages[0] ? chat.messages[0].time : ''} 
                                 numUnread={0} 
                                 // pfp={message.pfp}
                             />
                         ))}
                     </div>
                 </div>
-                <div className="chat">
-                    <Message user="Nate" sentByUser={true} message="Hi my name is Nate. I was wondering if you wanted to be my roommate? I promise I'm normal! I only eat birds sometimes." timeDelivered="2:34 AM" pfp={PFP}/>
-                    <Message user="Nate" sentByUser={false} message="Hi my name is Nate. I was wondering if you wanted to be my roommate? I promise I'm normal! I only eat birds sometimes." timeDelivered="2:34 AM" pfp={PFP}/>
-                </div>
+                <Chat chat={chatData[0]} user={displayName}/>
                 <div className="send">
                     <MessageType/>
                 </div>

@@ -44,11 +44,7 @@
     @apply bg-transparent;
 }
 
-.chat{
-    @apply p-3 flex flex-col;
-    grid-column: 2/3;
-    grid-row: 1/2;
-}
+
 
 .send{
     @apply flex p-3 items-center justify-center mb-7;

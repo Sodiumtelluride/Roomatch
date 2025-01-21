@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
     const [data, setData] = useState({
-        imageUrls: []
+        imageUrls: [],
+        user_info: {} // Initialize user_info
     });
 
     useEffect(() => {
