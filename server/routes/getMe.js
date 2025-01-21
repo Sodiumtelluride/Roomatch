@@ -6,7 +6,7 @@ const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 
 router.get('/me', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const userTable = process.env.USER_TABLE;
     const bucketName = process.env.S3_BUCKET_NAME;
     const region = process.env.AWS_REGION;
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -22,7 +22,7 @@ router.get('/me', async (req, res) => {
     });
     
     const params = {
-        TableName: tableName,
+        TableName: userTable,
         Key: {
             user_id: userId
         }
@@ -33,6 +33,7 @@ router.get('/me', async (req, res) => {
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
         }
+
 
         const urls = [];
 

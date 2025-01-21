@@ -7,7 +7,66 @@ import PFP from '../../assets/UserPhoto.png';
 import BackArrow from '../../assets/BackArrow.png'
 import logo from '../../assets/ROOMME.png'
 import Profile from '../../assets/Profile.png'
+import { useState, useEffect } from 'react';
 export default function MessageDashboard() {
+    const [currentMessage, setCurrentMessage] = useState("");
+    const [messageList, setMessageList] = useState([]);
+    const [wantedChats, setWantedChats] = useState([]);
+    const [chatData, setChatData] = useState([]);
+    const sendMessage = async () => {
+      if (currentMessage !== "") {
+        const messageData = {
+          room: room,
+          author: username,
+          message: currentMessage,
+          time:
+            new Date(Date.now()).getHours() +
+            ":" +
+            new Date(Date.now()).getMinutes(),
+        };
+  
+        await socket.emit("send_message", messageData);
+        setMessageList((list) => [...list, messageData]);
+        setCurrentMessage("");
+      }
+    };
+  
+    useEffect(() => {
+        fetch('http://localhost:5174/getMe/me', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+            
+            setWantedChats(data.chat_ids);
+            
+          
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    useEffect(() => {
+        if (wantedChats.length>0) {
+            //console.log('Wanted chats:', wantedChats);
+            console.log(JSON.stringify(wantedChats));
+            fetch('http://localhost:5174/chat/get', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(wantedChats),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data:', data);
+                    setChatData(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [wantedChats]);
+
     const messages = [
         { name: "Nate", lastMessage: "Hi my name is Nate...", lastSent: "10m", numUnread: "1", pfp: PFP },
         { name: "Alice", lastMessage: "Are you available for a call?", lastSent: "15m", numUnread: "2", pfp: PFP },

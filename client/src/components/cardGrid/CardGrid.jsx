@@ -10,7 +10,7 @@ export default function CardGrid(){
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5174/getCards/cards', {
+        fetch('http://localhost:5174/cards/get', {
             method: 'GET',
             credentials: 'include'
         })

@@ -8,7 +8,8 @@ const crypto = require('crypto');
 
 router.post('/updateMe', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const userTable = process.env.USER_TABLE;
+   
     const bucketName = process.env.S3_BUCKET_NAME;
     const region = process.env.AWS_REGION;
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -17,7 +18,7 @@ router.post('/updateMe', async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
     const {display_name, pronouns, major, grad, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time} = req.body.user_info;
     const params = {
-        TableName: tableName,
+        TableName: userTable,
         Key: {
             user_id: userId
         }
@@ -44,7 +45,7 @@ router.post('/updateMe', async (req, res) => {
 
         // Update the user in DynamoDB
         const updateParams = {
-            TableName: tableName,
+            UserTable: userTable,
             Key: {
             user_id: userId
             },
