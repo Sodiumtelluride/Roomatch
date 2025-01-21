@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
-const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 require('dotenv').config();
 
 const getUserRouter = require('./routes/getUsers');
@@ -56,6 +57,34 @@ app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // U
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/getCards', getCardsRouter); // add middleware when working
 app.use('/', loginRouter);
+
+//messaging 
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:5173',
+        method: ["GET", "POST"]
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log('ID: ' + socket.id);
+
+    socket.on('join_room', (data) => {
+        console.log('room: ' + data);
+        socket.join(data);
+    });
+
+    socket.on('send_message', (data) => {
+        // console.log(data);
+        socket.to(data.room).emit('receive_message', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected ', socket.id);
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
