@@ -50,6 +50,7 @@ AWS.config.update({
 });
 
 // API Routes
+app.use('/', loginRouter); // Login route should not require authentication
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
@@ -57,7 +58,6 @@ app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // U
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/cards', getCardsRouter); // add middleware when working
 app.use('/chat', getChatRouter);
-app.use('/', loginRouter);
 
 //messaging 
 const server = http.createServer(app);
@@ -72,14 +72,42 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log('ID: ' + socket.id);
 
-    socket.on('join_room', (data) => {
+    socket.on('join_chat', (data) => {
         console.log('room: ' + data);
         socket.join(data);
     });
 
+    const dynamoDB = new AWS.DynamoDB.DocumentClient();
+
+    const saveMessageToDynamoDB = (data) => {
+        const params = {
+            TableName: 'chats',
+            Key: {
+                chatId: data.chatId
+            },
+            UpdateExpression: 'SET messages = list_append(if_not_exists(messages, :empty_list), :message)',
+            ExpressionAttributeValues: {
+                ':message': [{
+                    user: data.user,
+                    message: data.message,
+                    time: data.time
+                }],
+                ':empty_list': []
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+
+        dynamoDB.update(params, (err, data) => {
+            if (err) {
+                console.error('Unable to add message to DynamoDB', err);
+            } else {
+                console.log('Message added to DynamoDB', data);
+            }
+        });
+    };
     socket.on('send_message', (data) => {
-        // console.log(data);
-        socket.to(data.room).emit('receive_message', data);
+        socket.to(data.chatId).emit('receive_message', data);
+        saveMessageToDynamoDB(data);
     });
 
     socket.on('disconnect', () => {
