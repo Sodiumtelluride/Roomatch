@@ -22,17 +22,27 @@ require('dotenv').config();
 
 
 const app = express();
+// app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Update with your client URL
+    credentials: true // Allow credentials
+}));
 const PORT = process.env.PORT || 5174;
+const server = http.createServer(app);
 
 // Initialize multer
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:5173', // Update with your client URL
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
 // Middleware
-app.use(cors({
-    origin: 'http://localhost:5173', // Update with your client URL
-    credentials: true // Allow credentials
-}));
 app.use(bodyParser.json());
 app.use(cookieParser()); // Add cookie-parser middleware
 
@@ -52,7 +62,7 @@ AWS.config.update({
 // API Routes
 app.use('/', loginRouter); // Login route should not require authentication
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
-app.use('/user', getUserRouter); // Use the middleware and route
+app.use('/user', cookieJWTAuth, getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
 app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // Use multer middleware for file uploads
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
@@ -60,17 +70,10 @@ app.use('/cards', getCardsRouter); // add middleware when working
 app.use('/chat', getChatRouter);
 
 //messaging 
-const server = http.createServer(app);
 
-const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:5173',
-        method: ["GET", "POST"]
-    }
-});
 
 io.on('connection', (socket) => {
-    console.log('ID: ' + socket.id);
+    console.log('New client connected');
 
     socket.on('join_chat', (data) => {
         console.log('room: ' + data);
@@ -83,38 +86,39 @@ io.on('connection', (socket) => {
         const params = {
             TableName: 'chats',
             Key: {
-                chatId: data.chatId
+            chat_id: data.chatId
             },
             UpdateExpression: 'SET messages = list_append(if_not_exists(messages, :empty_list), :message)',
             ExpressionAttributeValues: {
-                ':message': [{
-                    user: data.user,
-                    message: data.message,
-                    time: data.time
-                }],
-                ':empty_list': []
+            ':message': [{
+                user: data.user,
+                message: data.message,
+                time: data.time
+            }],
+            ':empty_list': []
             },
             ReturnValues: 'UPDATED_NEW'
         };
 
-        dynamoDB.update(params, (err, data) => {
+        dynamoDB.update(params, (err, result) => {
             if (err) {
                 console.error('Unable to add message to DynamoDB', err);
             } else {
-                console.log('Message added to DynamoDB', data);
+                console.log('Message added to DynamoDB', result);
             }
         });
     };
     socket.on('send_message', (data) => {
+        console.log('Message received:', data);
         socket.to(data.chatId).emit('receive_message', data);
         saveMessageToDynamoDB(data);
     });
 
     socket.on('disconnect', () => {
-        console.log('user disconnected ', socket.id);
+        console.log('Client disconnected');
     });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

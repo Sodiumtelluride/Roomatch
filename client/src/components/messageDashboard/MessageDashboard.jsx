@@ -4,48 +4,59 @@ import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
-import BackArrow from '../../assets/BackArrow.png'
-import logo from '../../assets/ROOMME.png'
-import Profile from '../../assets/Profile.png'
-import { useState, useEffect } from 'react';
+import BackArrow from '../../assets/BackArrow.png';
+import logo from '../../assets/ROOMME.png';
+import Profile from '../../assets/Profile.png';
+import { useState, useEffect, useContext } from 'react';
 import Chat from '../chat/Chat.jsx';
+
+import { io } from 'socket.io-client';
+
+const socket = io(`http://localhost:5174`, {
+    transports: ['websocket'],
+    withCredentials: true
+});
+
+socket.on('connect_error', (err) => {
+    console.error('Connection error:', err);
+});
+
 export default function MessageDashboard() {
     const [currentMessage, setCurrentMessage] = useState("");
-    const [messageList, setMessageList] = useState([]);
     const [displayName, setDisplayName] = useState("");
     const [wantedChats, setWantedChats] = useState([]);
     const [chatData, setChatData] = useState([]);
     console.log(wantedChats);
-    // const sendMessage = async () => {
-    //   if (currentMessage !== "") {
-    //     const messageData = {
-    //       room: room,
-    //       author: username,
-    //       message: currentMessage,
-    //       time:
-    //         new Date(Date.now()).getHours() +
-    //         ":" +
-    //         new Date(Date.now()).getMinutes(),
-    //     };
-  
-    //     await socket.emit("send_message", messageData);
-    //     setMessageList((list) => [...list, messageData]);
-    //     setCurrentMessage("");
-    //   }
-    // };
-  
+
     useEffect(() => {
-        fetch('http://localhost:5174/getMe/me', {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched data:', data);
-            setDisplayName(data.user_info.display_name);
-            setWantedChats(data.chat_ids);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        const fetchUserData = async () => {
+            console.log("Fetching user data...");
+            try {
+                const response = await fetch('http://localhost:5174/getMe/me', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                console.log('Response status:', response.status);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('Fetched data:', data);
+                setDisplayName(data.user_info.display_name);
+                setWantedChats(data.chat_ids || []); // Ensure chat_ids is defined
+                setChatData(data.chat_data || []); // Ensure chat_data is defined
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchUserData();
+        if (wantedChats[0]) {
+            // console.log('Joining chat:', wantedChats[0]);
+            socket.emit('join_chat', wantedChats[0]);
+        }
     }, []);
 
     useEffect(() => {
@@ -69,9 +80,6 @@ export default function MessageDashboard() {
         }
     }, [wantedChats]);
 
-    console.log("chat: " + JSON.stringify(chatData));
-    console.log("display name: " + displayName);
-    console.log("wnated: " + JSON.stringify(wantedChats));
     return(
         <>
             <div className="MessageDashboard">
@@ -89,7 +97,7 @@ export default function MessageDashboard() {
                         {chatData.map((chat, index) => (
                             <MessagePreview 
                                 key={index}
-                                name={chat.users[0] == displayName ? chat.users[1] : chat.users[0]} 
+                                name={chat.users[0] === displayName ? chat.users[1] : chat.users[0]} 
                                 lastMessage={chat.messages && chat.messages[0] ? chat.messages[0].message : ''} 
                                 lastSent={chat.messages && chat.messages[0] ? chat.messages[0].time : ''} 
                                 numUnread={0} 
@@ -98,9 +106,16 @@ export default function MessageDashboard() {
                         ))}
                     </div>
                 </div>
-                <Chat chat={chatData[0]} user={displayName}/>
+                {/* {chatData[0] && <Chat chat={chatData[0]} user={displayName}/>} */}
                 <div className="send">
-                    <MessageType/>
+                    {chatData[0] && (
+                        <MessageType 
+                            socket={socket}
+                            chat = {chatData[0]}
+                            chatId={chatData[0].chat_id}
+                            username={displayName}
+                        />
+                    )}
                 </div>
             </div>
         </>
