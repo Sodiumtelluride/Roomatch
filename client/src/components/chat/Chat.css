@@ -1,5 +1,0 @@
-.chat{
-    @apply p-3 flex flex-col;
-    grid-column: 2/3;
-    grid-row: 1/2;
-}
