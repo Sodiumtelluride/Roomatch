@@ -8,7 +8,6 @@ import BackArrow from '../../assets/BackArrow.png';
 import logo from '../../assets/ROOMME.png';
 import Profile from '../../assets/Profile.png';
 import { useState, useEffect, useContext } from 'react';
-import Chat from '../chat/Chat.jsx';
 
 import { io } from 'socket.io-client';
 
