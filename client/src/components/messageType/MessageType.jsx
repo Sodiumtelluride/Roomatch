@@ -8,7 +8,6 @@ import PFP from '../../assets/UserPhoto.png';
 import { useEffect } from 'react';
 
 
-
 export default function MessageType({ socket, chat, chatId, username }) {
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
@@ -57,9 +56,17 @@ export default function MessageType({ socket, chat, chatId, username }) {
 
     }, [socket]);
     
+    const chatRef = React.useRef(null);
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    }, [messageList]);
+
     return (
         <div className='full-chat'>
-            <div className="chat" key={messageList.length}>
+            {/* <ScrollToBottom className="chat"> */}
+            <div className="chat" key={messageList.length} ref={chatRef}>
                 {messageList.map((message, index) => (
                     <Message
                     key={`${index}-${message.time}`}
@@ -71,6 +78,7 @@ export default function MessageType({ socket, chat, chatId, username }) {
                 />
                 ))}
             </div>
+            {/* </ScrollToBottom> */}
             <form onSubmit={handleSubmit} id="message-form">
                 <button type="button" id="upload-button">
                     <img src={Upload} id='upload-icon' alt="Upload" />

@@ -21,7 +21,6 @@
     @apply p-3 flex flex-col overflow-y-scroll; /* Change overflow-scroll to overflow-y-scroll */
     grid-row: 1; /* Place chat in the first row */
     width: 100%;
-    scroll-behavior: smooth;
 }
 
 .chat::-webkit-scrollbar {
