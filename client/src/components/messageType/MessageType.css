@@ -41,3 +41,13 @@
 .chat::-webkit-scrollbar-thumb:hover {
     background-color: #555; /* Change this color to match your design */
 }
+
+.request-btn {
+    @apply bg-highlight-color text-white py-2 px-4 rounded-lg border border-highlight-color ml-6;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.request-btn:hover {
+    @apply bg-background-medium;
+    transition: background-color 0.3s ease-in-out;
+}

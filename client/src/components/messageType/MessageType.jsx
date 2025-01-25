@@ -93,6 +93,7 @@ export default function MessageType({ socket, chat, chatId, username }) {
                 <button type="submit" id="send-button">
                     <img src={Send} id='send-icon' alt="Send" />
                 </button>
+                <button className="request-btn">Request</button>
             </form>
         </div>
     );
