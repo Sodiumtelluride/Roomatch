@@ -21,7 +21,7 @@ socket.on('connect_error', (err) => {
 });
 
 export default function MessageDashboard() {
-    const [currentMessage, setCurrentMessage] = useState("");
+    const [currentChat, setCurrentChat] = useState({});
     const [displayName, setDisplayName] = useState("");
     const [wantedChats, setWantedChats] = useState([]);
     const [chatData, setChatData] = useState([]);
@@ -79,6 +79,11 @@ export default function MessageDashboard() {
         }
     }, [wantedChats]);
 
+    const handleChatClick = (chat) => {
+        console.log('Chat clicked:', chat);
+        setCurrentChat(chat);
+    };
+
     return(
         <>
             <div className="MessageDashboard">
@@ -97,23 +102,26 @@ export default function MessageDashboard() {
                             <MessagePreview 
                                 key={index}
                                 name={chat.users[0] === displayName ? chat.users[1] : chat.users[0]} 
-                                lastMessage={chat.messages && chat.messages[0] ? chat.messages[0].message : ''} 
+                                lastMessage={chat.messages && chat.messages[chat.messages.length - 1] ? chat.messages[chat.messages.length - 1].message : ''} 
                                 lastSent={chat.messages && chat.messages[0] ? chat.messages[0].time : ''} 
                                 numUnread={0} 
-                                // pfp={message.pfp}
+                                onClick={() => handleChatClick(chat)}
                             />
                         ))}
                     </div>
                 </div>
-                {/* {chatData[0] && <Chat chat={chatData[0]} user={displayName}/>} */}
                 <div className="send">
-                    {chatData[0] && (
+                    {Object.keys(currentChat).length > 0 ? (
                         <MessageType 
                             socket={socket}
-                            chat = {chatData[0]}
-                            chatId={chatData[0].chat_id}
+                            chat={currentChat}
+                            chatId={currentChat.chat_id}
                             username={displayName}
                         />
+                    ) : (
+                        <div className="no-chat-selected">
+                            Please select a chat
+                        </div>
                     )}
                 </div>
             </div>
