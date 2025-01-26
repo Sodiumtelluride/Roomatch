@@ -6,7 +6,6 @@ import { io } from 'socket.io-client';
 import Message from '../message/Message.jsx';
 import PFP from '../../assets/UserPhoto.png';
 import { useEffect } from 'react';
-import { use } from 'react';
 
 
 export default function MessageType({ socket, chat, chatId, username, id, requested }) {
@@ -66,6 +65,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             const data = await response.json();
             console.log('Request sent successfully:', data);
             setHasRequested(true);
+            sendRequest();
         } catch (error) {
             console.error('Error sending request:', error);
         }
@@ -81,6 +81,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
                 new Date(Date.now()).getHours() +
                 ":" +
                 new Date(Date.now()).getMinutes(),
+                isRequest: false,
             };
             
             await socket.emit("send_message", messageData);
@@ -88,6 +89,24 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             setMessageList((list) => [ ...list, messageData ]);
             setMessage("");
         }
+    };
+
+    const sendRequest = async () => {
+        const messageData = {
+            chatId: chatId,
+            user: username,
+            message: "Request to be roommates",
+            time:
+            new Date(Date.now()).getHours() +
+            ":" +
+            new Date(Date.now()).getMinutes(),
+            isRequest: true,
+        };
+        
+        await socket.emit("send_message", messageData);
+        console.log("Request sent:", messageData);
+        setMessageList((list) => [ ...list, messageData ]);
+        setMessage("");
     };
     
     const handleSubmit = (e) => {
@@ -127,6 +146,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
                     message={message.message}
                     timeDelivered={message.time}
                     pfp={PFP}
+                    type={message.isRequest ? message.isRequest : false}
                 />
                 ))}
             </div>
