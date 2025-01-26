@@ -54,7 +54,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
                 credentials: 'include',
                 body: JSON.stringify({
                     id: id,
-                    request_sent_to: chat.users[0] === username ? chat.users[1] : chat.users[0],
+                    request_sent_to: chat.users[0].name === username ? chat.users[1].name : chat.users[0].name,
                 }),
             });
 
@@ -148,6 +148,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
                     timeDelivered={message.time}
                     pfp={PFP}
                     isRequest={message.isRequest}
+                    chat = {chat}
                 />
                 ))}
             </div>

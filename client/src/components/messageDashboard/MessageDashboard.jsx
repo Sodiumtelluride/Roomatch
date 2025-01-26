@@ -103,7 +103,7 @@ export default function MessageDashboard() {
                         {chatData.map((chat, index) => (
                             <MessagePreview 
                                 key={index}
-                                name={chat.users[0] === displayName ? chat.users[1] : chat.users[0]} 
+                                name={chat.users[0].name === displayName ? chat.users[1].name : chat.users[0].name} 
                                 lastMessage={chat.messages && chat.messages[chat.messages.length - 1] ? chat.messages[chat.messages.length - 1].message : ''} 
                                 lastSent={chat.messages && chat.messages[0] ? chat.messages[0].time : ''} 
                                 numUnread={0} 
