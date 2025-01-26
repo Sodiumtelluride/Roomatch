@@ -85,7 +85,6 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             };
             
             await socket.emit("send_message", messageData);
-            console.log("Message sent:", messageData);
             setMessageList((list) => [ ...list, messageData ]);
             setMessage("");
         }
@@ -104,7 +103,6 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
         };
         
         await socket.emit("send_message", messageData);
-        console.log("Request sent:", messageData);
         setMessageList((list) => [ ...list, messageData ]);
         setMessage("");
     };
@@ -116,7 +114,6 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
     
     useEffect(() => {
         const handleMessage = (data) => {
-            console.log("Message received:", data);
             setMessageList((list) => [...list, data]);
         };
 
@@ -139,7 +136,6 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             {/* <ScrollToBottom className="chat"> */}
             <div className="chat" key={messageList.length} ref={chatRef}>
                 {messageList.map((message, index) => (
-                    console.log(message),
                     <Message
                     key={`${index}-${message.time}`}
                     user={message.user}

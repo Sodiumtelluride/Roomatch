@@ -17,8 +17,9 @@ const loginRouter = require('./routes/login');
 const getCardsRouter = require('./routes/getCards');
 const createRoomRequestRouter = require('./routes/createRoomRequest');
 const deleteRoomRequestRouter = require('./routes/deleteRoomRequest');
-const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const getChatRouter = require('./routes/getChat');
+const addRoommateRouter = require('./routes/addRoommate');
+const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const path = require('path');
 require('dotenv').config();
 
@@ -72,6 +73,7 @@ app.use('/cards', getCardsRouter); // add middleware when working
 app.use('/chat', getChatRouter);
 app.use('/roomRequest', createRoomRequestRouter);
 app.use('/roomRequest', deleteRoomRequestRouter);
+app.use('/roommate', addRoommateRouter);
 
 //messaging 
 

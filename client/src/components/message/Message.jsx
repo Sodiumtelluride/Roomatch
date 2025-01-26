@@ -2,8 +2,24 @@ import './Message.css';
 
 export default function Message(props) {
     const acceptRequest = () => {
-        console.log("Request accepted");
-        console.log(props.chat.users[0].email, " and ", props.chat.users[1].email);
+        fetch('http://localhost:5174/roommate/add', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+            user1: props.chat.users[0].email,
+            user2: props.chat.users[1].email
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Request accepted:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     };
     if (props.isRequest === true) {
         return(
