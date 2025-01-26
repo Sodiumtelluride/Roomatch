@@ -6,11 +6,13 @@ import { io } from 'socket.io-client';
 import Message from '../message/Message.jsx';
 import PFP from '../../assets/UserPhoto.png';
 import { useEffect } from 'react';
+import { use } from 'react';
 
 
-export default function MessageType({ socket, chat, chatId, username, id }) {
+export default function MessageType({ socket, chat, chatId, username, id, requested }) {
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
+    const [hasRequested, setHasRequested] = useState(requested);
     useEffect(() => {
         if(chat) {
             setMessageList(chat.messages);
@@ -18,18 +20,43 @@ export default function MessageType({ socket, chat, chatId, username, id }) {
 
     }, [chat]);
 
+    const deleteRequest = async () => {
+        try {
+            const response = await fetch('http://localhost:5174/roomRequest/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    id: id,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Request deleted successfully:', data);
+            setHasRequested(false);
+        } catch (error) {
+            console.error('Error deleting request:', error);
+        }
+    };
+
     const createRequest = async () => {
         try {
             const response = await fetch('http://localhost:5174/roomRequest/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                id: id,
-                request_sent_to: chat.users[0] === username ? chat.users[1] : chat.users[0],
-            }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    id: id,
+                    request_sent_to: chat.users[0] === username ? chat.users[1] : chat.users[0],
+                }),
             });
 
             if (!response.ok) {
@@ -38,6 +65,7 @@ export default function MessageType({ socket, chat, chatId, username, id }) {
 
             const data = await response.json();
             console.log('Request sent successfully:', data);
+            setHasRequested(true);
         } catch (error) {
             console.error('Error sending request:', error);
         }
@@ -117,7 +145,7 @@ export default function MessageType({ socket, chat, chatId, username, id }) {
                 <button type="submit" id="send-button">
                     <img src={Send} id='send-icon' alt="Send" />
                 </button>
-                <button className="request-btn" onClick={createRequest}>Request</button>
+                {hasRequested ? <button className="request-btn" onClick={deleteRequest}>Cancel</button> : <button className="request-btn" onClick={createRequest}>Request</button>}
             </form>
         </div>
     );

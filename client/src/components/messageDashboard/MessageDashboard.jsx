@@ -25,6 +25,7 @@ export default function MessageDashboard() {
     const [displayName, setDisplayName] = useState("");
     const [wantedChats, setWantedChats] = useState([]);
     const [chatData, setChatData] = useState([]);
+    const [hasRequested, setHasRequested] = useState(false);
     const [userId, setUserId] = useState("");
     console.log(wantedChats);
 
@@ -49,6 +50,7 @@ export default function MessageDashboard() {
                 setWantedChats(data.chat_ids || []); // Ensure chat_ids is defined
                 setChatData(data.chat_data || []); // Ensure chat_data is defined
                 setUserId(data.user_id || "");
+                setHasRequested(data.user_info.request.id !== '' && data.user_info.request.request_sent_to !== '');
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -118,6 +120,7 @@ export default function MessageDashboard() {
                             chatId={currentChat.chat_id}
                             username={displayName}
                             id = {userId}
+                            requested={hasRequested}
                         />
                     ) : (
                         <div className="no-chat-selected">

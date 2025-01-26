@@ -19,10 +19,7 @@ router.post('/delete', async (req, res) => {
     
     try {
         const data = await dynamoDB.query(paramsForQuery).promise();
-        console.log(data.Items[0].user_info.request.request_sent_to !== null);
-        if (data.Items.length > 0 && data.Items[0].user_info.request.id !== '' && data.Items[0].user_info.request.request_sent_to !== '') {
-            return res.status(400).json({ error: 'One request maximum reached' });
-        }
+        
         
         const updateParams = {
             TableName: userTable,

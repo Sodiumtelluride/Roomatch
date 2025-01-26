@@ -3,7 +3,6 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const { get } = require('http');
 
 router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
