@@ -97,7 +97,8 @@ io.on('connection', (socket) => {
             ':message': [{
                 user: data.user,
                 message: data.message,
-                time: data.time
+                time: data.time,
+                isRequest: data.isRequest
             }],
             ':empty_list': []
             },

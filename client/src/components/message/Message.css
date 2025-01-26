@@ -58,3 +58,13 @@ h1{
     grid-row: 2/3;
     @apply w-8 h-8 ml-2 mb-1 rounded-full object-cover;
 }
+
+.accept-btn {
+    @apply bg-highlight-color text-white py-2 px-4 rounded-lg border border-highlight-color ml-6;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.accept-btn:hover {
+    @apply bg-background-medium;
+    transition: background-color 0.3s ease-in-out;
+}

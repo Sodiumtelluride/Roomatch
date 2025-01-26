@@ -1,7 +1,7 @@
 import './Message.css';
 
 export default function Message(props) {
-    if (props.type === 'roomRequest') {
+    if (props.isRequest === true) {
         return(
             <div className={props.sentByUser ? "message-container sent-by-user" : "message-container not-sent-by-user"}>
                 <div className={props.sentByUser ? "message-content-SBU": "message-content-NSBU"}>

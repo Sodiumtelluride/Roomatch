@@ -96,11 +96,11 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             chatId: chatId,
             user: username,
             message: "Request to be roommates",
+            isRequest: true,
             time:
             new Date(Date.now()).getHours() +
             ":" +
             new Date(Date.now()).getMinutes(),
-            isRequest: true,
         };
         
         await socket.emit("send_message", messageData);
@@ -139,6 +139,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
             {/* <ScrollToBottom className="chat"> */}
             <div className="chat" key={messageList.length} ref={chatRef}>
                 {messageList.map((message, index) => (
+                    console.log(message),
                     <Message
                     key={`${index}-${message.time}`}
                     user={message.user}
@@ -146,7 +147,7 @@ export default function MessageType({ socket, chat, chatId, username, id, reques
                     message={message.message}
                     timeDelivered={message.time}
                     pfp={PFP}
-                    type={message.isRequest ? message.isRequest : false}
+                    isRequest={message.isRequest}
                 />
                 ))}
             </div>
