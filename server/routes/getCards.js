@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/cards', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const tableName = process.env.USER_TABLE;
     let allItems = [];
     const params = {
         TableName: tableName,

@@ -1,0 +1,20 @@
+.logo {
+    @apply h-20 w-20;
+}
+.navbar-landing-page {
+    @apply flex justify-between items-center m-4;
+}
+button{
+    @apply text-app-white border rounded-lg p-2 transition-all ease-in-out duration-300;
+}
+button:hover{
+    @apply bg-transparent transition-all ease-in-out duration-300;
+}
+
+.login-button {
+    @apply bg-background-medium border-2 border-background-medium transition duration-300 ease-in-out;
+}
+
+.signup-button {
+    @apply bg-highlight-color border-2 border-highlight-color transition duration-300 ease-in-out;
+}

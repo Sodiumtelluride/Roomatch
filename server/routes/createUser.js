@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const tableName = process.env.USER_TABLE;
     const { id, first_name, last_name, email, password } = req.body;
     const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
     const paramsForQuery = {

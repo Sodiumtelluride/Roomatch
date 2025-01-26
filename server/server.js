@@ -15,8 +15,6 @@ const deleteImageRouter = require('./routes/deleteImage'); // Import deleteImage
 const loginRouter = require('./routes/login');
 const getCardsRouter = require('./routes/getCards');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
-const path = require('path');
-const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 

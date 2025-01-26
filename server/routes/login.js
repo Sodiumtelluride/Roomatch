@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 router.post('/login', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const tableName = process.env.USER_TABLE;
     const { email, password } = req.body;
     const paramsForQuery = {
         TableName: tableName,
