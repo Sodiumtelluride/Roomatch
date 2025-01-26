@@ -8,7 +8,7 @@ import PFP from '../../assets/UserPhoto.png';
 import { useEffect } from 'react';
 
 
-export default function MessageType({ socket, chat, chatId, username }) {
+export default function MessageType({ socket, chat, chatId, username, id }) {
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
     useEffect(() => {
@@ -18,7 +18,30 @@ export default function MessageType({ socket, chat, chatId, username }) {
 
     }, [chat]);
 
-    
+    const createRequest = async () => {
+        try {
+            const response = await fetch('http://your-backend-url/api/roommate-request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                request_sent_to: chat.users[0] !== username ? chat.users[1] : chat.users[0],
+            }),
+            });
+
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Request sent successfully:', data);
+        } catch (error) {
+            console.error('Error sending request:', error);
+        }
+    };
+
     const sendMessage = async () => {
         if (message && message !== "") {
             const messageData = {
@@ -93,7 +116,7 @@ export default function MessageType({ socket, chat, chatId, username }) {
                 <button type="submit" id="send-button">
                     <img src={Send} id='send-icon' alt="Send" />
                 </button>
-                <button className="request-btn">Request</button>
+                <button className="request-btn" onClick={createRequest}>Request</button>
             </form>
         </div>
     );
