@@ -1,9 +1,53 @@
-#message-form{
-    width: 50vw;
-    @apply flex items-center justify-between h-12 bg-background-medium p-3 rounded-lg;
+.full-chat {
+    @apply grid gap-4 justify-center w-full;
+    /* grid-template-columns: 1fr; */
+    height: 100vh;
+
+    grid-template-rows: 1fr 4rem;
 }
 
-#message-input, #message-input:active, #message-input:focus{
+#message-form {
+    @apply flex p-3 items-center justify-center mb-7 h-12 bg-background-medium rounded-lg;
+    width: 50vw;
+    grid-row: 2; /* Place message-form in the second row */
+}
+
+#message-input, #message-input:active, #message-input:focus {
     width: 80%;
     @apply bg-transparent border-none outline-none;
+}
+
+.chat {
+    @apply p-3 flex flex-col overflow-y-scroll; /* Change overflow-scroll to overflow-y-scroll */
+    grid-row: 1; /* Place chat in the first row */
+    width: 100%;
+}
+
+.chat::-webkit-scrollbar {
+    width: 8px;
+    height: 0; /* Hide the bottom scrollbar */
+}
+
+.chat::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat::-webkit-scrollbar-thumb {
+    background-color: #888; /* Change this color to match your design */
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.chat::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Change this color to match your design */
+}
+
+.request-btn {
+    @apply bg-highlight-color text-white py-2 px-4 rounded-lg border border-highlight-color ml-6;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.request-btn:hover {
+    @apply bg-background-medium;
+    transition: background-color 0.3s ease-in-out;
 }

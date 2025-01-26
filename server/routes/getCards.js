@@ -3,12 +3,12 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 
-router.get('/cards', async (req, res) => {
+router.get('/get', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.USER_TABLE;
+    const userTable = process.env.USER_TABLE;
     let allItems = [];
     const params = {
-        TableName: tableName,
+        TableName: userTable,
     };
 
     try {

@@ -12,7 +12,6 @@ h1{
     grid-template-columns: 1fr 3rem;
 }
 
-
 .not-sent-by-user{
     @apply self-start mr-auto;
     grid-template-columns: 3rem 1fr;
@@ -57,4 +56,14 @@ h1{
     grid-column: 1/2;
     grid-row: 2/3;
     @apply w-8 h-8 ml-2 mb-1 rounded-full object-cover;
+}
+
+.accept-btn {
+    @apply bg-highlight-color text-white py-2 px-4 rounded-lg border border-highlight-color ml-6;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.accept-btn:hover {
+    @apply bg-background-medium;
+    transition: background-color 0.3s ease-in-out;
 }
