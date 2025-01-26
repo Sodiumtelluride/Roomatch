@@ -13,10 +13,11 @@ function App() {
   return (
     <>
       
-    <NavbarLandingPage/>
-    <LandingPage/>
-    {/* <CardGrid/>
-    <LowTaperFade/>  */}
+    {/* <NavbarLandingPage/> */}
+    {/* <LandingPage/> */}
+    <Navbar/>
+    <CardGrid/>
+    <LowTaperFade/>  
     </>
   )
 }

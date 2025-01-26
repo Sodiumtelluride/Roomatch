@@ -4,8 +4,7 @@ import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
-import BackArrow from '../../assets/BackArrow.png'
-import logo from '../../assets/ROOMME.png'
+import logo from '../../assets/logo.svg'
 import Profile from '../../assets/Profile.png'
 export default function MessageDashboard() {
     const messages = [
@@ -32,9 +31,9 @@ export default function MessageDashboard() {
                 <div className="Contacts">
                     <div className="contact-header">
                         <a href="../../../index.html">
-                            <img src={BackArrow} id='contact-back-arrow' />
+                            <img src={logo} id='contact-back-arrow' />
                         </a>
-                        <img src={logo} id='contact-logo' />
+                        {/* <img src={logo} id='contact-logo' /> */}
                         <a href="../../../pages/userPage/userPage.html">
                             <img src={Profile} id='contact-profile-icon' />
                         </a>
