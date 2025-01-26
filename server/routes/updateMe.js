@@ -9,7 +9,6 @@ const crypto = require('crypto');
 router.post('/updateMe', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const userTable = process.env.USER_TABLE;
-   console.log("body: " , req.body);
     const bucketName = process.env.S3_BUCKET_NAME;
     const region = process.env.AWS_REGION;
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -49,7 +48,7 @@ router.post('/updateMe', async (req, res) => {
             Key: {
             user_id: userId
             },
-            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.grad = :gd, user_info.placeOrigin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st',
+            UpdateExpression: 'set first_name = :fn, last_name = :ln, email = :em, password = :pw, user_info.display_name = :dn, user_info.pronouns = :pr, user_info.major = :mj, user_info.grad = :gd, user_info.place_origin = :po, user_info.description = :ds, user_info.extraversion = :ex, user_info.cleanliness = :cl, user_info.using_my_stuff = :us, user_info.end_time = :et, user_info.start_time = :st',
             ExpressionAttributeValues: {
             ':fn': first_name || null,
             ':ln': last_name || null,
@@ -59,7 +58,7 @@ router.post('/updateMe', async (req, res) => {
             ':pr': pronouns || null,
             ':mj': major || null,
             ':gd': grad || null,
-            ':po': placeOrigin || null,
+            ':po': place_origin || null,
             ':ds': description || null,
             ':ex': extraversion || null,
             ':cl': cleanliness || null,

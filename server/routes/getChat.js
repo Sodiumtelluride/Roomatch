@@ -5,7 +5,6 @@ router.post('/get', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const chatTable = process.env.CHAT_TABLE;
     const chatIds = req.body;
-    
     try {
         const wantedChats = [];
         for (const id of chatIds) {
