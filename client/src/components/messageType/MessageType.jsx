@@ -20,14 +20,15 @@ export default function MessageType({ socket, chat, chatId, username, id }) {
 
     const createRequest = async () => {
         try {
-            const response = await fetch('http://your-backend-url/api/roommate-request', {
+            const response = await fetch('http://localhost:5174/roomRequest/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
                 id: id,
-                request_sent_to: chat.users[0] !== username ? chat.users[1] : chat.users[0],
+                request_sent_to: chat.users[0] === username ? chat.users[1] : chat.users[0],
             }),
             });
 

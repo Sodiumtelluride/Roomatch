@@ -15,6 +15,7 @@ const updateMeRouter = require('./routes/updateMe');
 const deleteImageRouter = require('./routes/deleteImage'); // Import deleteImage route
 const loginRouter = require('./routes/login');
 const getCardsRouter = require('./routes/getCards');
+const createRoomRequestRouter = require('./routes/createRoomRequest');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const getChatRouter = require('./routes/getChat');
 const path = require('path');
@@ -68,6 +69,7 @@ app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // U
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/cards', getCardsRouter); // add middleware when working
 app.use('/chat', getChatRouter);
+app.use('/roomRequest', createRoomRequestRouter);
 
 //messaging 
 

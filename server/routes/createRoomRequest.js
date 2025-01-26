@@ -3,8 +3,9 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { get } = require('http');
 
-router.post('/createRoomateRequest', async (req, res) => {
+router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const userTable = process.env.USER_TABLE;
     const { id } = req.body;
@@ -16,29 +17,39 @@ router.post('/createRoomateRequest', async (req, res) => {
             ':userId': id
         }
     };
-
+    
     try {
         const data = await dynamoDB.query(paramsForQuery).promise();
-        if (data.Item.user_info.request.id !== null && data.Item.user_info.request.request_sent_to !== null) {
+        console.log(data.Items[0].user_info.request.request_sent_to !== null);
+        if (data.Items.length > 0 && data.Items[0].user_info.request.id !== '' && data.Items[0].user_info.request.request_sent_to !== '') {
             return res.status(400).json({ error: 'One request maximum reached' });
         }
-
+        
         const updateParams = {
             TableName: userTable,
             Key: {
-            user_id: userId
+                user_id: id
             },
-            UpdateExpression: 'set user_info.request.id = :reqId, user_info.request.request_sent_to = :reqSentTo',
+            UpdateExpression: 'set #userInfo.#request.#id = :reqId, #userInfo.#request.#requestSentTo = :reqSentTo',
+            ExpressionAttributeNames: {
+                '#userInfo': 'user_info',
+                '#request': 'request',
+                '#id': 'id',
+                '#requestSentTo': 'request_sent_to'
+            },
             ExpressionAttributeValues: {
-            ':reqId': getRequestId(),
-            ':reqSentTo': req.body.request_sent_to || null
+                ':reqId': getRequestId(),
+                ':reqSentTo': req.body.request_sent_to || null
             },
             ReturnValues: 'ALL_NEW'
         };
         await dynamoDB.update(updateParams).promise();
         res.status(201).json({ message: 'Roommate request created successfully.' });
     } catch (error) {
+        console.error("Error creating roommate request:", error);
         res.status(500).json({ error: 'Could not create roommate request.' });
     }
 
 });
+
+module.exports = router;

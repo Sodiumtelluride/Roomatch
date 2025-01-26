@@ -25,6 +25,7 @@ export default function MessageDashboard() {
     const [displayName, setDisplayName] = useState("");
     const [wantedChats, setWantedChats] = useState([]);
     const [chatData, setChatData] = useState([]);
+    const [userId, setUserId] = useState("");
     console.log(wantedChats);
 
     useEffect(() => {
@@ -47,13 +48,13 @@ export default function MessageDashboard() {
                 setDisplayName(data.user_info.display_name);
                 setWantedChats(data.chat_ids || []); // Ensure chat_ids is defined
                 setChatData(data.chat_data || []); // Ensure chat_data is defined
+                setUserId(data.user_id || "");
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchUserData();
         if (wantedChats[0]) {
-            // console.log('Joining chat:', wantedChats[0]);
             socket.emit('join_chat', wantedChats[0]);
         }
     }, []);
@@ -72,7 +73,6 @@ export default function MessageDashboard() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('Fetched data:', data);
                     setChatData(data);
                 })
                 .catch(error => console.error('Error fetching data:', error));
@@ -117,6 +117,7 @@ export default function MessageDashboard() {
                             chat={currentChat}
                             chatId={currentChat.chat_id}
                             username={displayName}
+                            id = {userId}
                         />
                     ) : (
                         <div className="no-chat-selected">
