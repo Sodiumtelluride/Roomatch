@@ -47,7 +47,9 @@ export default function CardGrid(){
         'above-average': 3,
         high: 4
     };
-    
+
+    const getExtraversionLevel = (level) => extraversionLevels[level] || 0;
+    const getCleanlinessLevel = (level) => cleanlinessLevels[level] || 0;
 
     return (
         <div className="CardGrid">
@@ -81,9 +83,9 @@ export default function CardGrid(){
                             class={selectedCard.user_info.grad}
                             email={selectedCard.user_info.email}
                             password={selectedCard.user_info.passwordToPass}
-                            placeOrigin={selectedCard.user_info.placeOrigin}
-                            extraversion={extraversionLevels[selectedCard.user_info.extraversion]}
-                            cleanliness={cleanlinessLevels[selectedCard.user_info.cleanliness]}
+                            placeOrigin={selectedCard.user_info.place_origin}
+                            extraversion={getExtraversionLevel(selectedCard.user_info.extraversion)}
+                            cleanliness={getCleanlinessLevel(selectedCard.user_info.cleanliness)}
                             usingMyStuff={selectedCard.user_info.using_my_stuff}
                             startTime={selectedCard.user_info.start_time}
                             endTime={selectedCard.user_info.end_time}

@@ -1,13 +1,13 @@
 .login-info {
-    @apply grid grid-rows-2 gap-6 p-4 rounded-lg shadow-md;
+    @apply grid grid-rows-2 gap-8 p-6 rounded-lg;
 }
 
 .profile-info {
-    @apply grid grid-cols-2 gap-6 p-4 h-screen rounded-lg shadow-md ;
+    @apply grid grid-cols-2 gap-8 p-6 h-screen rounded-lg;
 }
 
 .field {
-    @apply flex items-center gap-4 m-5;
+    @apply flex items-center gap-6 m-6;
 }
 
 .heading {
@@ -31,26 +31,25 @@
 }  
 
 .description-text {
-    @apply h-1/2
+    @apply h-1/2;
 }
 
 .picture-upload-input {
-    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-2;
+    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-3;
 }
 
 button {
-    @apply p-4 rounded-lg m-2;
+    @apply p-5 rounded-lg m-3;
 }
 
 textarea, select, option {
-    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-2;
+    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-3;
 }
 
 textarea {
-    @apply h-10 resize-none overflow-hidden;
+    @apply h-12 resize-none overflow-hidden;
 }
 
 select {
-    @apply h-10;
+    @apply h-12;
 }
-
