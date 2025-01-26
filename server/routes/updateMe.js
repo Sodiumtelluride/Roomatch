@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 router.post('/updateMe', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.DYNAMODB_TABLE_NAME;
+    const tableName = process.env.USER_TABLE;
     const bucketName = process.env.S3_BUCKET_NAME;
     const region = process.env.AWS_REGION;
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;

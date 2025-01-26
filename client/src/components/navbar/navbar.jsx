@@ -1,7 +1,8 @@
-import './navbar.css'
+import './Navbar.css'
 import Messages from '../../assets/Messages.png'
 import Profile from '../../assets/Profile.png'
 import ROOMME from '../../assets/ROOMME.png'
+import logo from '../../assets/logo.svg'
 function Navbar() {
     return (
     <>
@@ -10,7 +11,7 @@ function Navbar() {
             <img src={Profile} alt="" id='profile-icon' />
         </a>
         <a href='../../../index.html'>
-            <img src={ROOMME} alt="" id='logo'/>
+            <img src={logo} alt="logo" className="logo" />
         </a>
         <a href='../../../pages/messages/messages.html'> 
             <img src={Messages} alt="" id='messages-icon'/>
