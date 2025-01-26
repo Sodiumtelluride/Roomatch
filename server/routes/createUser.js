@@ -35,7 +35,14 @@ router.post('/create', async (req, res) => {
             cleanliness: null,
             using_my_stuff: null,
             end_time: null,
-            start_time: null
+            start_time: null,
+            roommate: {
+                id: null,
+            },
+            request: {
+                id: '',
+                request_sent_to: ''
+            }
         },
         images: {
             image_1_name: randomFileName(),
