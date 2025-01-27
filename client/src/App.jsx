@@ -6,7 +6,7 @@ import LowTaperFade from './components/LowTaperFade/LowTaperFade.jsx'
 import CardGrid from './components/cardGrid/CardGrid.jsx'
 import CardExpanded from './components/cardExpanded/cardExpanded.jsx'
 import PFP from './assets/UserPhoto.png'
-import UserProfile from './components/userProfile/UserProfile.jsx'
+import MessageDashboard from './components/messageDashboard/MessageDashboard.jsx'
 import LandingPage from './components/landingPage/landingPage.jsx'
 import NavbarLandingPage from './components/navbarLandingPage/NavbarLandingPage.jsx'
 function App() {

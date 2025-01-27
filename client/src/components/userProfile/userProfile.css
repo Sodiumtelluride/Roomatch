@@ -53,3 +53,6 @@ textarea {
 select {
     @apply h-12;
 }
+body {
+    overflow: hidden;
+}

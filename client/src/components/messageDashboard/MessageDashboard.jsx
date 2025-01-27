@@ -1,5 +1,4 @@
 import './MessageDashboard.css';
-import Navbar from '../navbar/Navbar.jsx';
 import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
