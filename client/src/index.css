@@ -16,4 +16,5 @@ body {
   .nav{
     @apply flex justify-between content-center m-4 ml-8 mr-8 bg-transparent self-center;
   }
+  
 }

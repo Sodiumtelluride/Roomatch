@@ -7,15 +7,17 @@ function Navbar() {
     return (
     <>
         <nav className='nav'>
-        <a href='../../../pages/userPage/userPage.html'>
-            <img src={Profile} alt="" id='profile-icon' />
-        </a>
-        <a href='../../../index.html'>
-            <img src={logo} alt="logo" className="logo" />
-        </a>
-        <a href='../../../pages/messages/messages.html'> 
-            <img src={Messages} alt="" id='messages-icon'/>
-        </a>
+                <a href='../../../index.html'>
+                    <img src={logo} alt="logo" className="logo" />
+                </a>
+            <div className='nav-right'>
+                <a href='../../../pages/messages/messages.html'> 
+                    <img src={Messages} alt="" id='messages-icon'/>
+                </a>
+                <a href='../../../pages/userPage/userPage.html'>
+                    <img src={Profile} alt="" id='profile-icon' />
+                </a>
+            </div>
         </nav>
     </>
     )

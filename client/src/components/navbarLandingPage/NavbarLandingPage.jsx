@@ -5,7 +5,7 @@ import ROOMME from '../../assets/ROOMME.png'
 import logo from '../../assets/logo.svg'
 function NavbarLandingPage() {
     return (
-        <div className="navbar-landing-page">
+        <nav className="navbar-landing-page">
             <img src={logo} className="logo" alt="Logo" />
             <div>
                 <a href='../../../pages/login/login.html'>
@@ -15,7 +15,7 @@ function NavbarLandingPage() {
                     <button className="signup-button">Sign Up</button>
                 </a>
             </div>
-        </div>
+        </nav>
     );
 }
 export default NavbarLandingPage;

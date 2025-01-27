@@ -1,12 +1,11 @@
 import './MessageDashboard.css';
-import Navbar from '../navbar/Navbar.jsx';
 import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
+import logo from '../../assets/logo.svg'
+import Profile from '../../assets/Profile.png'
 import BackArrow from '../../assets/BackArrow.png';
-import logo from '../../assets/ROOMME.png';
-import Profile from '../../assets/Profile.png';
 import { useState, useEffect } from 'react';
 
 import { io } from 'socket.io-client';
@@ -19,7 +18,6 @@ const socket = io(`http://localhost:5174`, {
 socket.on('connect_error', (err) => {
     console.error('Connection error:', err);
 });
-
 export default function MessageDashboard() {
     const [currentChat, setCurrentChat] = useState({});
     const [displayName, setDisplayName] = useState("");
@@ -92,9 +90,9 @@ export default function MessageDashboard() {
                 <div className="Contacts">
                     <div className="contact-header">
                         <a href="../../../index.html">
-                            <img src={BackArrow} id='contact-back-arrow' />
+                            <img src={logo} id='contact-back-arrow' />
                         </a>
-                        <img src={logo} id='contact-logo' />
+                        {/* <img src={logo} id='contact-logo' /> */}
                         <a href="../../../pages/userPage/userPage.html">
                             <img src={Profile} id='contact-profile-icon' />
                         </a>
