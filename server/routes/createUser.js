@@ -3,12 +3,14 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 
 router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const userTable = process.env.USER_TABLE;
     const { id, first_name, last_name, email, password } = req.body;
+    const passwordHash = bcrypt.hashSync(password, 12);
     const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
     const paramsForQuery = {
         TableName: userTable,
@@ -23,7 +25,7 @@ router.post('/create', async (req, res) => {
         first_name,
         last_name,
         email,
-        password,
+        password: passwordHash,
         user_info: {
             display_name: null,
             pronouns: null,

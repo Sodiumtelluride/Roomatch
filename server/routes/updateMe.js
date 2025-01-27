@@ -3,6 +3,7 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto'); 
+const bcrypt = require('bcrypt');
 
 
 
@@ -14,7 +15,7 @@ router.post('/updateMe', async (req, res) => {
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
     const userId = req.user.user_id;
-    const { first_name, last_name, email, password, display_name, pronouns, major, grad, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
+    const { first_name, last_name, email, password, display_name, pronouns, major, grad, place_origin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
     // const {display_name, pronouns, major, grad, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time} = req.body.user_info;
     const params = {
         TableName: userTable,
@@ -36,7 +37,7 @@ router.post('/updateMe', async (req, res) => {
     try {
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
-        const passwordToPass = password ? password : orginalUser.password;
+        const passwordToPass = password ? await bcrypt.hash(password, 12) : orginalUser.password;
 
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
