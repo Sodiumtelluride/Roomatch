@@ -3,21 +3,22 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto'); 
+const bcrypt = require('bcrypt');
 
 
 
 router.post('/updateMe', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.USER_TABLE;
+    const userTable = process.env.USER_TABLE;
     const bucketName = process.env.S3_BUCKET_NAME;
     const region = process.env.AWS_REGION;
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
     const userId = req.user.user_id;
-    const { first_name, last_name, email, password } = req.body;
-    const {display_name, pronouns, major, grad, place_origin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time} = req.body.user_info;
+    const { first_name, last_name, email, password, display_name, pronouns, major, grad, place_origin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time } = req.body;
+    // const {display_name, pronouns, major, grad, placeOrigin, description, extraversion, cleanliness, using_my_stuff, end_time, start_time} = req.body.user_info;
     const params = {
-        TableName: tableName,
+        TableName: userTable,
         Key: {
             user_id: userId
         }
@@ -36,7 +37,7 @@ router.post('/updateMe', async (req, res) => {
     try {
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
-        const passwordToPass = password ? password : orginalUser.password;
+        const passwordToPass = password ? await bcrypt.hash(password, 12) : orginalUser.password;
 
         if (!result.Item) {
             return res.status(404).json({ error: 'User not found' });
@@ -44,7 +45,7 @@ router.post('/updateMe', async (req, res) => {
 
         // Update the user in DynamoDB
         const updateParams = {
-            TableName: tableName,
+            TableName: userTable,
             Key: {
             user_id: userId
             },

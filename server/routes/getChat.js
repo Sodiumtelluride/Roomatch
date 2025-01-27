@@ -5,9 +5,6 @@ router.post('/get', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const chatTable = process.env.CHAT_TABLE;
     const chatIds = req.body;
-
-    console.log(chatIds);
-    
     try {
         const wantedChats = [];
         for (const id of chatIds) {
@@ -19,10 +16,8 @@ router.post('/get', async (req, res) => {
             };
 
             const result = await dynamoDB.get(params).promise();
-            console.log(result.Item);
             if (result.Item) {
-                console.log("help");
-                wantedChats.push(result.Item.messages);
+                wantedChats.push(result.Item);
             }
             else {
                 return res.status(404).json({ error: 'Chat not found' });

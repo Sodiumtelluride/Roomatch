@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.get('/:id', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.USER_TABLE;
+    const userTable = process.env.USER_TABLE;
     const params = {
-        TableName: tableName,
+        TableName: userTable,
         Key: { user_id: req.params.id }, // Match your DynamoDB Partition Key name
     };
 

@@ -3,15 +3,17 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 
 router.post('/create', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const tableName = process.env.USER_TABLE;
+    const userTable = process.env.USER_TABLE;
     const { id, first_name, last_name, email, password } = req.body;
+    const passwordHash = bcrypt.hashSync(password, 12);
     const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
     const paramsForQuery = {
-        TableName: tableName,
+        TableName: userTable,
         IndexName: 'email-index',
         KeyConditionExpression: 'email = :emailValue',
         ExpressionAttributeValues: {
@@ -23,7 +25,7 @@ router.post('/create', async (req, res) => {
         first_name,
         last_name,
         email,
-        password,
+        password: passwordHash,
         user_info: {
             display_name: null,
             pronouns: null,
@@ -35,7 +37,14 @@ router.post('/create', async (req, res) => {
             cleanliness: null,
             using_my_stuff: null,
             end_time: null,
-            start_time: null
+            start_time: null,
+            roommate: {
+                id: null,
+            },
+            request: {
+                id: '',
+                request_sent_to: ''
+            }
         },
         images: {
             image_1_name: randomFileName(),
@@ -43,11 +52,12 @@ router.post('/create', async (req, res) => {
             image_3_name: randomFileName(),
             image_4_name: randomFileName(),
             image_5_name: randomFileName()
-        }
+        },
+        chat_ids: []
 
     };
     const params = {
-        TableName: tableName,
+        TableName: userTable,
         Item: user,
     };
 
@@ -68,7 +78,8 @@ router.post('/create', async (req, res) => {
             using_my_stuff: null,
             end_time: null,
             start_time: null
-        }
+        },
+        chat_ids: []
     };
     
     try {
