@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 // Mock authentication function
 
 router.post('/login', async (req, res) => {
@@ -19,15 +20,19 @@ router.post('/login', async (req, res) => {
     };
     const authenticateUser = async () => {
         const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
+
         if (doesUserExist.Count === 0) {
             return false;
         } else {
-            return doesUserExist.Items[0].password === password;
+            console.log(doesUserExist.Items[0].password);
+            const isMatch = await bcrypt.compare(password, doesUserExist.Items[0].password);
+            console.log(isMatch);
+            return await bcrypt.compare(password, doesUserExist.Items[0].password);
         }
         
     };
     
-    if (authenticateUser()) {
+    if (await authenticateUser()) {
         const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
         const {actualPassword, ...user_to_pass} = doesUserExist.Items[0];
         const token = jwt.sign(user_to_pass, process.env.MY_SECRET, { expiresIn: "1h" });
