@@ -1,8 +1,14 @@
 #profile-icon, #messages-icon{
-    width: 50px;
+    width: 40px;
 }
 .logo {
-    @apply h-20 w-20;
+    @apply h-10 w-10 !important;
+}
+.nav-right {
+    @apply flex items-center
+}
+.nav-right > a {
+    @apply ml-2;
 }
 .nav {
     @apply flex justify-between items-center sticky top-0 bg-background-dark ;

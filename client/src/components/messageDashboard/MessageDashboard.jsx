@@ -1,9 +1,10 @@
 import './MessageDashboard.css';
-import Navbar from '../navbar/Navbar.jsx';
 import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
+import logo from '../../assets/logo.svg'
+import Profile from '../../assets/Profile.png'
 import BackArrow from '../../assets/BackArrow.png';
 import logo from '../../assets/ROOMME.png';
 import Profile from '../../assets/Profile.png';
@@ -20,7 +21,6 @@ const socket = io(`http://localhost:5174`, {
 socket.on('connect_error', (err) => {
     console.error('Connection error:', err);
 });
-
 export default function MessageDashboard() {
     const [currentChat, setCurrentChat] = useState({});
     const [displayName, setDisplayName] = useState("");

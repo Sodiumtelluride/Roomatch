@@ -22,7 +22,7 @@ h3{
 }
 
 .card-details{
-    @apply p-4;
+    @apply p-4 break-words;
 }
 
 .user-title{
