@@ -3,11 +3,11 @@ import Message from '../message/Message.jsx';
 import MessagePreview from '../messagePreview/MessagePreview.jsx';
 import MessageType from '../messageType/MessageType.jsx';
 import PFP from '../../assets/UserPhoto.png';
-import logo from '../../assets/logo.svg'
-import Profile from '../../assets/Profile.png'
+// import Profile from '../../assets/Profile.png'
 import BackArrow from '../../assets/BackArrow.png';
 import logo from '../../assets/ROOMME.png';
 import Profile from '../../assets/Profile.png';
+import Navbar from '../navbar/Navbar.jsx';
 import messageIcon from '../../assets/Messages.png';
 import { useState, useEffect } from 'react';
 
