@@ -120,6 +120,37 @@ export default function UserProfile(props) {
             console.log(err);
         }
     };
+
+    const deleteRoomate = async () => {
+        try {
+            const response = await fetch('http://localhost:5174/roommateRequest/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include', // Include credentials to send cookies
+                body: JSON.stringify({ id: data.user_id })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            const result = await response.json();
+            console.log('Roomate deleted successfully');
+            // Update state to remove the deleted roomate
+            setData(prevData => ({
+                ...prevData,
+                user_info: {
+                    ...prevData.user_info,
+                    roommate: {}
+                }
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <form onSubmit={handleSubmit} className="user-profile">
             <div className="login-info">
@@ -441,16 +472,21 @@ export default function UserProfile(props) {
                         </div>
                     ))}
                 </div>
-                {(data.user_info.roommate && data.user_info.roommate.id) && <Card
-                    key={1}
-                    img={roomate.img}
-                    name={roomate.user_info && roomate.user_info.display_name ? roomate.user_info.display_name : roomate.first_name + " " + roomate.last_name}
-                    pronouns={roomate.user_info ? roomate.user_info.pronouns : null}
-                    description={roomate.user_info ? roomate.user_info.description : null}
-                    major={roomate.user_info ? roomate.user_info.major : null}
-                    class={roomate.user_info ? roomate.user_info.grad : null}
-                    
-                />
+                {(data.user_info.roommate && data.user_info.roommate.id) &&
+                <div className="roomate">
+                    <h1 className='roomate-title'>Roomate</h1>
+                    <Card
+                        key={1}
+                        img={roomate.img}
+                        name={roomate.user_info && roomate.user_info.display_name ? roomate.user_info.display_name : roomate.first_name + " " + roomate.last_name}
+                        pronouns={roomate.user_info ? roomate.user_info.pronouns : null}
+                        description={roomate.user_info ? roomate.user_info.description : null}
+                        major={roomate.user_info ? roomate.user_info.major : null}
+                        class={roomate.user_info ? roomate.user_info.grad : null}
+                        
+                    />
+                    <button className='delete-button'>Cancel Roomate</button>
+                </div>
                 }
             </div>
         </form>
