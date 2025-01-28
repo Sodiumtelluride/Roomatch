@@ -12,11 +12,11 @@ import NavbarLandingPage from './components/navbarLandingPage/NavbarLandingPage.
 function App() {
   return (
     <>
-      
-    <NavbarLandingPage/>
-    <LandingPage/>
-    {/* <CardGrid/>
-    <LowTaperFade/>  */}
+    <Navbar/>
+    {/* <NavbarLandingPage/> */}
+    {/* <LandingPage/> */}
+    <CardGrid/>
+    <LowTaperFade/> 
     </>
   )
 }

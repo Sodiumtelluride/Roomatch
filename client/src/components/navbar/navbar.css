@@ -5,5 +5,5 @@
     @apply h-20 w-20;
 }
 .nav {
-    @apply flex justify-between items-center;
+    @apply flex justify-between items-center sticky top-0 bg-background-dark ;
 }
