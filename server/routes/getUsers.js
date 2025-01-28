@@ -18,6 +18,7 @@ router.get('/:id', async (req, res) => {
             res.status(404).json({ message: 'Item not found' });
         }
     } catch (error) {
+        console.error('Unable to read item. Error JSON:', error);
         res.status(500).json({ error: error.message });
     }
 });

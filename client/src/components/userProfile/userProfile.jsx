@@ -1,3 +1,4 @@
+import { use } from 'react';
 import './UserProfile.css'
 import { useState, useEffect } from 'react'
 
@@ -6,6 +7,7 @@ export default function UserProfile(props) {
         imageUrls: [],
         user_info: {} // Initialize user_info
     });
+    const [roomate, setRoomate] = useState({});
 
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
@@ -19,6 +21,23 @@ export default function UserProfile(props) {
         })
           .catch(error => console.error('Error fetching data:', error));
     }, []);
+    useEffect(() => {
+        if(data.user_info.roommate && data.user_info.roommate.id) {
+            fetch(`http://localhost:5174/user/${data.user_info.roommate.id}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Fetched data:', data);
+                setRoomate(data);
+            })
+              .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [data]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -421,6 +440,10 @@ export default function UserProfile(props) {
                         </div>
                     ))}
                 </div>
+                {(data.user_info.roommate && data.user_info.roommate.id) && <div className="roomate-info">
+                    <h1 className="roomate-title">Your Roomate</h1>
+                    
+                </div>}
             </div>
         </form>
     );
