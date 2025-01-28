@@ -90,7 +90,7 @@ export default function MessageDashboard() {
     return(
         <>
             <div className="MessageDashboard">
-            <Navbar />
+            <Navbar inChat = {true}/>
                 <div className="Contacts">
                     <div className="contact-cards">
                         {chatData.length > 0 ? chatData.map((chat, index) => (
@@ -106,7 +106,7 @@ export default function MessageDashboard() {
                         )) : <div className="no-chats">No chats</div>}
                     </div>
                 </div>
-                <div className="send">
+                <div className="chat-ui">
                     {Object.keys(currentChat).length > 0 ? (
                         <MessageType 
                             socket={socket}
