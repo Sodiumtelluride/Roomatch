@@ -1,6 +1,7 @@
 import { use } from 'react';
 import './UserProfile.css'
 import { useState, useEffect } from 'react'
+import Card from '../card/Card.jsx'
 
 export default function UserProfile(props) {
     const [data, setData] = useState({
@@ -440,10 +441,17 @@ export default function UserProfile(props) {
                         </div>
                     ))}
                 </div>
-                {(data.user_info.roommate && data.user_info.roommate.id) && <div className="roomate-info">
-                    <h1 className="roomate-title">Your Roomate</h1>
+                {(data.user_info.roommate && data.user_info.roommate.id) && <Card
+                    key={1}
+                    img={roomate.img}
+                    name={roomate.user_info && roomate.user_info.display_name ? roomate.user_info.display_name : roomate.first_name + " " + roomate.last_name}
+                    pronouns={roomate.user_info ? roomate.user_info.pronouns : null}
+                    description={roomate.user_info ? roomate.user_info.description : null}
+                    major={roomate.user_info ? roomate.user_info.major : null}
+                    class={roomate.user_info ? roomate.user_info.grad : null}
                     
-                </div>}
+                />
+                }
             </div>
         </form>
     );
