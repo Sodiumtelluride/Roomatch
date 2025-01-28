@@ -485,7 +485,7 @@ export default function UserProfile(props) {
                         class={roomate.user_info ? roomate.user_info.grad : null}
                         
                     />
-                    <button className='delete-button'>Cancel Roomate</button>
+                    <button className='delete-button' onClick={deleteRoomate}>Cancel Roomate</button>
                 </div>
                 }
             </div>

@@ -19,7 +19,7 @@ const createRoomRequestRouter = require('./routes/createRoomRequest');
 const deleteRoomRequestRouter = require('./routes/deleteRoomRequest');
 const getChatRouter = require('./routes/getChat');
 const addRoommateRouter = require('./routes/addRoommate');
-const deleteRoommatRequestRouter = require('./routes/deleteRoommateRequest');
+const deleteRoommatRequestRouter = require('./routes/deleteRoommate');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const path = require('path');
 require('dotenv').config();

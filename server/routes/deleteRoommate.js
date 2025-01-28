@@ -17,7 +17,7 @@ router.post('/delete', async (req, res) => {
     
     try {
         const data = await dynamoDB.query(paramsForQuery).promise();
-        if (data.Items.length === 0 || !data.Items[0].user_info.request.id) {
+        if (data.Items.length !== 0 && data.Items[0].user_info.roommate.id === null) {
             return res.status(400).json({ error: 'No roommate request found to delete' });
         }
         
@@ -26,16 +26,14 @@ router.post('/delete', async (req, res) => {
             Key: {
                 user_id: id
             },
-            UpdateExpression: 'set #userInfo.#request.#id = :reqId, #userInfo.#request.#requestSentTo = :reqSentTo',
+            UpdateExpression: 'set #userInfo.#request.#id = :reqId',
             ExpressionAttributeNames: {
                 '#userInfo': 'user_info',
-                '#request': 'request',
+                '#request': 'roommate',
                 '#id': 'id',
-                '#requestSentTo': 'request_sent_to'
             },
             ExpressionAttributeValues: {
                 ':reqId': null,
-                ':reqSentTo': null
             },
             ReturnValues: 'ALL_NEW'
         };
