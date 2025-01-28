@@ -7,6 +7,7 @@ import PFP from '../../assets/UserPhoto.png';
 import BackArrow from '../../assets/BackArrow.png';
 import logo from '../../assets/ROOMME.png';
 import Profile from '../../assets/Profile.png';
+import messageIcon from '../../assets/Messages.png';
 import { useState, useEffect } from 'react';
 
 import { io } from 'socket.io-client';
@@ -89,18 +90,10 @@ export default function MessageDashboard() {
     return(
         <>
             <div className="MessageDashboard">
+            <Navbar />
                 <div className="Contacts">
-                    <div className="contact-header">
-                        <a href="../../../index.html">
-                            <img src={BackArrow} id='contact-back-arrow' />
-                        </a>
-                        <img src={logo} id='contact-logo' />
-                        <a href="../../../pages/userPage/userPage.html">
-                            <img src={Profile} id='contact-profile-icon' />
-                        </a>
-                    </div>
                     <div className="contact-cards">
-                        {chatData.map((chat, index) => (
+                        {chatData.length > 0 ? chatData.map((chat, index) => (
                             <MessagePreview 
                                 key={index}
                                 name={chat.users[0].name === displayName ? chat.users[1].name : chat.users[0].name} 
@@ -108,8 +101,9 @@ export default function MessageDashboard() {
                                 lastSent={chat.messages && chat.messages[0] ? chat.messages[0].time : ''} 
                                 numUnread={0} 
                                 onClick={() => handleChatClick(chat)}
+                                isActive={currentChat ? currentChat.chat_id === chat.chat_id : false}
                             />
-                        ))}
+                        )) : <div className="no-chats">No chats</div>}
                     </div>
                 </div>
                 <div className="send">
@@ -124,6 +118,7 @@ export default function MessageDashboard() {
                         />
                     ) : (
                         <div className="no-chat-selected">
+                            <img id='message-icon' src={messageIcon} />
                             Please select a chat
                         </div>
                     )}
