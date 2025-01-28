@@ -2,11 +2,11 @@ import './UserProfile.css'
 import { useState, useEffect } from 'react'
 
 export default function UserProfile(props) {
+    const [imageCount, setImageCount] = useState(0);
     const [data, setData] = useState({
         imageUrls: [],
         user_info: {} // Initialize user_info
     });
-
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
@@ -19,7 +19,20 @@ export default function UserProfile(props) {
         })
           .catch(error => console.error('Error fetching data:', error));
     }, []);
-
+    useEffect(() => {
+        if (data.image && imageCount < 5) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setData(prevData => ({
+                    ...prevData,
+                    imageUrls: [...prevData.imageUrls, reader.result],
+                    image: null // Clear the image after adding to imageUrls
+                }));
+                setImageCount(prevCount => prevCount + 1);
+            };
+            reader.readAsDataURL(data.image);
+        }
+    }, [data.image]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "email" || name==="password") {
@@ -102,29 +115,27 @@ export default function UserProfile(props) {
     };
     return (
         <form onSubmit={handleSubmit} className="user-profile">
-            <div className="login-info">
-                <div className="email field">
-                    <h3 className="email heading">Email:</h3>
-                    <textarea 
-                        name="email"
-                        value={data.email || ''} 
-                        onChange={handleChange} 
-                        className="email-text"
-                    ></textarea>
-                </div>
-                <div className="password field">
-                    <h3 className="password heading">Password:</h3>
-                    <textarea 
-                        name="password"
-                        value={data.password || ''} 
-                        onChange={handleChange} 
-                        className="password-text"
-                    ></textarea>
-                </div>
-            </div>
-
+            
             <div className="profile-info">
                 <div className="column-one">
+                    <div className="email field">
+                        <h3 className="email heading">Email:</h3>
+                        <textarea 
+                            name="email"
+                            value={data.email || ''} 
+                            onChange={handleChange} 
+                            className="email-text"
+                        ></textarea>
+                    </div>
+                    <div className="password field">
+                        <h3 className="password heading">Password:</h3>
+                        <textarea 
+                            name="password"
+                            value={data.password || ''} 
+                            onChange={handleChange} 
+                            className="password-text"
+                        ></textarea>
+                    </div>
                     <div className="display-name field">
                         <h3 className="display-name heading">Display Name:</h3>
                         <textarea 
@@ -293,6 +304,7 @@ export default function UserProfile(props) {
                     </div>
                 </div>
                 <div className="column-two">
+                    
                     <div className="extraversion field">
                         <h3 className="extraversion heading">Extraversion:</h3>
                         <select  
@@ -409,18 +421,21 @@ export default function UserProfile(props) {
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
                     </div>
+                    <div className='images field'>
+                        <h3 className='image heading'>Images:</h3>
+                        <div className="images-container">
+                            {data.imageUrls.map((url, index) => (
+                                <div className="image" key={index}>
+                                    <img src={url} alt="" />
+                                    <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
-                <div className='area-3'>
-                    {data.imageUrls.map((url, index) => (
-                        <div className="images" key={index}>
-                            <h1 id='image-heading'>Images</h1>
-                            <img src={url} alt="" />
-                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
+                
             </div>
         </form>
     );

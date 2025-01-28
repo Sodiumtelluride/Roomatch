@@ -107,6 +107,7 @@ router.post('/updateMe', async (req, res) => {
         }
         res.status(201).json("Updated user");
         } catch (error) {
+        console.error('Error updating user:', error);
         res.status(500).json({ error: error.message });
     }
 });
