@@ -69,11 +69,11 @@ app.use('/user', cookieJWTAuth, getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
 app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // Use multer middleware for file uploads
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
-app.use('/cards', getCardsRouter); // add middleware when working
-app.use('/chat', getChatRouter);
-app.use('/roomRequest', createRoomRequestRouter);
-app.use('/roomRequest', deleteRoomRequestRouter);
-app.use('/roommate', addRoommateRouter);
+app.use('/cards', cookieJWTAuth, getCardsRouter); // add middleware when working
+app.use('/chat', cookieJWTAuth, getChatRouter);
+app.use('/roomRequest', cookieJWTAuth, createRoomRequestRouter);
+app.use('/roomRequest', cookieJWTAuth, deleteRoomRequestRouter);
+app.use('/roommate', cookieJWTAuth, addRoommateRouter);
 
 //messaging 
 

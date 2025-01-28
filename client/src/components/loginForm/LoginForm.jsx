@@ -2,7 +2,7 @@ import './LoginForm.css';
 import { useState } from 'react';
 
 export default function LoginForm() {
-
+    const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
         email: '',
         password: ''

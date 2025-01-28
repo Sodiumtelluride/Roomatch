@@ -27,14 +27,14 @@ router.post('/login', async (req, res) => {
             console.log(doesUserExist.Items[0].password);
             const isMatch = await bcrypt.compare(password, doesUserExist.Items[0].password);
             console.log(isMatch);
-            return await bcrypt.compare(password, doesUserExist.Items[0].password);
+            return isMatch;
         }
         
     };
     
     if (await authenticateUser()) {
         const doesUserExist = await dynamoDB.query(paramsForQuery).promise();
-        const {actualPassword, ...user_to_pass} = doesUserExist.Items[0];
+        const { password: actualPassword, ...user_to_pass } = doesUserExist.Items[0];
         const token = jwt.sign(user_to_pass, process.env.MY_SECRET, { expiresIn: "1h" });
         res.cookie('token', token, {
             httpOnly: true,
