@@ -1,10 +1,14 @@
 .message-preview-container {
-    @apply grid grid-rows-2 w-auto bg-background-medium border-b-2 border-b-text-grey cursor-pointer transition-all ease-in-out duration-300;
+    @apply grid grid-rows-2 w-auto bg-background-medium p-1 rounded-s cursor-pointer transition-all ease-in-out duration-300;
     grid-template-columns: 3rem 1fr 2rem;
 }
 
 .message-preview-container:hover {
     @apply bg-background-dark transition-all ease-in-out duration-300;
+}
+
+.selected{
+    @apply bg-background-dark;
 }
 
 .pfp-preview{
