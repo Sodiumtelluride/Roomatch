@@ -12,14 +12,17 @@ export default function UserProfile(props) {
             method: 'GET',
             credentials: 'include'
         })
-          .then(response => response.json())
-          .then(data => {
+        .then(response => response.json())
+        .then(data => {
+            setImageCount(data.imageUrls.length);
+            console.log("urls", data.imageUrls);
             console.log('Fetched data:', data);
             setData(data);
         })
-          .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error('Error fetching data:', error));
     }, []);
     useEffect(() => {
+        console.log("Image:",data.image);
         if (data.image && imageCount < 5) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -28,7 +31,8 @@ export default function UserProfile(props) {
                     imageUrls: [...prevData.imageUrls, reader.result],
                     image: null // Clear the image after adding to imageUrls
                 }));
-                setImageCount(prevCount => prevCount + 1);
+                setImageCount(data.imageUrls.length);
+                console.log(imageCount);
             };
             reader.readAsDataURL(data.image);
         }
@@ -426,8 +430,13 @@ export default function UserProfile(props) {
                         <div className="images-container">
                             {data.imageUrls.map((url, index) => (
                                 <div className="image" key={index}>
-                                    <img src={url} alt="" />
-                                    <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                    {url !== null && 
+                                        <div>
+                                            <img src={url} alt="" />
+                                            <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                        </div>    
+                                        }
+    
                                 </div>
                             ))}
                         </div>
