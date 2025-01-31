@@ -32,8 +32,8 @@ router.post('/updateMe', async (req, res) => {
     });
     const imageBuffer = req.file ? req.file.buffer : null;
     const imageType = req.file ? req.file.mimetype : null;
-    
 
+    
     try {
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
