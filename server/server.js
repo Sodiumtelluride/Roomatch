@@ -36,7 +36,14 @@ const server = http.createServer(app);
 
 // Initialize multer
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5 MB file size limit
+        files: 10, // Limit to 10 files
+        fieldSize: 25 * 1024 * 1024, // 25 MB field size limit (increase as needed)
+    },
+}).array('images', 10);
 
 const io = new Server(server, {
     cors: {
@@ -68,7 +75,18 @@ app.use('/', loginRouter); // Login route should not require authentication
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', cookieJWTAuth, getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
-app.use('/userGet', upload.single('image'), cookieJWTAuth, updateMeRouter); // Use multer middleware for file uploads
+app.use('/userGet', (req, res, next) => {
+    upload(req, res, (err) => {
+        if (err instanceof multer.MulterError) {
+            console.error('Multer error:', err);
+            return res.status(400).send(err.message);
+        } else if (err) {
+            console.error('Unknown error:', err);
+            return res.status(500).send('An unknown error occurred');
+        }
+        next();
+    });
+}, cookieJWTAuth, updateMeRouter); 
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/cards', cookieJWTAuth, getCardsRouter); // add middleware when working
 app.use('/chat', cookieJWTAuth, getChatRouter);

@@ -1,11 +1,13 @@
 .login-info {
-    @apply grid grid-rows-2 gap-8 p-6 rounded-lg;
+    @apply grid grid-rows-2 grid-cols-2 gap-8 p-6 rounded-lg;
 }
 
 .profile-info {
     @apply grid grid-cols-2 gap-8 p-6 h-screen rounded-lg;
 }
-
+.PFP-upload {
+    @apply row-span-2;
+}
 .field {
     @apply flex items-center gap-6 m-6;
 }
@@ -37,7 +39,15 @@
 .picture-upload-input {
     @apply bg-background-medium flex-1 rounded-md text-lg text-white p-3;
 }
-
+.images-container {
+    @apply grid grid-cols-5 row-span-2 p-8 place-items-center bg-background-medium rounded-lg;
+}
+.image {
+    @apply m-4 max-h-24 max-w-24;
+}
+.image > .delete-button {
+    @apply p-2;
+}
 button {
     @apply p-5 rounded-lg m-3;
 }

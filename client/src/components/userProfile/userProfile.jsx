@@ -4,24 +4,52 @@ import { useState, useEffect } from 'react'
 import Card from '../card/Card.jsx'
 
 export default function UserProfile(props) {
+    const [imageCount, setImageCount] = useState(0);
     const [data, setData] = useState({
         imageUrls: [],
         user_info: {} // Initialize user_info
     });
     const [roomate, setRoomate] = useState({});
-
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
             credentials: 'include'
         })
-          .then(response => response.json())
-          .then(data => {
+        .then(response => response.json())
+        .then(data => {
+            setImageCount(data.imageUrls.length);
+            console.log("urls", data.imageUrls);
             console.log('Fetched data:', data);
             setData(data);
         })
-          .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error('Error fetching data:', error));
     }, []);
+
+    useEffect(() => {
+        if (!data.images) return;
+        console.log("Images:", data.images);
+        console.log("Data:", data);
+        if (imageCount + data.images.length <= 5) {
+            const newImageUrls = [];
+            const readers = data.images.map(image => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    newImageUrls.push(reader.result);
+                    if (newImageUrls.length === data.images.length) {
+                        setData(prevData => ({
+                            ...prevData,
+                            imageUrls: [...prevData.imageUrls, ...newImageUrls],
+                        }));
+                        setImageCount(prevCount => prevCount + newImageUrls.length);
+                        console.log(imageCount);
+                    }
+                };
+                reader.readAsDataURL(image);
+                return reader;
+            });
+        }
+    }, [data.images]);
+
     useEffect(() => {
         if(data.user_info.roommate && data.user_info.roommate.id) {
             fetch(`http://localhost:5174/user/${data.user_info.roommate.id}`, {
@@ -41,16 +69,16 @@ export default function UserProfile(props) {
     }, [data]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, files } = e.target;
         if (name === "email" || name==="password") {
             setData(prevData => ({
                 ...prevData,
                 [name]: value
             }));
-        } else if(name === "image") {
+        } else if(name === "images") {
             setData(prevData => ({
                 ...prevData,
-                image: e.target.files[0]
+                images: Array.from(files)
             }));
         } else {
             setData(prevData => ({
@@ -66,17 +94,22 @@ export default function UserProfile(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('Data:', data.images);
         const formData = new FormData();
         Object.keys(data).forEach(key => {
             if (key === 'user_info') {
                 Object.keys(data.user_info).forEach(subKey => {
                     formData.append(subKey, data.user_info[subKey]);
                 });
+            } else if (key === 'images') {
+                data.images.forEach(image => {
+                    formData.append('images', image);
+                });
             } else {
                 formData.append(key, data[key]);
             }
         });
-        console.log('Form data:', formData.entries());
+        console.log('Form data:', formData.entries().images);
         
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
@@ -89,6 +122,7 @@ export default function UserProfile(props) {
             console.log('Profile updated successfully:', result);
         })
         .catch(error => {
+
             console.error('Error updating profile:', error);
         });
     };
@@ -152,7 +186,7 @@ export default function UserProfile(props) {
         }
     };
     return (
-        <form onSubmit={handleSubmit} className="user-profile">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="user-profile">
             <div className="login-info">
                 <div className="email field">
                     <h3 className="email heading">Email:</h3>
@@ -163,6 +197,10 @@ export default function UserProfile(props) {
                         className="email-text"
                     ></textarea>
                 </div>
+                {/* <div className="PFP-upload field">
+                    <h3 className="PFP-upload heading">Profile Picture:</h3>
+                    <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
+                </div> */}
                 <div className="password field">
                     <h3 className="password heading">Password:</h3>
                     <textarea 
@@ -173,6 +211,7 @@ export default function UserProfile(props) {
                     ></textarea>
                 </div>
             </div>
+            
 
             <div className="profile-info">
                 <div className="column-one">
@@ -458,19 +497,26 @@ export default function UserProfile(props) {
                     </div>
                     <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
-                        <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
+                        <input type="file" name="images" accept="image/*" className="picture-upload-input" onChange={handleChange} multiple/>
+                    </div>
+                    <div className='images field'>
+                        <h3 className='image heading'>Images:</h3>
+                        <div className="images-container">
+                            {data.imageUrls.map((url, index) => (
+                                <div className="image" key={index}>
+                                    {url !== null && 
+                                        <div>
+                                            <img src={url} alt="" />
+                                            <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                        </div>    
+                                        }
+
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
-                </div>
-                <div className='area-3'>
-                    {data.imageUrls.map((url, index) => (
-                        <div className="images" key={index}>
-                            <h1 id='image-heading'>Images</h1>
-                            <img src={url} alt="" />
-                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
-                        </div>
-                    ))}
                 </div>
                 {(data.user_info.roommate && data.user_info.roommate.id) &&
                 <div className="roomate">

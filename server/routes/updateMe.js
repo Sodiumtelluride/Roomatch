@@ -4,8 +4,10 @@ const AWS = require('aws-sdk');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto'); 
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const { count } = require('console');
 
-
+const storage = multer.memoryStorage();
 
 router.post('/updateMe', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
@@ -30,8 +32,10 @@ router.post('/updateMe', async (req, res) => {
         },
         region: region
     });
-    const imageBuffer = req.file ? req.file.buffer : null;
-    const imageType = req.file ? req.file.mimetype : null;
+    // const PFPBugger = req.file ? req.file.buffer : null;
+    // const PFPType = req.file ? req.file.mimetype : null;
+    
+    
     
 
     try {
@@ -73,42 +77,62 @@ router.post('/updateMe', async (req, res) => {
             ReturnValues: 'ALL_NEW'
         };
         const updatedResult = await dynamoDB.update(updateParams).promise();
-        if(req.file){
+        if (req.files && req.files.length > 0) {
             let add = false;
             let insertImageName = null;
-            const imageNames = [orginalUser.images.image_1_name, orginalUser.images.image_2_name, orginalUser.images.image_3_name, orginalUser.images.image_4_name, orginalUser.images.image_5_name];
-            for (const name of imageNames) {
-                if (name) {
-                    const headParams = {
-                        Bucket: bucketName,
-                        Key: name
-                    };
-                    try {
-                        await s3.send(new GetObjectCommand(headParams));
-                    } catch (err) {
-                        add = true;
-                        insertImageName = insertImageName == null ? name : insertImageName;
+            const imageNames = [
+            orginalUser.images.image_1_name,
+            orginalUser.images.image_2_name,
+            orginalUser.images.image_3_name,
+            orginalUser.images.image_4_name,
+            orginalUser.images.image_5_name
+            ];
+            let count = 0;
+            for(const file of req.files) {
+                count++;            
+                const imageBuffer = file.buffer;
+                const imageType = file.mimetype;
+                const used = [];
+
+                for (const name of imageNames) {
+                    console.log('the image that doesnt exist is ', name);
+                    if (name) {
+                        const headParams = {
+                            Bucket: bucketName,
+                            Key: name
+                        };
+                        try {
+                            await s3.send(new GetObjectCommand(headParams));
+                        } catch (err) {
+                            add = true;
+                            insertImageName = insertImageName == null ? name : insertImageName;
+                        }
                     }
                 }
+
+                if (add) {
+                    console.log('Adding ', insertImageName);
+                    const s3Params = {
+                        Bucket: bucketName,
+                        Key: insertImageName,
+                        Body: imageBuffer,
+                        ContentType: imageType
+                    };
+                    
+                    const command = new PutObjectCommand(s3Params);
+                    await s3.send(command);
+                    insertImageName = null;
+                } 
+                else {
+                    return res.status(500).json({ error: 'Maximum Images Exceeded' });
+                }
             }
-            if (add) {
-                const s3Params = {
-                    Bucket: bucketName,
-                    Key: insertImageName,
-                    Body: imageBuffer,
-                    ContentType: imageType
-                };
-            
-                const command = new PutObjectCommand(s3Params);
-                await s3.send(command);
-            } else{
-                return res.status(500).json({ error: 'Maximum Images Exceeded' });
-            }
+            console.log(count);
         }
         res.status(201).json("Updated user");
         } catch (error) {
         res.status(500).json({ error: error.message });
-    }
+        }
 });
 
 module.exports = router;
