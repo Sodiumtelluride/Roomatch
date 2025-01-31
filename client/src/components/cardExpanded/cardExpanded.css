@@ -6,36 +6,50 @@
     bottom:0;
     @apply bg-background-medium rounded-3xl m-32;
 }
+
 .card-expanded {
     @apply grid grid-cols-2;
+    height: 100%;
 }
+
 .img-container {
     @apply flex justify-center items-center;
-    max-height: 75%;
+    height: 75%;
 }
+
+.card-banner-expanded{
+    @apply h-full w-full;
+}
+
 .card-img-expanded {
     border-radius: 2rem;
     width:75%;
     height:75%;
-    object-fit:cover;
+    object-fit:contain;
     @apply m-14 ml-24;
 }
+
 .button-container {
    @apply grid grid-cols-2 justify-items-center;
 }
+
 .button-container > button {
     width:25%;
     @apply bg-highlight-color p-2 rounded-md;
 }
+
 .card-details-expanded {
     @apply grid-cols-2 grid-rows-2 gap-4 m-14;
 }
+
 .user-title-expanded {
     @apply grid grid-rows-2 grid-cols-2 gap-4;
 }
+
 .user-info-expanded {
     @apply grid grid-rows-3 grid-cols-2 gap-4;
 }
+
 .user-description-expanded {
     @apply col-span-2;
 }
