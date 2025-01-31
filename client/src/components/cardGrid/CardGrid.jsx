@@ -58,11 +58,11 @@ export default function CardGrid(){
                     <Card
                         key={index}
                         img={card.img}
-                        name={card.user_info && card.user_info.display_name ? card.user_info.display_name : card.first_name + " " + card.last_name}
-                        pronouns={card.user_info.pronouns}
-                        description={card.user_info.description}
-                        major={card.user_info.major}
-                        class={card.user_info.grad}
+                        name={card.user.user_info && card.user.user_info.display_name ? card.user.user_info.display_name : card.card.userfirst_name + " " + card.card.userlast_name}
+                        pronouns={card.user.user_info.pronouns}
+                        description={card.user.user_info.description}
+                        major={card.user.user_info.major}
+                        class={card.user.user_info.grad}
                         onClick={() => handleCardClick(card)}
                     />
                 ))}
