@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 
 
@@ -32,8 +33,8 @@ router.get('/get', async (req, res) => {
         while (index<itemSurrender && index<result.Items.length) {
             if (result.Items[index].user_info.major!=null && result.Items[index].user_info.grad!=null && result.Items[index].user_info.description!=null) {
                 const urls = [];
-                console.log("here:" ,result.Items[index].images);
                 const imageNames = [result.Items[index].images.image_1_name, result.Items[index].images.image_2_name, result.Items[index].images.image_3_name, result.Items[index].images.image_4_name, result.Items[index].images.image_5_name];
+               console.log("imageNames: ", imageNames);
                 for(const name of imageNames) {
                     // Check if images and image_1_name exist
                     if (name) {
@@ -47,6 +48,7 @@ router.get('/get', async (req, res) => {
                                 console.log("Image exists");
                                 const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
                                 urls.push(url);
+                                console.log("urls: ", urls);
                             }
                         }catch (error) {}
                     }
