@@ -20,6 +20,20 @@ export default function CardExpanded(props) {
         setCurrentImageIndex((prevIndex) => (prevIndex === props.img.length - 1 ? 0 : prevIndex + 1));
     };
 
+    const startChat = () => {
+        const response = fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ other_user_email: props.email })
+        });
+        if (response.status === 200) {
+            console.log('Chat started');   
+        }
+    };
+
     return (
         <div className="background">
             <div className="card-expanded">
@@ -78,7 +92,7 @@ export default function CardExpanded(props) {
                         </div>
 
                         <div>
-                            <button className='start-chat-btn'>Start Chat</button>
+                            <button onClick={startChat} className='start-chat-btn'>Start Chat</button>
                         </div>
                     </div>
                 </div>
