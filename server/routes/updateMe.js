@@ -67,9 +67,6 @@ router.post('/updateMe', async (req, res) => {
             ':et': end_time || "12:00 AM",
             ':st': start_time || "12:00 AM"
             },
-            // ExpressionAttributeNames: {
-            // '#yr': 'class'
-            // },
             ReturnValues: 'ALL_NEW'
         };
         const updatedResult = await dynamoDB.update(updateParams).promise();
@@ -91,6 +88,7 @@ router.post('/updateMe', async (req, res) => {
                     }
                 }
             }
+            console.log(add);
             if (add) {
                 const s3Params = {
                     Bucket: bucketName,

@@ -22,16 +22,18 @@ export default function UserProfile(props) {
         .catch(error => console.error('Error fetching data:', error));
     }, []);
     useEffect(() => {
-        console.log("Image:",data.image);
-        if (data.image && imageCount < 5) {
+        if (!data.image) return;
+        console.log("Image:", data.image);
+        console.log("Data:", data);
+        if (imageCount < 5) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setData(prevData => ({
                     ...prevData,
                     imageUrls: [...prevData.imageUrls, reader.result],
-                    image: null // Clear the image after adding to imageUrls
+                //     image: null // Clear the image after adding to imageUrls
                 }));
-                setImageCount(data.imageUrls.length);
+                setImageCount(prevCount => prevCount + 1);
                 console.log(imageCount);
             };
             reader.readAsDataURL(data.image);
@@ -63,6 +65,7 @@ export default function UserProfile(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('Data:', data.image);
         const formData = new FormData();
         Object.keys(data).forEach(key => {
             if (key === 'user_info') {
@@ -73,7 +76,7 @@ export default function UserProfile(props) {
                 formData.append(key, data[key]);
             }
         });
-        console.log('Form data:', formData.entries());
+        console.log('Form data:', formData.entries().image);
         
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
