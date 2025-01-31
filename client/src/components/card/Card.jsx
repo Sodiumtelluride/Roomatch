@@ -5,7 +5,7 @@ export default function Card(props){
     return(
         <div className="card" onClick={props.onClick}>
             <div className="card-banner">
-                <img src={props.img} alt="" className="card-img"/>
+                <img src={props.img && props.img[0] ? props.img[0] : null} alt="" className="card-img"/>
             </div>
             <div className="card-details">
                 <div className="user-title">
