@@ -76,6 +76,10 @@ export default function CardExpanded(props) {
                             <h3 className="info-heading-expanded">Using My Stuff</h3>
                             <p className="des-txt-expanded">{props.usingMyStuff}</p>
                         </div>
+
+                        <div>
+                            <button className='start-chat-btn'>Start Chat</button>
+                        </div>
                     </div>
                 </div>
             </div>
