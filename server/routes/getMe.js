@@ -47,8 +47,11 @@ router.get('/me', async (req, res) => {
                 };
                 const command = new GetObjectCommand(S3_params);
                 try{
-                    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-                    urls.push(url);
+                    if(await S3.send(command)) {
+                        console.log("Image exists");
+                        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+                        urls.push(url);
+                    }
                 }catch (error) {}
             }
         }

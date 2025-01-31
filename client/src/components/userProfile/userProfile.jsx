@@ -4,25 +4,45 @@ import { useState, useEffect } from 'react'
 import Card from '../card/Card.jsx'
 
 export default function UserProfile(props) {
+    const [imageCount, setImageCount] = useState(0);
     const [data, setData] = useState({
         imageUrls: [],
         user_info: {} // Initialize user_info
     });
     const [roomate, setRoomate] = useState({});
-
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
             credentials: 'include'
         })
-          .then(response => response.json())
-          .then(data => {
+        .then(response => response.json())
+        .then(data => {
+            setImageCount(data.imageUrls.length);
+            console.log("urls", data.imageUrls);
             console.log('Fetched data:', data);
             setData(data);
         })
-          .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error('Error fetching data:', error));
     }, []);
     useEffect(() => {
+        if (!data.image) return;
+        console.log("Image:", data.image);
+        console.log("Data:", data);
+        if (imageCount < 5) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setData(prevData => ({
+                    ...prevData,
+                    imageUrls: [...prevData.imageUrls, reader.result],
+                //     image: null // Clear the image after adding to imageUrls
+                }));
+                setImageCount(prevCount => prevCount + 1);
+                console.log(imageCount);
+            };
+            reader.readAsDataURL(data.image);
+        }
+    }, [data.image]);
+     useEffect(() => {
         if(data.user_info.roommate && data.user_info.roommate.id) {
             fetch(`http://localhost:5174/user/${data.user_info.roommate.id}`, {
                 method: 'GET',
@@ -39,7 +59,6 @@ export default function UserProfile(props) {
               .catch(error => console.error('Error fetching data:', error));
         }
     }, [data]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "email" || name==="password") {
@@ -66,6 +85,7 @@ export default function UserProfile(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('Data:', data.image);
         const formData = new FormData();
         Object.keys(data).forEach(key => {
             if (key === 'user_info') {
@@ -76,7 +96,7 @@ export default function UserProfile(props) {
                 formData.append(key, data[key]);
             }
         });
-        console.log('Form data:', formData.entries());
+        console.log('Form data:', formData.entries().image);
         
         fetch('http://localhost:5174/userGet/updateMe', {
             method: 'POST',
@@ -153,29 +173,27 @@ export default function UserProfile(props) {
     };
     return (
         <form onSubmit={handleSubmit} className="user-profile">
-            <div className="login-info">
-                <div className="email field">
-                    <h3 className="email heading">Email:</h3>
-                    <textarea 
-                        name="email"
-                        value={data.email || ''} 
-                        onChange={handleChange} 
-                        className="email-text"
-                    ></textarea>
-                </div>
-                <div className="password field">
-                    <h3 className="password heading">Password:</h3>
-                    <textarea 
-                        name="password"
-                        value={data.password || ''} 
-                        onChange={handleChange} 
-                        className="password-text"
-                    ></textarea>
-                </div>
-            </div>
-
+            
             <div className="profile-info">
                 <div className="column-one">
+                    <div className="email field">
+                        <h3 className="email heading">Email:</h3>
+                        <textarea 
+                            name="email"
+                            value={data.email || ''} 
+                            onChange={handleChange} 
+                            className="email-text"
+                        ></textarea>
+                    </div>
+                    <div className="password field">
+                        <h3 className="password heading">Password:</h3>
+                        <textarea 
+                            name="password"
+                            value={data.password || ''} 
+                            onChange={handleChange} 
+                            className="password-text"
+                        ></textarea>
+                    </div>
                     <div className="display-name field">
                         <h3 className="display-name heading">Display Name:</h3>
                         <textarea 
@@ -344,6 +362,7 @@ export default function UserProfile(props) {
                     </div>
                 </div>
                 <div className="column-two">
+                    
                     <div className="extraversion field">
                         <h3 className="extraversion heading">Extraversion:</h3>
                         <select  
@@ -459,6 +478,22 @@ export default function UserProfile(props) {
                     <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
+                    </div>
+                    <div className='images field'>
+                        <h3 className='image heading'>Images:</h3>
+                        <div className="images-container">
+                            {data.imageUrls.map((url, index) => (
+                                <div className="image" key={index}>
+                                    {url !== null && 
+                                        <div>
+                                            <img src={url} alt="" />
+                                            <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                        </div>    
+                                        }
+    
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
