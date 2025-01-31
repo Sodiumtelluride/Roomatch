@@ -498,15 +498,6 @@ export default function UserProfile(props) {
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
-                <div className='area-3'>
-                    {data.imageUrls.map((url, index) => (
-                        <div className="images" key={index}>
-                            <h1 id='image-heading'>Images</h1>
-                            <img src={url} alt="" />
-                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
                 {(data.user_info.roommate && data.user_info.roommate.id) &&
                 <div className="roomate">
                     <h1 className='roomate-title'>Roomate</h1>
