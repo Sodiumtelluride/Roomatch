@@ -11,5 +11,10 @@
     @apply ml-2;
 }
 .nav {
-    @apply flex justify-between items-center m-4 sticky top-0 bg-background-dark p-2 rounded-b-lg z-10;
+    @apply flex justify-between items-center sticky top-0 bg-background-dark ;
+}
+
+.nav-in-chat{
+    grid-template-columns: 2/3;
+    grid-template-rows: 1/2;
 }

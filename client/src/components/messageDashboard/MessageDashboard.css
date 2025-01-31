@@ -1,9 +1,10 @@
 .MessageDashboard{
     @apply grid gap-4;
     width: 100dvw;
-    height: 100dvh;
+    height: 100vh;
 
     grid-template-columns: 18rem 1fr;
+    grid-template-rows: auto 1fr;
     /* grid-template-rows: 1fr 4rem;  */
 }
 
@@ -42,6 +43,24 @@
 
 .contact-cards::-webkit-scrollbar-track {
     @apply bg-transparent;
+}
+
+.no-chat-selected{
+    @apply flex-1 flex flex-col items-center h-full justify-center text-3xl opacity-50;
+}
+
+#message-icon{
+    @apply mb-16;
+}
+
+.no-chats{
+    @apply h-full w-full flex-1 flex flex-col items-center justify-center text-3xl opacity-50;
+}
+
+.chat-ui{
+    @apply w-full;
+    grid-template-columns: 2/3;
+    grid-template-rows: 2/3;
 }
 
 

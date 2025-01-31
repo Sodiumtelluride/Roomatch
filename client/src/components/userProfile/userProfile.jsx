@@ -1,5 +1,7 @@
+import { use } from 'react';
 import './UserProfile.css'
 import { useState, useEffect } from 'react'
+import Card from '../card/Card.jsx'
 
 export default function UserProfile(props) {
     const [imageCount, setImageCount] = useState(0);
@@ -7,6 +9,7 @@ export default function UserProfile(props) {
         imageUrls: [],
         user_info: {} // Initialize user_info
     });
+    const [roomate, setRoomate] = useState({});
     useEffect(() => {
         fetch('http://localhost:5174/getMe/me', {
             method: 'GET',
@@ -39,6 +42,23 @@ export default function UserProfile(props) {
             reader.readAsDataURL(data.image);
         }
     }, [data.image]);
+     useEffect(() => {
+        if(data.user_info.roommate && data.user_info.roommate.id) {
+            fetch(`http://localhost:5174/user/${data.user_info.roommate.id}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Fetched data:', data);
+                setRoomate(data);
+            })
+              .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [data]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "email" || name==="password") {
@@ -115,6 +135,37 @@ export default function UserProfile(props) {
             setData(prevData => ({
                 ...prevData,
                 imageUrls: prevData.imageUrls.filter(url => url !== imageUrl)
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const deleteRoomate = async () => {
+        try {
+            const response = await fetch('http://localhost:5174/roommateRequest/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include', // Include credentials to send cookies
+                body: JSON.stringify({ id: data.user_id })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            const result = await response.json();
+            console.log('Roomate deleted successfully');
+            // Update state to remove the deleted roomate
+            setData(prevData => ({
+                ...prevData,
+                user_info: {
+                    ...prevData.user_info,
+                    roommate: {}
+                }
             }));
         } catch (err) {
             console.log(err);
@@ -447,7 +498,31 @@ export default function UserProfile(props) {
                     <button type='submit' className="update-button">Update</button>
                     <button className="delete-button">Delete Your Account</button>
                 </div>
-                
+                <div className='area-3'>
+                    {data.imageUrls.map((url, index) => (
+                        <div className="images" key={index}>
+                            <h1 id='image-heading'>Images</h1>
+                            <img src={url} alt="" />
+                            <button type="button" onClick={() => handleDelete(url)}>Delete</button>
+                        </div>
+                    ))}
+                </div>
+                {(data.user_info.roommate && data.user_info.roommate.id) &&
+                <div className="roomate">
+                    <h1 className='roomate-title'>Roomate</h1>
+                    <Card
+                        key={1}
+                        img={roomate.img}
+                        name={roomate.user_info && roomate.user_info.display_name ? roomate.user_info.display_name : roomate.first_name + " " + roomate.last_name}
+                        pronouns={roomate.user_info ? roomate.user_info.pronouns : null}
+                        description={roomate.user_info ? roomate.user_info.description : null}
+                        major={roomate.user_info ? roomate.user_info.major : null}
+                        class={roomate.user_info ? roomate.user_info.grad : null}
+                        
+                    />
+                    <button className='delete-button' onClick={deleteRoomate}>Cancel Roomate</button>
+                </div>
+                }
             </div>
         </form>
     );
