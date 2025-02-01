@@ -58,6 +58,7 @@ export default function CardGrid(){
                     <Card
                         key={index}
                         img={card.urls}
+                        email={card.user.email}
                         name={card.user.user_info && card.user.user_info.display_name ? card.user.user_info.display_name : card.card.userfirst_name + " " + card.card.userlast_name}
                         pronouns={card.user.user_info.pronouns}
                         description={card.user.user_info.description}
@@ -82,7 +83,7 @@ export default function CardGrid(){
                             description={selectedCard.user.user_info.description}
                             major={selectedCard.user.user_info.major}
                             class={selectedCard.user.user_info.grad}
-                            email={selectedCard.user.user_info.email}
+                            email={selectedCard.user.email}
                             password={selectedCard.user.user_info.passwordToPass}
                             placeOrigin={selectedCard.user.user_info.place_origin}
                             extraversion={getExtraversionLevel(selectedCard.user.user_info.extraversion)}

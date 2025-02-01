@@ -7,6 +7,10 @@
     @apply bg-background-medium rounded-3xl m-32;
 }
 
+button{
+    @apply bg-highlight-color rounded-md border border-highlight-color;
+}
+
 .card-expanded {
     @apply grid grid-cols-2;
     height: 100%;
@@ -69,4 +73,8 @@
     width: var(--cleanliness-fill, 0%);
     height:100%;
     @apply bg-highlight-color rounded-l-md;
+}
+
+.start-chat-btn{
+    @apply bg-highlight-color p-2 rounded-md;
 }

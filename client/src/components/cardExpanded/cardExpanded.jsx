@@ -2,11 +2,11 @@ import './CardExpanded.css'
 import { useState } from 'react'
 
 export default function CardExpanded(props) {
-  const extraversionFillInt = parseInt(props.extraversion, 10);
-  const extraversionFillPercentage = (extraversionFillInt / 4) * 100;
-  const cleanlinessFillInt = parseInt(props.cleanliness, 10);
-  const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
-
+    const extraversionFillInt = parseInt(props.extraversion, 10);
+    const extraversionFillPercentage = (extraversionFillInt / 4) * 100;
+    const cleanlinessFillInt = parseInt(props.cleanliness, 10);
+    const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
+    const [errorInChat, setError] = useState(null);
     
     const pronouns = props.pronouns === "Prefer Not to Specify" ? '' : props.pronouns;
 
@@ -18,6 +18,28 @@ export default function CardExpanded(props) {
 
     const handleForwardClick = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex === props.img.length - 1 ? 0 : prevIndex + 1));
+    };
+    console.log(props.email);
+    const startChat = () => {
+        fetch('http://localhost:5174/chat/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ other_user_email: props.email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Result:', data);
+        })
+        .catch((error) => {
+            console.error('Error creating chat:', error);
+            setError(error);
+        })
+        .then(() => {
+            window.location.href = './pages/messages/messages.html';
+        });
     };
 
     return (
@@ -75,6 +97,10 @@ export default function CardExpanded(props) {
                         <div>
                             <h3 className="info-heading-expanded">Using My Stuff</h3>
                             <p className="des-txt-expanded">{props.usingMyStuff}</p>
+                        </div>
+
+                        <div>
+                            <button onClick={startChat} className='start-chat-btn'>Start Chat</button>
                         </div>
                     </div>
                 </div>
