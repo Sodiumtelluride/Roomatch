@@ -19,19 +19,21 @@ export default function CardExpanded(props) {
     const handleForwardClick = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex === props.img.length - 1 ? 0 : prevIndex + 1));
     };
-
+    console.log(props.email);
     const startChat = () => {
-        const response = fetch('/api/chat', {
+        fetch('http://localhost:5174/chat/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
             body: JSON.stringify({ other_user_email: props.email })
-        });
-        if (response.status === 200) {
-            console.log('Chat started');   
-        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Result:', data);
+        })
+        .catch(error => console.error('Error creating chat:', error));
     };
 
     return (
