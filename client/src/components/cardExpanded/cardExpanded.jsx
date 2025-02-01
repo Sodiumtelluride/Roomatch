@@ -2,11 +2,11 @@ import './CardExpanded.css'
 import { useState } from 'react'
 
 export default function CardExpanded(props) {
-  const extraversionFillInt = parseInt(props.extraversion, 10);
-  const extraversionFillPercentage = (extraversionFillInt / 4) * 100;
-  const cleanlinessFillInt = parseInt(props.cleanliness, 10);
-  const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
-
+    const extraversionFillInt = parseInt(props.extraversion, 10);
+    const extraversionFillPercentage = (extraversionFillInt / 4) * 100;
+    const cleanlinessFillInt = parseInt(props.cleanliness, 10);
+    const cleanlinessFillPercentage = (cleanlinessFillInt / 4) * 100;
+    const [errorInChat, setError] = useState(null);
     
     const pronouns = props.pronouns === "Prefer Not to Specify" ? '' : props.pronouns;
 
@@ -33,7 +33,13 @@ export default function CardExpanded(props) {
         .then(data => {
             console.log('Result:', data);
         })
-        .catch(error => console.error('Error creating chat:', error));
+        .catch((error) => {
+            console.error('Error creating chat:', error);
+            setError(error);
+        })
+        .then(() => {
+            window.location.href = './pages/messages/messages.html';
+        });
     };
 
     return (
