@@ -9,7 +9,6 @@ router.post('/create', async (req, res) => {
     const otherUserEmail = req.body.other_user_email;
     const userId = req.user.user_id;
     const userTable = process.env.USER_TABLE;
-
     const paramsForMainUser = {
         TableName: userTable,
         Key: {
@@ -27,6 +26,8 @@ router.post('/create', async (req, res) => {
     };
 
     try {
+        const mainUserResult = await dynamoDB.get(paramsForMainUser).promise();
+
         const secondUserResult = await dynamoDB.query(paramsForSecondUser).promise();
 
         if (secondUserResult.Items.length === 0) {
@@ -52,45 +53,49 @@ router.post('/create', async (req, res) => {
             return res.status(400).json({ error: 'Chat already exists between the two users' });
         }
 
-        const chatId = uuidv4();
-        // Update chat_ids for both users
-        const updateParamsForMainUser = {
-            TableName: userTable,
-            Key: {
-            user_id: userId
-            },
-            UpdateExpression: 'SET chat_ids = list_append(if_not_exists(chat_ids, :emptyList), :chatId)',
-            ExpressionAttributeValues: {
-            ':chatId': [chatId],
-            ':emptyList': []
-            }
-        };
-        
-        const updateParamsForSecondUser = {
-            TableName: userTable,
-            Key: {
-            user_id: secondUserId
-            },
-            UpdateExpression: 'SET chat_ids = list_append(if_not_exists(chat_ids, :emptyList), :chatId)',
-            ExpressionAttributeValues: {
-            ':chatId': [chatId],
-            ':emptyList': []
-            }
-        };
-
-        await dynamoDB.update(updateParamsForMainUser).promise();
-        await dynamoDB.update(updateParamsForSecondUser).promise();
-
         // Create a new chat
+        const chatId = uuidv4();
         const paramsForNewChat = {
             TableName: chatTable,
             Item: {
                 chat_id: chatId,
                 user_pair: userPair,
-                users: [userId, secondUserId],
+                users: [{
+                    name: mainUserResult.Item.user_info.display_name,
+                    email: mainUserResult.Item.email,
+                }, {
+                    name: secondUserResult.Items[0].user_info.display_name,
+                    email: secondUserResult.Items[0].email,
+                }],
                 messages: []
             }
         };
+
+        const updateParamsForMainUser = {
+            TableName: userTable,
+            Key: {
+                user_id: userId
+            },
+            UpdateExpression: 'SET chat_ids = list_append(if_not_exists(chat_ids, :emptyList), :chatId)',
+            ExpressionAttributeValues: {
+                ':chatId': [chatId],
+                ':emptyList': []
+            }
+        };
+
+        const updateParamsForSecondUser = {
+            TableName: userTable,
+            Key: {
+                user_id: secondUserId
+            },
+            UpdateExpression: 'SET chat_ids = list_append(if_not_exists(chat_ids, :emptyList), :chatId)',
+            ExpressionAttributeValues: {
+                ':chatId': [chatId],
+                ':emptyList': []
+            }
+        };
+        await dynamoDB.update(updateParamsForMainUser).promise();
+        await dynamoDB.update(updateParamsForSecondUser).promise();
 
         await dynamoDB.put(paramsForNewChat).promise();
         res.status(201).json({ message: 'Chat created successfully', chat_id: chatId });
