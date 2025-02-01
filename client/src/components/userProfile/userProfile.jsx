@@ -197,10 +197,10 @@ export default function UserProfile(props) {
                         className="email-text"
                     ></textarea>
                 </div>
-                {/* <div className="PFP-upload field">
+                <div className="PFP-upload field">
                     <h3 className="PFP-upload heading">Profile Picture:</h3>
-                    <input type="file" name="image" accept="image/*" className="picture-upload-input" onChange={handleChange}/>
-                </div> */}
+                    <input type="file" name="image" accept="image/*" className="PFP-upload-input" onChange={handleChange}/>
+                </div>
                 <div className="password field">
                     <h3 className="password heading">Password:</h3>
                     <textarea 
@@ -498,6 +498,22 @@ export default function UserProfile(props) {
                     <div className="picture-upload field">
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="images" accept="image/*" className="picture-upload-input" onChange={handleChange} multiple/>
+                    </div>
+                    <div className='images field'>
+                        <h3 className='image heading'>Images:</h3>
+                        <div className="images-container">
+                            {data.imageUrls.map((url, index) => (
+                                <div className="image" key={index}>
+                                    {url !== null && 
+                                        <div>
+                                            <img src={url} alt="" />
+                                            <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
+                                        </div>    
+                                        }
+
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className='images field'>
                         <h3 className='image heading'>Images:</h3>
