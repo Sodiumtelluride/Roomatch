@@ -46,6 +46,7 @@ router.post('/create', async (req, res) => {
                 request_sent_to: ''
             }
         },
+        profile_picture: randomFileName(),
         images: {
             image_1_name: randomFileName(),
             image_2_name: randomFileName(),
