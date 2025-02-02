@@ -30,8 +30,14 @@ h3{
 }
 
 .card-img{
+    /* @apply rounded-3xl; */
     height:100%;
     width:100%;
     object-fit:cover;
 }
 
+.card-banner{
+    @apply rounded-t-3xl;
+    max-height: 40%;
+    overflow: hidden;
+}

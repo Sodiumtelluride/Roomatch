@@ -57,12 +57,13 @@ export default function CardGrid(){
                 {cards.map((card, index) => (
                     <Card
                         key={index}
-                        img={card.img}
-                        name={card.user_info && card.user_info.display_name ? card.user_info.display_name : card.first_name + " " + card.last_name}
-                        pronouns={card.user_info.pronouns}
-                        description={card.user_info.description}
-                        major={card.user_info.major}
-                        class={card.user_info.grad}
+                        img={card.urls}
+                        email={card.user.email}
+                        name={card.user.user_info && card.user.user_info.display_name ? card.user.user_info.display_name : card.card.userfirst_name + " " + card.card.userlast_name}
+                        pronouns={card.user.user_info.pronouns}
+                        description={card.user.user_info.description}
+                        major={card.user.user_info.major}
+                        class={card.user.user_info.grad}
                         onClick={() => handleCardClick(card)}
                     />
                 ))}
@@ -74,21 +75,22 @@ export default function CardGrid(){
                         className="modal-content"
                         onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
                     >
+                        {console.log(selectedCard)}
                         <CardExpanded
-                            img={selectedCard.img}
-                            name={selectedCard.user_info && selectedCard.user_info.display_name ? selectedCard.user_info.display_name : selectedCard.first_name + " " + selectedCard.last_name}
-                            pronouns={selectedCard.user_info.pronouns}
-                            description={selectedCard.user_info.description}
-                            major={selectedCard.user_info.major}
-                            class={selectedCard.user_info.grad}
-                            email={selectedCard.user_info.email}
-                            password={selectedCard.user_info.passwordToPass}
-                            placeOrigin={selectedCard.user_info.place_origin}
-                            extraversion={getExtraversionLevel(selectedCard.user_info.extraversion)}
-                            cleanliness={getCleanlinessLevel(selectedCard.user_info.cleanliness)}
-                            usingMyStuff={selectedCard.user_info.using_my_stuff}
-                            startTime={selectedCard.user_info.start_time}
-                            endTime={selectedCard.user_info.end_time}
+                            img={selectedCard.urls}
+                            name={selectedCard.user.user_info && selectedCard.user.user_info.display_name ? selectedCard.user.user_info.display_name : selectedCard.user.first_name + " " + selectedCard.user.last_name}
+                            pronouns={selectedCard.user.user_info.pronouns}
+                            description={selectedCard.user.user_info.description}
+                            major={selectedCard.user.user_info.major}
+                            class={selectedCard.user.user_info.grad}
+                            email={selectedCard.user.email}
+                            password={selectedCard.user.user_info.passwordToPass}
+                            placeOrigin={selectedCard.user.user_info.place_origin}
+                            extraversion={getExtraversionLevel(selectedCard.user.user_info.extraversion)}
+                            cleanliness={getCleanlinessLevel(selectedCard.user.user_info.cleanliness)}
+                            usingMyStuff={selectedCard.user.user_info.using_my_stuff}
+                            startTime={selectedCard.user.user_info.start_time}
+                            endTime={selectedCard.user.user_info.end_time}
                             
                         />
                     </div>

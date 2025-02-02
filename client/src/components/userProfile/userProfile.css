@@ -1,3 +1,4 @@
+
 .profile-info {
     @apply grid grid-cols-2 gap-8 p-6 h-screen rounded-lg;
 }
@@ -8,7 +9,7 @@
     @apply row-span-2;
 }
 .PFP-upload-input {
-    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-3 row-span-2;
+    @apply bg-background-medium flex-1 rounded-md text-lg text-white p-3 row-span-2 h-fit;
 }
 .field {
     @apply flex items-center gap-6 m-6 overflow-hidden text-ellipsis;

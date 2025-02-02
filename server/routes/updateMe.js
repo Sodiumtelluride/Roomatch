@@ -32,12 +32,11 @@ router.post('/updateMe', async (req, res) => {
         },
         region: region
     });
-    // const PFPBugger = req.file ? req.file.buffer : null;
-    // const PFPType = req.file ? req.file.mimetype : null;
-    
-    
-    
 
+    const imageBuffer = req.file ? req.file.buffer : null;
+    const imageType = req.file ? req.file.mimetype : null;
+
+    
     try {
         const result = await dynamoDB.get(params).promise();
         const orginalUser = result.Item;
@@ -71,9 +70,6 @@ router.post('/updateMe', async (req, res) => {
             ':et': end_time || "12:00 AM",
             ':st': start_time || "12:00 AM"
             },
-            // ExpressionAttributeNames: {
-            // '#yr': 'class'
-            // },
             ReturnValues: 'ALL_NEW'
         };
         const updatedResult = await dynamoDB.update(updateParams).promise();
@@ -127,10 +123,25 @@ router.post('/updateMe', async (req, res) => {
                     return res.status(500).json({ error: 'Maximum Images Exceeded' });
                 }
             }
-            console.log(count);
+//             console.log(count);
+//             console.log(add);
+            if (add) {
+                const s3Params = {
+                    Bucket: bucketName,
+                    Key: insertImageName,
+                    Body: imageBuffer,
+                    ContentType: imageType
+                };
+            
+                const command = new PutObjectCommand(s3Params);
+                await s3.send(command);
+            } else{
+                return res.status(500).json({ error: 'Maximum Images Exceeded' });
+            }
         }
         res.status(201).json("Updated user");
         } catch (error) {
+        console.error('Error updating user:', error);
         res.status(500).json({ error: error.message });
         }
 });
