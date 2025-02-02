@@ -12,15 +12,16 @@ router.get('/verify-email', async (req, res) => {
     try {
         // Verify the token
         const decoded = jwt.verify(token, process.env.MY_SECRET);
-        const email = decoded.email;
+        console.log('Decoded token:', decoded);
+        const user_id = decoded.user_id;
 
         // Update the user's status in the database
         const params = {
             TableName: userTable,
             Key: {
-                email: email
+                user_id: user_id
             },
-            UpdateExpression: 'set email_verified = :verified',
+            UpdateExpression: 'set confirmed = :verified',
             ExpressionAttributeValues: {
                 ':verified': true
             },
