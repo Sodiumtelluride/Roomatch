@@ -1,9 +1,3 @@
-@media (min-height: 800px) {
-    .landing-page {
-        scroll-snap-align: start;
-    }
-}
-
 .landing-page {
     @apply grid place-items-center grid-cols-1 gap-4;
 }
