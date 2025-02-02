@@ -46,13 +46,13 @@ router.post('/create', async (req, res) => {
                 request_sent_to: ''
             }
         },
+        profile_picture: randomFileName(),
         images: {
             image_1_name: randomFileName(),
             image_2_name: randomFileName(),
             image_3_name: randomFileName(),
             image_4_name: randomFileName(),
-            image_5_name: randomFileName(),
-            profile_picture: randomFileName()
+            image_5_name: randomFileName()
         },
         chat_ids: []
 

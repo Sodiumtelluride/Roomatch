@@ -2,7 +2,7 @@ import { use } from 'react';
 import './UserProfile.css'
 import { useState, useEffect } from 'react'
 import Card from '../card/Card.jsx'
-
+import PFPUpdater from '../PFPUpdater/PFPUpdater.jsx'
 export default function UserProfile(props) {
     const [imageCount, setImageCount] = useState(0);
     const [data, setData] = useState({
@@ -197,10 +197,7 @@ export default function UserProfile(props) {
                         className="email-text"
                     ></textarea>
                 </div>
-                <div className="PFP-upload field">
-                    <h3 className="PFP-upload heading">Profile Picture:</h3>
-                    <input type="file" name="image" accept="image/*" className="PFP-upload-input" onChange={handleChange}/>
-                </div>
+                <PFPUpdater isUserProfile={true}/>
                 <div className="password field">
                     <h3 className="password heading">Password:</h3>
                     <textarea 
@@ -499,22 +496,7 @@ export default function UserProfile(props) {
                         <h3 className="picture-upload heading">Add Image:</h3>
                         <input type="file" name="images" accept="image/*" className="picture-upload-input" onChange={handleChange} multiple/>
                     </div>
-                    <div className='images field'>
-                        <h3 className='image heading'>Images:</h3>
-                        <div className="images-container">
-                            {data.imageUrls.map((url, index) => (
-                                <div className="image" key={index}>
-                                    {url !== null && 
-                                        <div>
-                                            <img src={url} alt="" />
-                                            <button className="delete-button" type="button" onClick={() => handleDelete(url)}>Delete</button>
-                                        </div>    
-                                        }
-
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    
                     <div className='images field'>
                         <h3 className='image heading'>Images:</h3>
                         <div className="images-container">

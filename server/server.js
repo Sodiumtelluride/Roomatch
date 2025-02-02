@@ -12,6 +12,7 @@ const getUserRouter = require('./routes/getUsers');
 const createUserRouter = require('./routes/createUser');
 const getMeRouter = require('./routes/getMe');
 const updateMeRouter = require('./routes/updateMe');
+const updatePFPRouter = require('./routes/updatePFP');
 const deleteImageRouter = require('./routes/deleteImage'); // Import deleteImage route
 const loginRouter = require('./routes/login');
 const getCardsRouter = require('./routes/getCards');
@@ -36,7 +37,7 @@ const server = http.createServer(app);
 
 // Initialize multer
 const storage = multer.memoryStorage();
-const upload = multer({
+const uploadImages = multer({
     storage: storage,
     limits: {
         fileSize: 5 * 1024 * 1024, // 5 MB file size limit
@@ -44,6 +45,14 @@ const upload = multer({
         fieldSize: 25 * 1024 * 1024, // 25 MB field size limit (increase as needed)
     },
 }).array('images', 10);
+const uploadPFP = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5 MB file size limit
+        files: 10, // Limit to 10 files
+        fieldSize: 25 * 1024 * 1024, // 25 MB field size limit (increase as needed)
+    },
+}).single('profile_picture');
 
 const io = new Server(server, {
     cors: {
@@ -75,18 +84,8 @@ app.use('/', loginRouter); // Login route should not require authentication
 app.use('/getMe', cookieJWTAuth, getMeRouter); // Use the middleware and route
 app.use('/user', cookieJWTAuth, getUserRouter); // Use the middleware and route
 app.use('/createUser', createUserRouter);
-app.use('/userGet', (req, res, next) => {
-    upload(req, res, (err) => {
-        if (err instanceof multer.MulterError) {
-            console.error('Multer error:', err);
-            return res.status(400).send(err.message);
-        } else if (err) {
-            console.error('Unknown error:', err);
-            return res.status(500).send('An unknown error occurred');
-        }
-        next();
-    });
-}, cookieJWTAuth, updateMeRouter); 
+app.use('/userGet', uploadImages, cookieJWTAuth, updateMeRouter);
+app.use('/userGetPFP', uploadPFP, cookieJWTAuth, updatePFPRouter);
 app.use('/', cookieJWTAuth, deleteImageRouter); // Use deleteImage route
 app.use('/cards', cookieJWTAuth, getCardsRouter); // add middleware when working
 app.use('/chat', cookieJWTAuth, getChatRouter);

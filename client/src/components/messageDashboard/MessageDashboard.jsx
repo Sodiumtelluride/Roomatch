@@ -7,7 +7,7 @@ import PFP from '../../assets/UserPhoto.png';
 import BackArrow from '../../assets/BackArrow.png';
 import logo from '../../assets/ROOMME.png';
 import Profile from '../../assets/Profile.png';
-import Navbar from '../navbar/Navbar.jsx';
+import Navbar from '../navbar/navbar.jsx';
 import messageIcon from '../../assets/Messages.png';
 import { useState, useEffect } from 'react';
 

@@ -36,7 +36,21 @@ router.get('/me', async (req, res) => {
 
 
         const urls = [];
-
+        let PFPurl = null;
+        const profilePicture = result.Item.profile_picture;
+        if (profilePicture) {
+            const S3_params = {
+                Bucket: bucketName,
+                Key: profilePicture
+            };
+            const command = new GetObjectCommand(S3_params);
+            try {
+                if(await S3.send(command)) {
+                    console.log("Profile picture exists");
+                    PFPurl = await getSignedUrl(S3, command, { expiresIn: 3600 });
+                }
+            } catch (error) {}
+        }
         const imageNames = [result.Item.images.image_1_name, result.Item.images.image_2_name, result.Item.images.image_3_name, result.Item.images.image_4_name, result.Item.images.image_5_name];
         for(const name of imageNames) {
             // Check if images and image_1_name exist
@@ -56,7 +70,7 @@ router.get('/me', async (req, res) => {
             }
         }
         const { password, ...userWithoutPassword } = result.Item;
-        res.status(200).json({ ...userWithoutPassword, imageUrls: urls });
+        res.status(200).json({ ...userWithoutPassword, imageUrls: urls, PFPurl: PFPurl });
         
     } catch (error) {
         console.error("Error fetching user data: ", error); // Log the error for debugging
