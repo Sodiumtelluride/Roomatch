@@ -227,8 +227,7 @@ export default function UserProfile(props) {
                     ></textarea>
                 </div>
             </div>
-            
-        <form onSubmit={handleSubmit} className="user-profile">
+    
             
 
             <div className="profile-info">
