@@ -118,7 +118,7 @@ router.post('/create', async (req, res) => {
                     console.log('Email sent:', info.response);
                 }
             });
-            res.status(201).json({ redirectUrl: '/pages/userPage/userPage.html' });
+            res.status(201).json({ redirectUrl: '/pages/login/login.html' });
             return ;
         }
     } catch (error) {
