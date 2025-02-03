@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import "../../src/index.css"
-import LandingPage from '../../src/components/landingPage/landingPage.jsx'
+import "./cardGridPage.css"
+import CardGrid from "../../src/components/cardGrid/CardGrid.jsx";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LandingPage />
+    <CardGrid />
   </StrictMode>,
 )
