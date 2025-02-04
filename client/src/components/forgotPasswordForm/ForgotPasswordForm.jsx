@@ -32,6 +32,7 @@ export default function ForgotPasswordForm() {
             const result= await response.json();
             if(response.ok) {
                 setMsg('Email sent! Check your inbox.');
+                console.log(result.msg);
             } else {
                 setErrorMsg(result.error);
                 console.log(errorMsg);
