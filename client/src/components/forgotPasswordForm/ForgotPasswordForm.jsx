@@ -2,6 +2,7 @@ import './ForgotPasswordForm.css';
 import { useState } from 'react';
 
 export default function ForgotPasswordForm() {
+    const [msg, setMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
         email: '',
@@ -19,7 +20,7 @@ export default function ForgotPasswordForm() {
         e.preventDefault();
         try {
             console.log(formData);
-            const response = await fetch('http://localhost:5174/login', {
+            const response = await fetch('http://localhost:5174/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ export default function ForgotPasswordForm() {
 
             const result= await response.json();
             if(response.ok) {
-                window.location.href = result.redirectUrl;
+                setMsg('Email sent! Check your inbox.');
             } else {
                 setErrorMsg(result.error);
                 console.log(errorMsg);
@@ -42,8 +43,9 @@ export default function ForgotPasswordForm() {
 
     return (
         <form onSubmit={handleSubmit} className='forgot-password-form'>
-            <h1>Forgot Password</h1>
+        <h1>Forgot Password</h1>
             <h3>No worries. We'll send you a link to reset your password!</h3>
+            <div className='msg'>{msg}</div>
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" onChange={handleChange} required />
             <button type="submit" id='submit'>Reset Password</button>
