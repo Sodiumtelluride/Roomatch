@@ -3,13 +3,13 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const bcrypt = require('bcrypt');
 
-router.post('/updatePassword', async (req, res) => {
+router.post('/resetPassword', async (req, res) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
     const userTable = process.env.USER_TABLE;
     const userId = req.user.user_id;
-    const { password } = req.body;
+    const { newPassword } = req.body;
 
-    if (!password) {
+    if (!newPassword) {
         return res.status(400).json({ error: 'Password is required' });
     }
 
@@ -28,7 +28,7 @@ router.post('/updatePassword', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
 
         // Update the user's password in DynamoDB
         const updateParams = {
@@ -45,7 +45,7 @@ router.post('/updatePassword', async (req, res) => {
 
         await dynamoDB.update(updateParams).promise();
 
-        res.redirect('http://localhost:5173/pages/login/login.html');
+        res.status(201).json({ redirectUrl: '/pages/login/login.html' });
     } catch (error) {
         console.error('Error updating password:', error);
         res.status(500).json({ error: error.message });

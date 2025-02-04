@@ -18,6 +18,10 @@ export default function ResetPasswordForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.newPassword !== formData.confirmPassword) {
+            setErrorMsg('Passwords do not match');
+            return;
+        }
         try {
             console.log(formData);
             const response = await fetch('http://localhost:5174/resetPassword', {
