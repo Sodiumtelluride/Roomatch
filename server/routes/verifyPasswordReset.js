@@ -19,7 +19,7 @@ router.get('/verify-user', async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
         });
-        res.redirect('http://localhost:5173/pages/resetPassword/resetPassword.html');
+        res.redirect('http://localhost:5173/pages/resetPasswordPage/resetPassword.html');
     } catch (error) {
         console.error('Error verifying link:', error);
         res.status(400).json({ error: 'Invalid or expired token' });
