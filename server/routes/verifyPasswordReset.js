@@ -16,21 +16,12 @@ router.get('/verify-user', async (req, res) => {
         const user_id = decoded.user_id;
 
         // Update the user's status in the database
-        const params = {
-            TableName: userTable,
-            Key: {
-                user_id: user_id
-            },
-            UpdateExpression: 'set confirmed = :verified',
-            ExpressionAttributeValues: {
-                ':verified': true
-            },
-            ReturnValues: 'ALL_NEW'
-        };
-        const result = await dynamoDB.update(params).promise();
-        res.redirect('http://localhost:5173/pages/login/login.html');
+        res.cookie('token', token, {
+            httpOnly: true,
+        });
+        res.redirect('http://localhost:5173/pages/resetPassword/resetPassword.html');
     } catch (error) {
-        console.error('Error verifying email:', error);
+        console.error('Error verifying link:', error);
         res.status(400).json({ error: 'Invalid or expired token' });
     }
 });
