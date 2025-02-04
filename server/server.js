@@ -23,6 +23,8 @@ const addRoommateRouter = require('./routes/addRoommate');
 const deleteRoommatRequestRouter = require('./routes/deleteRoommate');
 const createChatRouter = require('./routes/createChat');
 const verifyEmailRouter = require('./routes/verifyEmail');
+const verifyPasswordResetRouter = require('./routes/verifyPasswordReset');
+const resetPasswordRouter = require('./routes/resetPassword');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const path = require('path');
 require('dotenv').config();
