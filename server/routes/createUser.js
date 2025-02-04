@@ -93,9 +93,6 @@ router.post('/create', async (req, res) => {
             await dynamoDB.put(params).promise();
             const token = jwt.sign(user_to_pass, process.env.MY_SECRET, { expiresIn: "1h" });
             //console.log(token);
-            res.cookie('token', token, {
-                httpOnly: true,
-            });
             
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
