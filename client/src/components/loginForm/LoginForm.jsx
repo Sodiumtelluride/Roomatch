@@ -40,6 +40,10 @@ export default function LoginForm() {
             console.error('Error:', error);
         }
     };
+
+    const forgotPassword = async () => {
+        
+    };
     return (
         <form onSubmit={handleSubmit} className='login-form'>
             <h1>Login</h1>
@@ -47,6 +51,7 @@ export default function LoginForm() {
             <input type="email" id="email" name="email" onChange={handleChange} required />
             <label htmlFor="password">Password</label>
             <input type="password" id="password" name="password" onChange={handleChange} required />
+            <div className="forgot-password" onClick={forgotPassword}>Forgot Password?</div>
             <button type="submit" id='submit'>Login</button>
         </form>
     )

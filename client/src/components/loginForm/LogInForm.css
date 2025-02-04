@@ -29,3 +29,11 @@ button:hover{
     margin-left: 40%;
     margin-top: 10%;
 }
+
+#password{
+    @apply mb-1;
+}
+
+.forgot-password{
+    @apply text-highlight-color text-sm underline self-end mb-5 cursor-pointer;
+}
