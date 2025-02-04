@@ -41,7 +41,7 @@ export default function ForgotPasswordForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='login-form'>
+        <form onSubmit={handleSubmit} className='forgot-password-form'>
             <h1>Forgot Password</h1>
             <h3>No worries. We'll send you a link to reset your password!</h3>
             <label htmlFor="email">Email</label>
