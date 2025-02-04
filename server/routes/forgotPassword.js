@@ -40,7 +40,7 @@ router.post('/forgot-password', async (req, res) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: 'Reset Password',
-        text: `Click this link to reset your password: ${process.env.BASE_URL}/verify-email?token=${token}`
+        text: `Click this link to reset your password: ${process.env.BASE_URL}/verify-user?token=${token}`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

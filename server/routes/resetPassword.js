@@ -45,7 +45,7 @@ router.post('/updatePassword', async (req, res) => {
 
         await dynamoDB.update(updateParams).promise();
 
-        res.status(200).json({ message: 'Password updated successfully' });
+        res.redirect('http://localhost:5173/pages/login/login.html');
     } catch (error) {
         console.error('Error updating password:', error);
         res.status(500).json({ error: error.message });
