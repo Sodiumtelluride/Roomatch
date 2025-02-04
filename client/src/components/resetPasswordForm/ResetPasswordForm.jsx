@@ -1,11 +1,11 @@
-import './LoginForm.css';
+import './ResetPasswordForm.css';
 import { useState } from 'react';
 
 export default function ResetPasswordForm() {
     const [errorMsg, setErrorMsg] = useState('');
     const [formData, setFormData] = useState({
-        newPassword1: '',
-        newPassword2: ''
+        newPassword: '',
+        confirmPassword: ''
     });
 
     const handleChange = (e) => {
@@ -43,10 +43,10 @@ export default function ResetPasswordForm() {
     return (
         <form onSubmit={handleSubmit} className='reset-password-form'>
             <h1>Reset Password</h1>
-            <label htmlFor="new-password">New Password</label>
-            <input type="password" id="new-password" name="new-password" onChange={handleChange} required />
-            <label htmlFor="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" onChange={handleChange} required />
+            <label htmlFor="newPassword">New Password</label>
+            <input type="password" id="new-password" name="newPassword" onChange={handleChange} required />
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirmPassword" onChange={handleChange} required />
             <button type="submit" id='submit'>Login</button>
         </form>
     )
