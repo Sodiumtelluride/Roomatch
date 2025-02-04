@@ -22,6 +22,7 @@ const getChatRouter = require('./routes/getChat');
 const addRoommateRouter = require('./routes/addRoommate');
 const deleteRoommatRequestRouter = require('./routes/deleteRoommate');
 const createChatRouter = require('./routes/createChat');
+const verifyEmailRouter = require('./routes/verifyEmail');
 const cookieJWTAuth = require('./middleware/cookieJWTAuth');
 const path = require('path');
 require('dotenv').config();
@@ -95,6 +96,7 @@ app.use('/roomRequest', cookieJWTAuth, deleteRoomRequestRouter);
 app.use('/roommateRequest', cookieJWTAuth, deleteRoommatRequestRouter);
 app.use('/roommate', cookieJWTAuth, addRoommateRouter);
 app.use('/chat', cookieJWTAuth, createChatRouter);
+app.use('/', verifyEmailRouter);
 
 //messaging 
 

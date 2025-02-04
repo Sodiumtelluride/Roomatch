@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 
 router.post('/create', async (req, res) => {
@@ -26,6 +27,7 @@ router.post('/create', async (req, res) => {
         last_name,
         email,
         password: passwordHash,
+        confirmed: false,
         user_info: {
             display_name: null,
             pronouns: null,
@@ -94,7 +96,30 @@ router.post('/create', async (req, res) => {
             res.cookie('token', token, {
                 httpOnly: true,
             });
-            res.status(201).json({ redirectUrl: '/pages/userPage/userPage.html' });
+            
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: email,
+                subject: 'Verify your email',
+                text: `Please verify your email by clicking on the following link: ${process.env.BASE_URL}/verify-email?token=${token}`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+            res.status(201).json({ redirectUrl: '/pages/login/login.html' });
             return ;
         }
     } catch (error) {
