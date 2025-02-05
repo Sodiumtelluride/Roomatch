@@ -90,7 +90,6 @@ export default function MessageDashboard() {
     return(
         <>
             <div className="MessageDashboard">
-            <Navbar inChat = {true}/>
                 <div className="Contacts">
                     <div className="contact-cards">
                         {chatData.length > 0 ? chatData.map((chat, index) => (
