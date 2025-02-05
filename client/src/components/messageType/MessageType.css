@@ -1,12 +1,13 @@
 .full-chat {
-    @apply grid gap-4 justify-center w-full;
+    @apply grid gap-4 w-full;
     height: 100vh;
     grid-template-rows: auto 1fr auto;
 }
 
 #message-form {
-    @apply flex p-3 items-center justify-center mb-7 h-12 bg-background-medium rounded-lg;
-    width: 50vw;
+    @apply flex p-3 items-center self-center justify-center mb-7 h-12 bg-background-medium rounded-lg;
+    width: 60%;
+    margin-left: 20%;
     grid-row: 3; /* Place message-form in the second row */
 }
 
@@ -50,3 +51,7 @@
     transition: background-color 0.3s ease-in-out;
 }
 
+.navbar {
+    grid-row: 1; /* Place navbar in the first row */
+    width: 100%;
+}
