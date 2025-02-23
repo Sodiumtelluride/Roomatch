@@ -116,10 +116,13 @@ export default function MessageDashboard() {
                             requested={hasRequested}
                         />
                     ) : (
-                        <div className="no-chat-selected">
-                            <img id='message-icon' src={messageIcon} />
-                            Please select a chat
-                        </div>
+                        <>
+                            <Navbar inChat={true}/>
+                            <div className="no-chat-selected">
+                                <img id='message-icon' src={messageIcon} />
+                                Please select a chat
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
