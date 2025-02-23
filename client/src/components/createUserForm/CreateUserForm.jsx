@@ -61,7 +61,14 @@ function CreateUserForm() {
                 </div>
             </div>
             <label className="form-lable" htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" required value={formData.email} onChange={handleChange}/>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                value={formData.email} 
+                onChange={handleChange}
+            />
             <label className="form-lable" htmlFor="password">Password</label>
             <input type="password" id="password" name="password" required value={formData.password} onChange={handleChange}/>
             <button id='submit-button' type='submit'>Create Account</button>
