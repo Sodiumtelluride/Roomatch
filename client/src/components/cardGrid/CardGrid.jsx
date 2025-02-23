@@ -68,16 +68,23 @@ export default function CardGrid(){
                             description={card.user.user_info.description}
                             major={card.user.user_info.major}
                             class={card.user.user_info.grad}
-                            onClick={() => handleCardClick(card)}
+                            onClick={() => {
+                                handleCardClick(card);
+                                document.body.style.overflow = 'hidden';
+                            }}
                         />
                     ))}
                 </div>
                 
                 {isModalOpen && selectedCard && (
-                    <div className="modal-background" onClick={closeModal}>
+                    <div className="modal-background" onClick={() => {
+                        closeModal();
+                        document.body.style.overflow = 'auto';
+                    }}>
                         <div
                             className="modal-content"
                             onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+                            style={{ maxHeight: '90vh', overflowY: 'auto' }} // Add scrolling to modal content
                         >
                             {console.log(selectedCard)}
                             <CardExpanded
@@ -95,7 +102,6 @@ export default function CardGrid(){
                                 usingMyStuff={selectedCard.user.user_info.using_my_stuff}
                                 startTime={selectedCard.user.user_info.start_time}
                                 endTime={selectedCard.user.user_info.end_time}
-                                
                             />
                         </div>
                     </div>
