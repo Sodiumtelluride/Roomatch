@@ -78,7 +78,6 @@ function CreateUserForm() {
                 id="password" 
                 name="password" 
                 required 
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" 
                 value={formData.password} 
                 onChange={handleChange}
             />
