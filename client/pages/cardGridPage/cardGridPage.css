@@ -1,4 +1,4 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -17,7 +17,7 @@ body {
     @apply flex justify-between content-center m-4 ml-8 mr-8 bg-transparent self-center;
   }
   
-} */
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
